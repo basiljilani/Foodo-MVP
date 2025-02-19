@@ -4,6 +4,7 @@ import { Search, MapPin, Star, Clock, ChevronRight, Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Navigation from '../components/Navigation';
 import FilterSidebar from '../components/FilterSidebar';
+import OptimizedImage from '../components/OptimizedImage';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -273,71 +274,80 @@ export default function Home() {
           </motion.div>
 
           {/* Restaurant Grid */}
-          <motion.div 
-            className="flex-1"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredRestaurants.map((restaurant) => (
+          <div className="flex-grow">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              {filteredRestaurants.map((restaurant, index) => (
                 <motion.div
                   key={restaurant.id}
-                  className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow"
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.2 }}
+                  className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden cursor-pointer"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  onClick={() => navigate(`/restaurant/${restaurant.id}`)}
                 >
-                  <div className="relative">
-                    <img
+                  {/* Restaurant Image */}
+                  <div className="relative h-48">
+                    <OptimizedImage
                       src={restaurant.image}
                       alt={restaurant.name}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-full"
+                      width={400}
+                      height={300}
                     />
                     <button 
-                      className="absolute top-2 right-2 p-1.5 bg-white rounded-full shadow-sm hover:bg-gray-50"
-                      onClick={() => console.log('Favorite button clicked')}
+                      className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Add to favorites logic here
+                      }}
                     >
-                      <Heart
-                        className={`h-5 w-5 ${
-                          false ? 'text-red-500 fill-current' : 'text-gray-400'
-                        }`}
-                      />
+                      <Heart className="w-5 h-5 text-red-500" />
                     </button>
                   </div>
+
+                  {/* Restaurant Info */}
                   <div className="p-4">
                     <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        {restaurant.name}
-                      </h3>
-                      <div className="flex items-center bg-green-50 px-2 py-1 rounded">
-                        <span className="text-sm font-medium text-green-700">
-                          {restaurant.rating}
+                      <h3 className="text-lg font-semibold text-gray-900">{restaurant.name}</h3>
+                      <div className="flex items-center">
+                        <Star className="w-4 h-4 text-yellow-400 mr-1" />
+                        <span className="text-sm font-medium text-gray-900">{restaurant.rating}</span>
+                      </div>
+                    </div>
+
+                    <p className="text-sm text-gray-600 mb-3">{restaurant.description}</p>
+
+                    <div className="flex items-center text-sm text-gray-500 space-x-4">
+                      <div className="flex items-center">
+                        <MapPin className="w-4 h-4 mr-1" />
+                        <span>{restaurant.distance}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Clock className="w-4 h-4 mr-1" />
+                        <span>{restaurant.estimatedTime}</span>
+                      </div>
+                    </div>
+
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {restaurant.tags.map((tag, i) => (
+                        <span 
+                          key={i}
+                          className="px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full"
+                        >
+                          {tag}
                         </span>
-                        <Star className="h-4 w-4 text-green-700 ml-1" fill="currentColor" />
-                      </div>
-                    </div>
-                    <div className="flex items-center text-sm text-gray-500 mb-3">
-                      <MapPin className="h-4 w-4 mr-1" />
-                      <span>{restaurant.distance}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center text-sm text-gray-500">
-                        <Clock className="h-4 w-4 mr-1" />
-                        <span>{restaurant.estimatedTime} mins</span>
-                      </div>
-                      <button
-                        onClick={() => navigate(`/restaurant/${restaurant.id}`)}
-                        className="flex items-center text-sm font-medium text-red-500 hover:text-red-600"
-                      >
-                        View Menu
-                        <ChevronRight className="h-4 w-4 ml-1" />
-                      </button>
+                      ))}
                     </div>
                   </div>
                 </motion.div>
               ))}
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </main>
     </div>

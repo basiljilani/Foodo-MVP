@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ShoppingBag, User, Menu, X } from 'lucide-react';
+import { Bike, User, Menu, X } from 'lucide-react';
 
 export default function Navigation() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
-            <ShoppingBag className="h-8 w-8 text-red-500" />
+            <Bike className="h-8 w-8 text-red-500" />
             <span className="ml-2 text-xl font-bold text-gray-900">Foodo</span>
           </div>
 
