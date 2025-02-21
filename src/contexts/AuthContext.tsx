@@ -1,17 +1,17 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
+import { User } from '@supabase/supabase-js';
+import { Tables } from '../lib/supabase';
 
 interface AuthUser {
   id: string;
-  role: 'customer' | 'vendor';
+  role: 'customer' | 'vendor' | 'admin';
   email: string;
   profile: {
     full_name: string;
     avatar_url?: string;
     phone_number?: string;
     bio?: string;
-    business_name?: string;
-    business_address?: string;
-    contact_number?: string;
   };
 }
 
@@ -28,102 +28,133 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock user data
-const MOCK_CUSTOMER = {
-  id: '1',
-  role: 'customer' as const,
-  email: 'customer@example.com',
-  profile: {
-    full_name: 'John Doe',
-    avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
-    phone_number: '+1234567890',
-    bio: 'Food lover and adventure seeker'
-  }
-};
-
-const MOCK_VENDOR = {
-  id: '2',
-  role: 'vendor' as const,
-  email: 'vendor@example.com',
-  profile: {
-    full_name: 'Jane Smith',
-    business_name: 'Jane\'s Diner',
-    business_address: '123 Food Street, Cuisine City',
-    contact_number: '+1987654321',
-    avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jane',
-    bio: 'Serving happiness since 2020'
-  }
-};
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const simulateDelay = () => new Promise(resolve => setTimeout(resolve, 1000));
+  useEffect(() => {
+    // Check active session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        fetchUser(session.user);
+      } else {
+        setLoading(false);
+      }
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        fetchUser(session.user);
+      } else {
+        setUser(null);
+        setLoading(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const fetchUser = async (authUser: User) => {
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('auth_id', authUser.id)
+        .single();
+
+      if (error) throw error;
+
+      if (data) {
+        setUser({
+          id: data.id,
+          role: data.role,
+          email: data.email,
+          profile: {
+            full_name: data.full_name,
+            avatar_url: data.avatar_url,
+            phone_number: data.phone_number,
+            bio: data.bio,
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const signUp = async (email: string, password: string, role: 'customer' | 'vendor') => {
-    setLoading(true);
-    await simulateDelay();
-    
-    const mockUser = role === 'customer' ? MOCK_CUSTOMER : MOCK_VENDOR;
-    setUser(mockUser);
-    setLoading(false);
+    const { data: { user: authUser }, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          role,
+          full_name: email.split('@')[0] // temporary name until profile is updated
+        }
+      }
+    });
+
+    if (error) throw error;
+    if (!authUser) throw new Error('No user returned from sign up');
   };
 
   const signIn = async (email: string, password: string) => {
-    setLoading(true);
-    await simulateDelay();
+    const { data: { user: authUser }, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
 
-    // Mock authentication logic
-    if (email === MOCK_CUSTOMER.email) {
-      setUser(MOCK_CUSTOMER);
-    } else if (email === MOCK_VENDOR.email) {
-      setUser(MOCK_VENDOR);
-    } else {
-      setUser(MOCK_CUSTOMER); // Default to customer for demo
-    }
-    
-    setLoading(false);
+    if (error) throw error;
+    if (!authUser) throw new Error('No user returned from sign in');
   };
 
   const signOut = async () => {
-    setLoading(true);
-    await simulateDelay();
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
     setUser(null);
-    setLoading(false);
-  };
-
-  const updateProfile = async (data: Partial<AuthUser['profile']>) => {
-    setLoading(true);
-    await simulateDelay();
-    
-    if (user) {
-      setUser({
-        ...user,
-        profile: {
-          ...user.profile,
-          ...data
-        }
-      });
-    }
-    
-    setLoading(false);
   };
 
   const isVendor = () => user?.role === 'vendor';
   const isCustomer = () => user?.role === 'customer';
 
+  const updateProfile = async (data: Partial<AuthUser['profile']>) => {
+    if (!user) throw new Error('No user logged in');
+
+    const { error } = await supabase
+      .from('users')
+      .update({
+        full_name: data.full_name,
+        avatar_url: data.avatar_url,
+        phone_number: data.phone_number,
+        bio: data.bio,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', user.id);
+
+    if (error) throw error;
+
+    setUser(prev => prev ? {
+      ...prev,
+      profile: { ...prev.profile, ...data }
+    } : null);
+  };
+
+  const value = {
+    user,
+    loading,
+    signUp,
+    signIn,
+    signOut,
+    isVendor,
+    isCustomer,
+    updateProfile,
+  };
+
   return (
-    <AuthContext.Provider value={{
-      user,
-      loading,
-      signUp,
-      signIn,
-      signOut,
-      isVendor,
-      isCustomer,
-      updateProfile
-    }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

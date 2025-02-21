@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sparkles, Send } from 'lucide-react';
-import Navigation from '../components/Navigation';
+import MainLayout from '../layouts/MainLayout';
 
 export default function FoodoAI() {
   const [query, setQuery] = useState('');
@@ -14,96 +14,65 @@ export default function FoodoAI() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation />
-      
+    <MainLayout>
       {/* Main Content */}
-      <main className="flex flex-col h-screen pt-16">
-        <div className="flex-none px-4 py-6 bg-white border-b">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex justify-center items-center space-x-2">
-              <Sparkles className="h-8 w-8 text-red-500" />
-              <h1 className="text-2xl font-bold text-gray-900">
-                Foodo AI Assistant
+      <main className="flex flex-col h-[calc(100vh-4rem)]">
+        <div className="flex-1 overflow-auto px-4 py-8 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl">
+            {/* Hero Section */}
+            <div className="text-center mb-8">
+              <h1 className="text-4xl font-bold text-gray-900 flex items-center justify-center gap-2">
+                <Sparkles className="h-8 w-8 text-red-500" />
+                Foodo AI
               </h1>
+              <p className="mt-4 text-lg text-gray-600">
+                Your personal food companion. Ask me anything about recipes, ingredients, or cooking tips!
+              </p>
             </div>
-            <p className="text-center mt-2 text-gray-600">
-              Your personal food recommendation and ordering assistant
-            </p>
-          </div>
-        </div>
 
-        {/* Chat Interface */}
-        <div className="flex-1 bg-gray-50 overflow-hidden">
-          <div className="h-full max-w-4xl mx-auto px-4 flex flex-col">
-            {/* Messages Container */}
-            <div className="flex-1 overflow-y-auto py-6 space-y-6">
-              {/* Example AI messages */}
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0">
-                  <Sparkles className="h-5 w-5 text-white" />
+            {/* Chat Messages */}
+            <div className="space-y-4 mb-8">
+              {/* Sample message */}
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0">
+                  <div className="h-10 w-10 rounded-full bg-red-500 flex items-center justify-center">
+                    <Sparkles className="h-6 w-6 text-white" />
+                  </div>
                 </div>
-                <div className="flex-1 bg-white rounded-lg p-4 shadow-sm">
-                  <p className="text-gray-800">
-                    Hello! I'm your Foodo AI assistant. I can help you find restaurants, recommend dishes, and answer questions about our service. What would you like to know?
-                  </p>
+                <div className="flex-1">
+                  <div className="bg-white rounded-lg shadow-sm p-4">
+                    <p className="text-gray-700">
+                      Hi! I'm your Foodo AI assistant. How can I help you today?
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-
-            {/* Input Container */}
-            <div className="flex-none pb-6">
-              {/* Input Form */}
-              <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm p-4">
-                <div className="flex space-x-4">
-                  <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Ask anything about food, restaurants, or orders..."
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                  />
-                  <button
-                    type="submit"
-                    className="px-6 py-3 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition-colors flex items-center space-x-2 flex-shrink-0"
-                  >
-                    <span>Send</span>
-                    <Send className="h-4 w-4" />
-                  </button>
-                </div>
-
-                {/* Example Queries */}
-                <div className="mt-4">
-                  <h3 className="text-sm font-medium text-gray-700 mb-2">Try asking:</h3>
-                  <div className="flex flex-wrap gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setQuery("What's the best pizza place nearby?")}
-                      className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-sm hover:bg-gray-200 transition-colors"
-                    >
-                      What's the best pizza place nearby?
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setQuery("Recommend healthy lunch options")}
-                      className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-sm hover:bg-gray-200 transition-colors"
-                    >
-                      Recommend healthy lunch options
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setQuery("Current deals on Italian restaurants")}
-                      className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-sm hover:bg-gray-200 transition-colors"
-                    >
-                      Current deals on Italian restaurants
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
           </div>
         </div>
+
+        {/* Query Input */}
+        <div className="border-t border-gray-200 bg-white p-4">
+          <form onSubmit={handleSubmit} className="mx-auto max-w-3xl">
+            <div className="flex gap-4">
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Ask anything about food..."
+                className="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+              />
+              <button
+                type="submit"
+                className="inline-flex items-center gap-2 rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+              >
+                <Send className="h-5 w-5" />
+                Send
+              </button>
+            </div>
+          </form>
+        </div>
       </main>
-    </div>
+    </MainLayout>
   );
 }

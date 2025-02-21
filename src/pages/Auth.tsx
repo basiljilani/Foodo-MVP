@@ -28,10 +28,17 @@ export default function Auth() {
         toast.success('Welcome back!');
       } else {
         await signUp(email, password, isCustomer ? 'customer' : 'vendor');
+        
+        // Wait a moment for the trigger to create the user record
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Sign in to get the session
+        await signIn(email, password);
         toast.success('Account created successfully!');
       }
       navigate('/profile');
     } catch (error: any) {
+      console.error('Auth error:', error);
       toast.error(error.message || 'An error occurred');
     }
   };

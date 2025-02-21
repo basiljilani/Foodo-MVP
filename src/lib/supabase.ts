@@ -1,7 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://rijyjhpfbtqnzzagfown.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpanlqaHBmYnRxbnp6YWdmb3duIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5OTA4NTgsImV4cCI6MjA1NTU2Njg1OH0.NpmEQds9oV0jokCBOtkrjcV5d2lTYTYbZeWm3ta9eaU';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables');
+}
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
@@ -9,81 +13,61 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export type Tables = {
   users: {
     id: string;
+    auth_id: string;
+    email: string;
     full_name: string;
+    role: 'customer' | 'vendor' | 'admin';
     avatar_url?: string;
     phone_number?: string;
+    bio?: string;
     created_at: string;
     updated_at: string;
   };
-  vendors: {
+  user_preferences: {
     id: string;
     user_id: string;
-    business_name: string;
-    business_email: string;
-    business_phone: string;
-    tax_id?: string;
-    is_verified: boolean;
+    dietary_preferences: string[];
+    food_allergies: string[];
+    favorite_cuisines: string[];
+    favorite_restaurants: string[];
+    meal_preferences: string[];
+    spice_level: 'low' | 'medium' | 'high';
+    price_range: 'low' | 'medium' | 'high';
+    ordering_time: string[];
+    cravings: string[];
     created_at: string;
     updated_at: string;
   };
-  restaurants: {
+  user_addresses: {
     id: string;
-    vendor_id: string;
+    user_id: string;
+    type: 'home' | 'work' | 'other';
     name: string;
-    description?: string;
-    cuisine_type?: string;
     address: string;
-    city: string;
-    state: string;
-    postal_code: string;
-    country: string;
-    latitude?: number;
-    longitude?: number;
-    phone_number: string;
-    email?: string;
-    website_url?: string;
-    opening_hours?: Record<string, any>;
-    delivery_radius?: number;
-    minimum_order_amount?: number;
-    is_active: boolean;
-    featured_image_url?: string;
+    is_default: boolean;
     created_at: string;
     updated_at: string;
   };
-  menu_categories: {
+  user_payment_methods: {
     id: string;
-    restaurant_id: string;
-    name: string;
-    description?: string;
-    display_order: number;
-    is_active: boolean;
-    created_at: string;
-    updated_at: string;
-  };
-  menu_items: {
-    id: string;
-    category_id: string;
-    name: string;
-    description?: string;
-    price: number;
-    image_url?: string;
-    is_vegetarian: boolean;
-    is_vegan: boolean;
-    is_gluten_free: boolean;
-    spice_level?: number;
-    preparation_time?: number;
-    is_available: boolean;
-    created_at: string;
-    updated_at: string;
-  };
-  reviews: {
-    id: string;
-    restaurant_id: string;
     user_id: string;
-    rating: number;
-    review_text?: string;
-    images?: string[];
-    is_verified: boolean;
+    type: 'credit_card' | 'debit_card';
+    last4: string;
+    expiry: string;
+    is_default: boolean;
+    created_at: string;
+    updated_at: string;
+  };
+  user_notification_settings: {
+    id: string;
+    user_id: string;
+    email_notifications: boolean;
+    push_notifications: boolean;
+    sms_notifications: boolean;
+    order_updates: boolean;
+    promotional_emails: boolean;
+    special_offers: boolean;
+    newsletter: boolean;
     created_at: string;
     updated_at: string;
   };
