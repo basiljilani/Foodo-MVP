@@ -16,6 +16,7 @@ import Orders from './pages/profile/Orders';
 import Notifications from './pages/profile/Notifications';
 import Security from './pages/profile/Security';
 import FoodoAI from './pages/FoodoAI';
+import RestaurantDetail from './pages/restaurants/RestaurantDetail';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
             <Route path="/profile/orders" element={<Orders />} />
             <Route path="/profile/notifications" element={<Notifications />} />
             <Route path="/profile/security" element={<Security />} />
+            <Route path="/restaurants/:id" element={<RestaurantDetail />} />
           </Routes>
         </AuthProvider>
       </SupabaseProvider>

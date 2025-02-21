@@ -160,7 +160,7 @@ export default function Home() {
   };
 
   const handleRestaurantClick = (restaurantId: number) => {
-    navigate(`/restaurant/${restaurantId}`);
+    navigate(`/restaurants/${restaurantId}`);
   };
 
   return (
