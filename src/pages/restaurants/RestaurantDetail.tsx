@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Star, MapPin, Clock, Phone, Mail, Heart, Share2, ChevronDown } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Star, MapPin, Clock, Phone, Mail } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Layout from '../../components/Layout';
 
 interface MenuItem {
@@ -13,172 +13,130 @@ interface MenuItem {
   image: string;
 }
 
-interface Review {
-  id: number;
-  userName: string;
-  rating: number;
-  comment: string;
-  date: string;
-  userImage: string;
-}
-
 export default function RestaurantDetail() {
   const { id } = useParams();
   const restaurantId = parseInt(id || '1');
+  const [showCallButton, setShowCallButton] = useState(false);
 
-  // Sample menu items for Pakistani restaurants
-  const menuItems: Record<number, MenuItem[]> = {
-    1: [ // Karachi Biryani House
-      {
-        id: 1,
-        name: "Chicken Biryani",
-        description: "Aromatic rice cooked with tender chicken pieces and special spices",
-        price: "Rs. 350",
-        category: "Biryani",
-        image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8"
-      },
-      {
-        id: 2,
-        name: "Mutton Biryani",
-        description: "Traditional biryani with tender mutton pieces and saffron rice",
-        price: "Rs. 450",
-        category: "Biryani",
-        image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0"
-      },
-      {
-        id: 3,
-        name: "Zafrani Pulao",
-        description: "Fragrant rice cooked with saffron and mild spices",
-        price: "Rs. 300",
-        category: "Rice",
-        image: "https://images.unsplash.com/photo-1512058564366-18510be2db19"
-      }
-    ],
-    2: [ // Lahore Tikka House
-      {
-        id: 1,
-        name: "Seekh Kebab",
-        description: "Minced meat kebabs with herbs and spices",
-        price: "Rs. 300",
-        category: "BBQ",
-        image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0"
-      },
-      {
-        id: 2,
-        name: "Chicken Tikka",
-        description: "Marinated chicken pieces grilled to perfection",
-        price: "Rs. 350",
-        category: "BBQ",
-        image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84"
-      }
-    ]
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show button after scrolling 200px
+      const shouldShow = window.scrollY > 200;
+      setShowCallButton(shouldShow);
+    };
 
-  const restaurantData: Record<number, any> = {
-    1: {
-      name: "Karachi Biryani House",
-      description: "Famous for authentic Karachi-style biryani and BBQ specialties.",
-      rating: 4.8,
-      reviewCount: 245,
-      priceRange: "$$",
-      cuisine: "Pakistani, Biryani, BBQ",
-      address: "Block 2, Gulshan-e-Iqbal, Karachi",
-      phone: "+92 321 1234567",
-      email: "contact@karachibiryani.com",
-      openingHours: {
-        Mon: "11:00 AM - 11:00 PM",
-        Tue: "11:00 AM - 11:00 PM",
-        Wed: "11:00 AM - 11:00 PM",
-        Thu: "11:00 AM - 11:00 PM",
-        Fri: "11:00 AM - 11:30 PM",
-        Sat: "11:00 AM - 11:30 PM",
-        Sun: "11:00 AM - 11:00 PM"
-      },
-      reviews: [
-        {
-          id: 1,
-          userName: "John Doe",
-          rating: 5,
-          comment: "Amazing food and great service!",
-          date: "2024-02-15",
-          userImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
-        },
-        // More reviews will be added dynamically
-      ]
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Sample menu items
+  const menuItems: MenuItem[] = [
+    {
+      id: 1,
+      name: "Chicken Biryani",
+      description: "Aromatic rice cooked with tender chicken pieces and special spices",
+      price: "Rs. 350",
+      category: "Biryani",
+      image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8"
     },
-    2: {
-      name: "Lahore Tikka House",
-      description: "Authentic Lahori taste with signature tikka and karahi dishes.",
-      rating: 4.9,
-      reviewCount: 312,
-      priceRange: "$$",
-      cuisine: "Pakistani, BBQ, Karahi",
-      address: "M.M. Alam Road, Gulberg III, Lahore",
-      phone: "+92 321 9876543",
-      email: "info@lahoretikka.com",
-      openingHours: {
-        Mon: "12:00 PM - 12:00 AM",
-        Tue: "12:00 PM - 12:00 AM",
-        Wed: "12:00 PM - 12:00 AM",
-        Thu: "12:00 PM - 12:00 AM",
-        Fri: "12:00 PM - 1:00 AM",
-        Sat: "12:00 PM - 1:00 AM",
-        Sun: "12:00 PM - 12:00 AM"
-      },
-      reviews: [
-        {
-          id: 1,
-          userName: "John Doe",
-          rating: 5,
-          comment: "Amazing food and great service!",
-          date: "2024-02-15",
-          userImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
-        },
-        // More reviews will be added dynamically
-      ]
+    {
+      id: 2,
+      name: "Mutton Karahi",
+      description: "Tender mutton cooked in a spicy tomato-based gravy",
+      price: "Rs. 450",
+      category: "Main Course",
+      image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0"
+    },
+    {
+      id: 3,
+      name: "Seekh Kebab",
+      description: "Minced meat kebabs with herbs and spices",
+      price: "Rs. 300",
+      category: "BBQ",
+      image: "https://images.unsplash.com/photo-1512058564366-18510be2db19"
+    },
+    {
+      id: 4,
+      name: "Butter Naan",
+      description: "Soft bread topped with butter",
+      price: "Rs. 50",
+      category: "Bread",
+      image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0"
+    }
+  ];
+
+  const restaurant = {
+    name: "Karachi Biryani House",
+    description: "Famous for authentic Karachi-style biryani and BBQ specialties.",
+    rating: 4.8,
+    reviewCount: 245,
+    priceRange: "$$",
+    cuisine: "Pakistani, Biryani, BBQ",
+    address: "Block 2, Gulshan-e-Iqbal, Karachi",
+    phone: "+92 321 1234567",
+    email: "contact@karachibiryani.com",
+    openingHours: {
+      Mon: "11:00 AM - 11:00 PM",
+      Tue: "11:00 AM - 11:00 PM",
+      Wed: "11:00 AM - 11:00 PM",
+      Thu: "11:00 AM - 11:00 PM",
+      Fri: "11:00 AM - 11:30 PM",
+      Sat: "11:00 AM - 11:30 PM",
+      Sun: "11:00 AM - 11:00 PM"
     }
   };
 
-  // Get restaurant data based on ID
-  const restaurant = restaurantData[restaurantId] || restaurantData[1];
-  const menu = menuItems[restaurantId] || menuItems[1];
-
   return (
     <Layout>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 pt-16">
         {/* Hero Section */}
-        <div className="relative h-96 bg-gray-900">
-          <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="relative h-72 bg-gradient-to-r from-red-600 to-red-800">
+          <div className="absolute inset-0">
+            <img
+              src={menuItems[0].image}
+              alt={restaurant.name}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]"></div>
+          </div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center text-white z-10">
-              <h1 className="text-5xl font-bold mb-4">{restaurant.name}</h1>
-              <p className="text-xl">{restaurant.description}</p>
-              <div className="flex items-center justify-center mt-4 space-x-4">
-                <span className="flex items-center">
-                  <Star className="w-5 h-5 text-yellow-400 mr-1" />
-                  {restaurant.rating} ({restaurant.reviewCount} reviews)
-                </span>
-                <span className="flex items-center">
-                  <MapPin className="w-5 h-5 text-red-400 mr-1" />
-                  {restaurant.address}
-                </span>
-              </div>
+            <div className="text-center text-white z-10 px-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="space-y-4"
+              >
+                <h1 className="text-4xl md:text-5xl font-bold">{restaurant.name}</h1>
+                <p className="text-lg md:text-xl max-w-2xl mx-auto text-white/90">{restaurant.description}</p>
+                <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
+                  <span className="flex items-center bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full">
+                    <Star className="w-5 h-5 text-yellow-400 mr-2" />
+                    <span>{restaurant.rating}</span>
+                    <span className="mx-1.5 text-white/60">•</span>
+                    <span className="text-white/80">{restaurant.reviewCount} reviews</span>
+                  </span>
+                  <span className="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-white/90">
+                    {restaurant.cuisine}
+                  </span>
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
 
         {/* Content Section */}
-        <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="max-w-6xl mx-auto px-4 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Menu Section */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-2xl shadow-sm p-8">
-                <h2 className="text-3xl font-bold mb-8">Menu</h2>
+              <div className="bg-white rounded-xl shadow-sm p-6">
+                <h2 className="text-2xl font-bold mb-6">Our Menu</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {menu.map((item) => (
+                  {menuItems.map((item) => (
                     <motion.div
                       key={item.id}
-                      className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all"
+                      className="bg-white rounded-lg border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3 }}
@@ -187,18 +145,18 @@ export default function RestaurantDetail() {
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="w-full h-full object-cover"
+                          className="absolute inset-0 w-full h-full object-cover"
                         />
-                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                          <h3 className="text-white text-xl font-semibold">{item.name}</h3>
-                          <p className="text-white/80">{item.price}</p>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0" />
+                        <div className="absolute top-3 right-3">
+                          <span className="bg-white/90 backdrop-blur-sm text-red-600 px-3 py-1 rounded-full text-sm font-medium shadow-sm">
+                            {item.price}
+                          </span>
                         </div>
                       </div>
                       <div className="p-4">
-                        <p className="text-gray-600">{item.description}</p>
-                        <button className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
-                          Add to Cart
-                        </button>
+                        <h3 className="text-lg font-semibold mb-1">{item.name}</h3>
+                        <p className="text-gray-600 text-sm line-clamp-2">{item.description}</p>
                       </div>
                     </motion.div>
                   ))}
@@ -208,23 +166,9 @@ export default function RestaurantDetail() {
 
             {/* Info Section */}
             <div className="space-y-6">
-              {/* Opening Hours */}
-              <div className="bg-white rounded-2xl shadow-sm p-6">
-                <h3 className="text-xl font-semibold mb-4 flex items-center">
-                  <Clock className="w-5 h-5 mr-2" />
-                  Opening Hours
-                </h3>
-                {Object.entries(restaurant.openingHours).map(([day, hours]) => (
-                  <div key={day} className="flex justify-between py-2">
-                    <span className="text-gray-600">{day}</span>
-                    <span>{hours}</span>
-                  </div>
-                ))}
-              </div>
-
               {/* Contact Info */}
-              <div className="bg-white rounded-2xl shadow-sm p-6">
-                <h3 className="text-xl font-semibold mb-4">Contact</h3>
+              <div className="bg-white rounded-xl shadow-sm p-6">
+                <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
                 <div className="space-y-4">
                   <div className="flex items-center">
                     <Phone className="w-5 h-5 mr-3 text-gray-400" />
@@ -240,9 +184,50 @@ export default function RestaurantDetail() {
                   </div>
                 </div>
               </div>
+
+              {/* Opening Hours */}
+              <div className="bg-white rounded-xl shadow-sm p-6">
+                <h3 className="text-xl font-semibold mb-4 flex items-center">
+                  <Clock className="w-5 h-5 mr-2" />
+                  Opening Hours
+                </h3>
+                <div className="space-y-2">
+                  {Object.entries(restaurant.openingHours).map(([day, hours]) => (
+                    <div key={day} className="flex justify-between py-2 border-b border-gray-100 last:border-0">
+                      <span className="text-gray-600">{day}</span>
+                      <span className="font-medium">{hours}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Floating Call Button */}
+        <AnimatePresence>
+          {showCallButton && (
+            <motion.div
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 100, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 25 }}
+              className="fixed bottom-0 left-0 right-0 z-50"
+            >
+              <div className="bg-white border-t border-gray-100 shadow-lg backdrop-blur-lg">
+                <div className="max-w-6xl mx-auto px-4 py-3">
+                  <a
+                    href={`tel:${restaurant.phone}`}
+                    className="block w-full bg-[#FF3838] hover:bg-[#FF4D4D] text-white rounded-xl py-3.5 flex items-center justify-center space-x-2 transition-all duration-300 font-medium"
+                  >
+                    <Phone className="w-5 h-5" />
+                    <span>Call Restaurant</span>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </Layout>
   );
