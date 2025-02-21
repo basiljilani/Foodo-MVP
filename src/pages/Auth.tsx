@@ -1,231 +1,166 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShoppingBag, User, Store } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import toast from 'react-hot-toast';
+import { motion } from 'framer-motion';
+import { Mail, Lock, User, ChevronRight, ArrowRight } from 'lucide-react';
 
 export default function Auth() {
-  const [userType, setUserType] = useState<'customer' | 'vendor' | null>(null);
-  const [mode, setMode] = useState<'login' | 'register'>('login');
+  const [isLogin, setIsLogin] = useState(true);
+  const [isCustomer, setIsCustomer] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [restaurantName, setRestaurantName] = useState('');
-  const [restaurantAddress, setRestaurantAddress] = useState('');
-  const [cuisine, setCuisine] = useState('');
-  const navigate = useNavigate();
+  const [fullName, setFullName] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+  const { signIn, signUp, loading } = useAuth();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you would handle authentication here
-    if (userType === 'vendor') {
-      navigate('/vendor/dashboard');
-    } else {
-      navigate('/home');
+    if (!email || !password || (!isLogin && !fullName)) {
+      toast.error('Please fill in all fields');
+      return;
+    }
+
+    try {
+      if (isLogin) {
+        await signIn(email, password);
+        toast.success('Welcome back!');
+      } else {
+        await signUp(email, password, isCustomer ? 'customer' : 'vendor');
+        toast.success('Account created successfully!');
+      }
+      navigate('/profile');
+    } catch (error: any) {
+      toast.error(error.message || 'An error occurred');
     }
   };
 
-  if (!userType) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex flex-col">
-        <header className="bg-white shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16 items-center">
-              <button
-                onClick={() => navigate('/')}
-                className="flex items-center"
-              >
-                <ShoppingBag className="h-8 w-8 text-red-500" />
-                <span className="ml-2 text-xl font-bold text-gray-900">Foodo</span>
-              </button>
-            </div>
-          </div>
-        </header>
-
-        <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-          <div className="max-w-md w-full">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900">Welcome to Foodo</h2>
-              <p className="mt-2 text-gray-600">Choose how you want to use Foodo</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <button
-                onClick={() => setUserType('customer')}
-                className="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow text-left"
-              >
-                <User className="h-8 w-8 text-red-500 mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">I'm a Customer</h3>
-                <p className="text-gray-600">Order food from your favorite restaurants</p>
-              </button>
-              <button
-                onClick={() => setUserType('vendor')}
-                className="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow text-left"
-              >
-                <Store className="h-8 w-8 text-red-500 mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">I'm a Vendor</h3>
-                <p className="text-gray-600">List your restaurant and manage orders</p>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <button
-              onClick={() => navigate('/')}
-              className="flex items-center"
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-orange-100 to-orange-200 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-md w-full space-y-8"
+      >
+        <div className="bg-white p-8 rounded-2xl shadow-xl space-y-6">
+          <div className="text-center">
+            <motion.h2 
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              className="text-4xl font-bold text-gray-900 mb-2"
             >
-              <ShoppingBag className="h-8 w-8 text-red-500" />
-              <span className="ml-2 text-xl font-bold text-gray-900">Foodo</span>
-            </button>
-            <button
-              onClick={() => setUserType(null)}
-              className="text-gray-600 hover:text-gray-900"
-            >
-              Change User Type
-            </button>
+              {isLogin ? 'Welcome Back!' : 'Join Foodo'}
+            </motion.h2>
+            <p className="text-orange-600 text-lg">
+              {isLogin ? 'Delicious food awaits you' : 'Start your culinary journey'}
+            </p>
           </div>
-        </div>
-      </header>
 
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full">
-          <div className="bg-white rounded-2xl shadow-sm p-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-              {mode === 'login' ? 'Welcome back!' : 'Create an account'}
-              <span className="block text-sm font-medium text-gray-600 mt-1">
-                {userType === 'vendor' ? 'Restaurant Partner' : 'Food Lover'}
-              </span>
-            </h2>
+          {!isLogin && (
+            <div className="flex justify-center space-x-4 p-2 bg-orange-50 rounded-lg">
+              <button
+                onClick={() => setIsCustomer(true)}
+                className={`px-4 py-2 rounded-lg transition-all duration-200 ${
+                  isCustomer 
+                    ? 'bg-orange-500 text-white shadow-md' 
+                    : 'text-orange-700 hover:bg-orange-100'
+                }`}
+              >
+                Customer
+              </button>
+              <button
+                onClick={() => setIsCustomer(false)}
+                className={`px-4 py-2 rounded-lg transition-all duration-200 ${
+                  !isCustomer 
+                    ? 'bg-orange-500 text-white shadow-md' 
+                    : 'text-orange-700 hover:bg-orange-100'
+                }`}
+              >
+                Restaurant Owner
+              </button>
+            </div>
+          )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {mode === 'register' && (
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                    {userType === 'vendor' ? 'Owner Name' : 'Full Name'}
-                  </label>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {!isLogin && (
+              <div>
+                <label htmlFor="fullName" className="sr-only">Full Name</label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400 h-5 w-5" />
                   <input
-                    id="name"
+                    id="fullName"
                     type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-shadow"
-                    placeholder="John Doe"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="block w-full pl-10 pr-3 py-3 border border-orange-200 rounded-xl focus:ring-orange-500 focus:border-orange-500 bg-white placeholder-gray-400"
+                    placeholder="Full Name"
                   />
                 </div>
-              )}
-
-              {userType === 'vendor' && mode === 'register' && (
-                <>
-                  <div>
-                    <label htmlFor="restaurantName" className="block text-sm font-medium text-gray-700 mb-1">
-                      Restaurant Name
-                    </label>
-                    <input
-                      id="restaurantName"
-                      type="text"
-                      required
-                      value={restaurantName}
-                      onChange={(e) => setRestaurantName(e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-shadow"
-                      placeholder="Your Restaurant Name"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="restaurantAddress" className="block text-sm font-medium text-gray-700 mb-1">
-                      Restaurant Address
-                    </label>
-                    <input
-                      id="restaurantAddress"
-                      type="text"
-                      required
-                      value={restaurantAddress}
-                      onChange={(e) => setRestaurantAddress(e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-shadow"
-                      placeholder="123 Restaurant St"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="cuisine" className="block text-sm font-medium text-gray-700 mb-1">
-                      Cuisine Type
-                    </label>
-                    <input
-                      id="cuisine"
-                      type="text"
-                      required
-                      value={cuisine}
-                      onChange={(e) => setCuisine(e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-shadow"
-                      placeholder="Italian, Indian, etc."
-                    />
-                  </div>
-                </>
-              )}
-
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email address
-                </label>
+              </div>
+            )}
+            
+            <div>
+              <label htmlFor="email" className="sr-only">Email</label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400 h-5 w-5" />
                 <input
                   id="email"
                   type="email"
-                  required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-shadow"
-                  placeholder="you@example.com"
+                  className="block w-full pl-10 pr-3 py-3 border border-orange-200 rounded-xl focus:ring-orange-500 focus:border-orange-500 bg-white placeholder-gray-400"
+                  placeholder="Email address"
                 />
               </div>
+            </div>
 
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                  Password
-                </label>
+            <div>
+              <label htmlFor="password" className="sr-only">Password</label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400 h-5 w-5" />
                 <input
                   id="password"
                   type="password"
-                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-shadow"
-                  placeholder="••••••••"
+                  className="block w-full pl-10 pr-3 py-3 border border-orange-200 rounded-xl focus:ring-orange-500 focus:border-orange-500 bg-white placeholder-gray-400"
+                  placeholder="Password"
                 />
               </div>
+            </div>
 
-              <button
-                type="submit"
-                className="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 transition-colors font-medium"
-              >
-                {mode === 'login' ? 'Sign In' : 'Create account'}
-              </button>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              type="submit"
+              disabled={loading}
+              className="relative w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors duration-200"
+            >
+              {loading ? (
+                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <>
+                  {isLogin ? 'Sign In' : 'Create Account'}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </>
+              )}
+            </motion.button>
 
-              <div className="relative mt-8">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-200"></div>
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white text-gray-500">
-                    {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}
-                  </span>
-                </div>
-              </div>
-
+            <div className="text-center mt-4">
               <button
                 type="button"
-                onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
-                className="w-full border border-gray-200 text-gray-600 py-3 rounded-lg hover:bg-gray-50 transition-colors font-medium mt-4"
+                onClick={() => setIsLogin(!isLogin)}
+                className="text-orange-600 hover:text-orange-700 font-medium flex items-center justify-center w-full"
               >
-                {mode === 'login' ? 'Create an account' : 'Sign in to your account'}
+                {isLogin ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
+                <ChevronRight className="ml-1 h-4 w-4" />
               </button>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

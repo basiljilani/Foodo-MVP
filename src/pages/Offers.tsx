@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShoppingBag, User, Tag, Clock, Percent, Gift, Menu, X, ChevronRight, Star, Copy, Check } from 'lucide-react';
+import { ShoppingBag, User, Tag, Clock, Percent, Gift, Menu, X, ChevronRight, Star, Copy, Check, Timer, Zap, Award, TrendingUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 import Navigation from '../components/Navigation';
+import Layout from '../components/Layout';
 
 export default function Offers() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,428 +15,400 @@ export default function Offers() {
   const navigate = useNavigate();
 
   const filters = [
-    { id: 'all', label: 'All Offers' },
-    { id: 'new_user', label: 'New User' },
-    { id: 'weekend', label: 'Weekend' },
-    { id: 'delivery', label: 'Delivery' },
-    { id: 'time_based', label: 'Time-based' },
+    { id: 'all', label: 'All Offers', icon: Tag },
+    { id: 'featured', label: 'Featured', icon: Star },
+    { id: 'new_user', label: 'New User', icon: User },
+    { id: 'flash_deals', label: 'Flash Deals', icon: Zap },
+    { id: 'weekend', label: 'Weekend', icon: Gift },
+    { id: 'partnerships', label: 'Partnerships', icon: Award },
+    { id: 'trending', label: 'Trending', icon: TrendingUp },
   ];
 
   const promotions = [
     {
       id: 1,
       title: "First Order Special",
-      description: "Get 50% off on your first order! Use code WELCOME50",
+      description: "Get 50% off on your first order! Limited time offer for new customers.",
       code: "WELCOME50",
       discount: "50% OFF",
       validUntil: "2024-04-30",
       image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
       type: "new_user",
-      featured: true
+      featured: true,
+      partnerLogo: null,
+      usageCount: 15000
     },
     {
       id: 2,
-      title: "Weekend Feast",
-      description: "20% off on all orders above $30 during weekends",
-      code: "WEEKEND20",
-      discount: "20% OFF",
+      title: "McDonald's × Foodo Special",
+      description: "Exclusive 30% off on all McDonald's orders. Partner offer!",
+      code: "MCFOODO30",
+      discount: "30% OFF",
       validUntil: "2024-03-31",
-      image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1",
-      type: "weekend"
+      image: "https://images.unsplash.com/photo-1619881589176-57d9c5e23d30",
+      type: "partnerships",
+      featured: true,
+      partnerLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/McDonald%27s_Golden_Arches.svg/2339px-McDonald%27s_Golden_Arches.svg.png",
+      usageCount: 8500
     },
     {
       id: 3,
-      title: "Free Delivery",
-      description: "Free delivery on orders above $25",
-      code: "FREEDEL",
-      discount: "Free Delivery",
-      validUntil: "2024-04-15",
-      image: "https://images.unsplash.com/photo-1526367790999-0150786686a2",
-      type: "delivery"
+      title: "Flash Deal: Lunch Special",
+      description: "40% off on lunch orders between 1 PM - 3 PM today only!",
+      code: "LUNCH40",
+      discount: "40% OFF",
+      validUntil: "Today 3 PM",
+      image: "https://images.unsplash.com/photo-1562967916-eb82221dfb92",
+      type: "flash_deals",
+      featured: true,
+      partnerLogo: null,
+      usageCount: 3200,
+      timeLeft: "2h 30m"
     },
     {
       id: 4,
-      title: "Lunch Special",
-      description: "15% off on all lunch orders between 11 AM - 3 PM",
-      code: "LUNCH15",
-      discount: "15% OFF",
-      validUntil: "2024-05-31",
-      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
-      type: "time_based"
+      title: "Weekend Feast",
+      description: "Extra 25% off on family-size orders during weekends",
+      code: "WEEKEND25",
+      discount: "25% OFF",
+      validUntil: "2024-03-31",
+      image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1",
+      type: "weekend",
+      featured: false,
+      partnerLogo: null,
+      usageCount: 6700
     },
     {
       id: 5,
-      title: "Family Bundle",
-      description: "25% off on family-size orders over $50",
-      code: "FAMILY25",
-      discount: "25% OFF",
-      validUntil: "2024-04-20",
-      image: "https://images.unsplash.com/photo-1516684732162-798a0062be99",
-      type: "special"
+      title: "KFC Tuesday Special",
+      description: "Buy 1 Get 1 Free on all KFC Chicken Buckets every Tuesday",
+      code: "KFCBOGO",
+      discount: "BOGO",
+      validUntil: "2024-04-30",
+      image: "https://images.unsplash.com/photo-1513639776629-7b61b0ac49cb",
+      type: "partnerships",
+      featured: true,
+      partnerLogo: "https://upload.wikimedia.org/wikipedia/en/thumb/b/bf/KFC_logo.svg/1024px-KFC_logo.svg.png",
+      usageCount: 12300
     },
     {
       id: 6,
-      title: "Healthy Choice",
-      description: "10% off on all salads and healthy bowls",
-      code: "HEALTHY10",
-      discount: "10% OFF",
-      validUntil: "2024-04-25",
-      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
-      type: "special"
-    },
-    {
-      id: 7,
-      title: "Late Night Deal",
-      description: "30% off on orders after 10 PM",
-      code: "NIGHT30",
-      discount: "30% OFF",
-      validUntil: "2024-04-30",
-      image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
-      type: "time_based"
-    },
-    {
-      id: 8,
-      title: "Student Special",
-      description: "15% off with valid student ID",
-      code: "STUDENT15",
-      discount: "15% OFF",
-      validUntil: "2024-05-31",
-      image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1",
-      type: "special"
+      title: "Trending: Free Delivery",
+      description: "Free delivery on your first 3 orders of the month",
+      code: "FREEDEL",
+      discount: "FREE DELIVERY",
+      validUntil: "2024-03-31",
+      image: "https://images.unsplash.com/photo-1629905679177-4c4e2623654f",
+      type: "trending",
+      featured: false,
+      partnerLogo: null,
+      usageCount: 25400
     }
   ];
 
   const ads = [
     {
       id: 1,
-      title: "Premium Restaurant Partner",
+      title: "Premium Partner",
       name: "Sushi Master",
-      rating: 4.9,
       image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c",
       description: "Experience authentic Japanese cuisine",
-      tag: "Featured Partner",
+      rating: 4.9,
       discount: "20% OFF",
+      deliveryTime: "25-35 min",
       minOrder: 30
     },
     {
       id: 2,
-      title: "Most Popular This Week",
+      title: "Trending Now",
       name: "Burger House",
-      rating: 4.8,
       image: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
       description: "Gourmet burgers made with premium ingredients",
-      tag: "Trending",
+      rating: 4.8,
       discount: "Free Delivery",
+      deliveryTime: "20-30 min",
       minOrder: 25
     },
     {
       id: 3,
       title: "New on Foodo",
       name: "Pizza Palace",
-      rating: 4.7,
       image: "https://images.unsplash.com/photo-1513104890138-7c749659a591",
       description: "Authentic Italian pizzas and pasta",
-      tag: "New",
+      rating: 4.7,
       discount: "15% OFF",
+      deliveryTime: "30-40 min",
       minOrder: 20
     }
   ];
 
-  const popularCategories = [
-    { name: "Pizza", icon: "🍕", count: 48 },
-    { name: "Burger", icon: "🍔", count: 32 },
-    { name: "Sushi", icon: "🍱", count: 24 },
-    { name: "Dessert", icon: "🍰", count: 56 },
-    { name: "Indian", icon: "🍛", count: 28 },
-    { name: "Mexican", icon: "🌮", count: 35 }
+  const trendingDishes = [
+    {
+      id: 1,
+      name: "Dragon Roll",
+      restaurant: "Sushi Master",
+      image: "https://images.unsplash.com/photo-1559847844-5315695dadae",
+      price: 16.99,
+      rating: 4.8
+    },
+    {
+      id: 2,
+      name: "Truffle Burger",
+      restaurant: "Burger House",
+      image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
+      price: 14.99,
+      rating: 4.9
+    },
+    {
+      id: 3,
+      name: "Margherita Pizza",
+      restaurant: "Pizza Palace",
+      image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38",
+      price: 12.99,
+      rating: 4.7
+    }
   ];
 
-  const filteredPromotions = selectedFilter === 'all'
-    ? promotions
-    : promotions.filter(promo => promo.type === selectedFilter);
-
-  const copyToClipboard = async (code: string) => {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopiedCode(code);
-      toast.success('Promo code copied!');
-      setTimeout(() => setCopiedCode(null), 2000);
-    } catch (err) {
-      toast.error('Failed to copy code');
-    }
+  const handleCopyCode = (code: string) => {
+    navigator.clipboard.writeText(code);
+    setCopiedCode(code);
+    toast.success('Promo code copied!');
+    setTimeout(() => setCopiedCode(null), 3000);
   };
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) {
-      toast.error('Please enter your email');
-      return;
-    }
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      toast.error('Please enter a valid email');
-      return;
-    }
-    
     setIsSubscribing(true);
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
-    toast.success('Successfully subscribed to newsletter!');
-    setEmail('');
+    toast.success('Successfully subscribed to offers!');
     setIsSubscribing(false);
+    setEmail('');
   };
 
-  const CountdownTimer = ({ validUntil }: { validUntil: string }) => {
-    const [timeLeft, setTimeLeft] = useState('');
-
-    useEffect(() => {
-      const calculateTimeLeft = () => {
-        const difference = +new Date(validUntil) - +new Date();
-        if (difference > 0) {
-          const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-          setTimeLeft(`${days}d ${hours}h left`);
-        } else {
-          setTimeLeft('Expired');
-        }
-      };
-
-      calculateTimeLeft();
-      const timer = setInterval(calculateTimeLeft, 1000 * 60); // Update every minute
-
-      return () => clearInterval(timer);
-    }, [validUntil]);
-
-    return (
-      <span className={`text-sm ${timeLeft === 'Expired' ? 'text-red-500' : 'text-gray-500'}`}>
-        {timeLeft}
-      </span>
-    );
-  };
+  const filteredPromotions = promotions.filter(promo => 
+    selectedFilter === 'all' ? true : promo.type === selectedFilter
+  );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation />
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+    <Layout>
+      <div className="min-h-screen bg-gray-50 pt-16">
         {/* Hero Section */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Hot Deals & Exclusive Offers
-          </h1>
-          <p className="text-lg text-gray-600 mb-8">
-            Save big with our latest promotions and special discounts
-          </p>
-          
-          {/* Filter Tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {filters.map((filter) => (
-              <button
-                key={filter.id}
-                onClick={() => setSelectedFilter(filter.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all
-                  ${selectedFilter === filter.id
-                    ? 'bg-red-500 text-white'
-                    : 'bg-white text-gray-600 hover:bg-gray-100'
-                  }`}
-              >
-                {filter.label}
-              </button>
-            ))}
+        <div className="bg-gradient-to-r from-red-500 to-red-600 text-white py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold mb-4">Exclusive Offers & Deals</h1>
+              <p className="text-xl opacity-90 mb-8">Discover amazing discounts and partner offers!</p>
+              
+              {/* Newsletter Subscription */}
+              <form onSubmit={handleSubscribe} className="max-w-md mx-auto">
+                <div className="flex gap-2">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email for exclusive offers"
+                    className="flex-1 px-4 py-2 rounded-lg text-gray-900 placeholder-gray-500"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    disabled={isSubscribing}
+                    className="bg-white text-red-600 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors disabled:opacity-75"
+                  >
+                    {isSubscribing ? 'Subscribing...' : 'Subscribe'}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
 
-        {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          {/* Offers Columns */}
-          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <AnimatePresence mode="wait">
+        {/* Filters */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+            {filters.map((filter) => {
+              const Icon = filter.icon;
+              return (
+                <button
+                  key={filter.id}
+                  onClick={() => setSelectedFilter(filter.id)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-colors ${
+                    selectedFilter === filter.id
+                      ? 'bg-red-500 text-white'
+                      : 'bg-white text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {filter.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Main Content Grid */}
+          <div className={`grid gap-6 mt-8 ${selectedFilter === 'all' ? 'lg:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+            {/* Promotions Grid - Takes 2 columns in 'all' view */}
+            <div className={`${selectedFilter === 'all' ? 'lg:col-span-2' : ''} grid grid-cols-1 md:grid-cols-2 gap-6`}>
               {filteredPromotions.map((promo) => (
                 <motion.div
                   key={promo.id}
+                  layout
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all h-[400px] flex flex-col"
+                  exit={{ opacity: 0, y: 20 }}
+                  className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
                 >
+                  {/* Image Container */}
                   <div className="relative h-48">
                     <img
                       src={promo.image}
                       alt={promo.title}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <div className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium inline-block mb-2">
+                    {promo.featured && (
+                      <div className="absolute top-4 left-4 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+                        <Star className="w-4 h-4" />
+                        Featured
+                      </div>
+                    )}
+                    {promo.type === 'flash_deals' && (
+                      <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+                        <Timer className="w-4 h-4" />
+                        {promo.timeLeft}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="text-xl font-semibold text-gray-900 mb-1">{promo.title}</h3>
+                        <p className="text-gray-600">{promo.description}</p>
+                      </div>
+                      {promo.partnerLogo && (
+                        <img
+                          src={promo.partnerLogo}
+                          alt="Partner logo"
+                          className="w-12 h-12 object-contain"
+                        />
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
+                      <div className="flex items-center gap-1">
+                        <Tag className="w-4 h-4" />
                         {promo.discount}
                       </div>
-                      <h3 className="text-xl font-semibold text-white">{promo.title}</h3>
-                    </div>
-                  </div>
-                  <div className="p-4 flex-1 flex flex-col">
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">{promo.description}</p>
-                    <div className="mt-auto">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center text-gray-500">
-                          <Clock className="h-4 w-4 mr-1" />
-                          <CountdownTimer validUntil={promo.validUntil} />
-                        </div>
-                        <button
-                          onClick={() => copyToClipboard(promo.code)}
-                          className="flex items-center space-x-2 px-3 py-1 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-                        >
-                          <span className="text-sm font-medium">{promo.code}</span>
-                          {copiedCode === promo.code ? (
-                            <Check className="h-4 w-4 text-green-500" />
-                          ) : (
-                            <Copy className="h-4 w-4 text-gray-500" />
-                          )}
-                        </button>
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-4 h-4" />
+                        Valid until {promo.validUntil}
                       </div>
-                      <button className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
-                        <span>Claim Offer</span>
-                        <Gift className="h-4 w-4" />
+                      <div className="flex items-center gap-1">
+                        <User className="w-4 h-4" />
+                        {promo.usageCount.toLocaleString()}+ used
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 bg-gray-50 rounded-lg px-4 py-2 font-mono text-gray-900">
+                        {promo.code}
+                      </div>
+                      <button
+                        onClick={() => handleCopyCode(promo.code)}
+                        className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors"
+                      >
+                        {copiedCode === promo.code ? (
+                          <Check className="w-5 h-5" />
+                        ) : (
+                          <Copy className="w-5 h-5" />
+                        )}
                       </button>
                     </div>
                   </div>
                 </motion.div>
               ))}
-            </AnimatePresence>
-          </div>
+            </div>
 
-          {/* Ads Column */}
-          <div className="space-y-6">
-            {/* Featured Restaurants Section */}
-            <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-6 h-[400px] flex flex-col">
-              <h2 className="text-xl font-semibold text-white mb-4">Featured Partners</h2>
-              <p className="text-red-100 mb-6">
-                Discover our top-rated restaurant partners and their exclusive offers
-              </p>
-              <div className="grid grid-cols-3 gap-3 flex-1">
-                {popularCategories.slice(0, 6).map((category) => (
-                  <button
-                    key={category.name}
-                    className="flex flex-col items-center justify-center p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
-                  >
-                    <span className="text-2xl mb-1">{category.icon}</span>
-                    <span className="text-sm font-medium text-white">{category.name}</span>
-                    <span className="text-xs text-red-200">{category.count}</span>
-                  </button>
+            {/* Ads Column - Only visible in 'all' view */}
+            {selectedFilter === 'all' && (
+              <div className="space-y-6">
+                {/* Featured Restaurants */}
+                {ads.map((ad) => (
+                  <div key={ad.id} className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all relative">
+                    <div className="absolute right-0 top-0 bg-gray-900/90 text-white text-xs px-2 py-1 rounded-bl-lg z-10">
+                      Ad
+                    </div>
+                    <div className="relative h-48">
+                      <img
+                        src={ad.image}
+                        alt={ad.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                        <div className="flex items-center space-x-1">
+                          <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                          <span className="text-sm font-medium text-gray-900">{ad.rating}</span>
+                        </div>
+                      </div>
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1 bg-red-500 text-white text-sm font-medium rounded-full">
+                          {ad.discount}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm text-red-500 font-medium">{ad.title}</span>
+                        <span className="text-sm text-gray-500">{ad.deliveryTime}</span>
+                      </div>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">{ad.name}</h3>
+                      <p className="text-gray-600 text-sm mb-4">{ad.description}</p>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-500">Min. Order: ${ad.minOrder}</span>
+                        <button className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                          Order Now
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 ))}
-              </div>
-            </div>
 
-            {/* Restaurant Ads */}
-            {ads.map((ad) => (
-              <motion.div
-                key={ad.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all h-[400px] flex flex-col group cursor-pointer"
-              >
-                <div className="relative h-48">
-                  <img
-                    src={ad.image}
-                    alt={ad.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                      <span className="text-sm font-medium text-gray-900">{ad.rating}</span>
-                    </div>
+                {/* Trending Dishes */}
+                <div className="bg-gray-900 rounded-xl p-6 relative">
+                  <div className="absolute right-0 top-0 bg-white/90 text-gray-900 text-xs px-2 py-1 rounded-bl-lg">
+                    Ad
                   </div>
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-red-500 text-white text-sm font-medium rounded-full">
-                      {ad.discount}
-                    </span>
+                  <h3 className="text-lg font-semibold text-white mb-4">
+                    🔥 Trending Dishes
+                  </h3>
+                  <div className="space-y-4">
+                    {trendingDishes.map((dish) => (
+                      <div key={dish.id} className="flex items-center space-x-3 p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer">
+                        <img
+                          src={dish.image}
+                          alt={dish.name}
+                          className="w-16 h-16 rounded-lg object-cover"
+                        />
+                        <div className="flex-1">
+                          <h4 className="font-medium text-white">{dish.name}</h4>
+                          <p className="text-sm text-gray-400">{dish.restaurant}</p>
+                          <div className="flex items-center mt-1">
+                            <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                            <span className="text-sm text-gray-400 ml-1">{dish.rating}</span>
+                          </div>
+                        </div>
+                        <span className="text-green-400">${dish.price}</span>
+                      </div>
+                    ))}
                   </div>
-                </div>
-                <div className="p-4 flex-1 flex flex-col">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-semibold text-gray-900">{ad.name}</h3>
-                    <span className="px-2 py-1 bg-red-100 text-red-600 text-xs rounded-full">
-                      {ad.tag}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">{ad.description}</p>
-                  <div className="mt-auto">
-                    <div className="flex items-center justify-between text-sm text-gray-500 mb-3">
-                      <span>Min. Order: ${ad.minOrder}</span>
-                      <span>30-45 min</span>
-                    </div>
-                    <button className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 border border-red-500 text-red-500 rounded-lg hover:bg-red-50 transition-colors">
-                      <span>View Menu</span>
-                      <ChevronRight className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-
-            {/* Trending Dishes */}
-            <div className="bg-gray-900 rounded-xl p-6 h-[400px] flex flex-col">
-              <h3 className="text-lg font-semibold text-white mb-4">
-                🔥 Trending Dishes
-              </h3>
-              <div className="space-y-4 flex-1">
-                <div className="flex items-center space-x-3 p-3 bg-gray-800/50 rounded-lg">
-                  <img
-                    src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38"
-                    alt="Pizza"
-                    className="w-16 h-16 rounded-lg object-cover"
-                  />
-                  <div className="flex-1">
-                    <h4 className="font-medium text-white">Margherita Pizza</h4>
-                    <p className="text-sm text-gray-400">Pizza Palace</p>
-                  </div>
-                  <span className="text-green-400">$12.99</span>
-                </div>
-                <div className="flex items-center space-x-3 p-3 bg-gray-800/50 rounded-lg">
-                  <img
-                    src="https://images.unsplash.com/photo-1559847844-5315695dadae"
-                    alt="Sushi"
-                    className="w-16 h-16 rounded-lg object-cover"
-                  />
-                  <div className="flex-1">
-                    <h4 className="font-medium text-white">Dragon Roll</h4>
-                    <p className="text-sm text-gray-400">Sushi Master</p>
-                  </div>
-                  <span className="text-green-400">$16.99</span>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      {/* Newsletter Subscription */}
-      <div className="bg-[#1B2333] py-16 mt-12">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <div className="flex justify-center mb-6">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M7 17L17 7M17 7H7M17 7V17" />
-            </svg>
-          </div>
-          <h2 className="text-2xl font-semibold text-white mb-3">
-            Stay Updated with Latest Offers
-          </h2>
-          <p className="text-gray-400 mb-8">
-            Subscribe to our newsletter and never miss out on exclusive deals and promotions.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500"
-            />
-            <button className="px-6 py-3 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition-colors">
-              Subscribe
-            </button>
+            )}
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 }

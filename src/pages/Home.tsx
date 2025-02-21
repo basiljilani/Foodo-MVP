@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Star, Clock, ChevronRight, Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
-import Navigation from '../components/Navigation';
 import FilterSidebar from '../components/FilterSidebar';
 import OptimizedImage from '../components/OptimizedImage';
+import Layout from '../components/Layout';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -18,169 +18,121 @@ export default function Home() {
 
   const categories = [
     { id: 'all', name: 'All', icon: '🍽️' },
-    { id: 'pizza', name: 'Pizza', icon: '🍕' },
-    { id: 'sushi', name: 'Sushi', icon: '🍱' },
-    { id: 'burger', name: 'Burgers', icon: '🍔' },
-    { id: 'healthy', name: 'Healthy', icon: '🥗' },
-    { id: 'dessert', name: 'Desserts', icon: '🍰' },
+    { id: 'biryani', name: 'Biryani', icon: '🍚' },
+    { id: 'karahi', name: 'Karahi', icon: '🥘' },
+    { id: 'bbq', name: 'BBQ', icon: '🍖' },
+    { id: 'nihari', name: 'Nihari', icon: '🥣' },
+    { id: 'paratha', name: 'Paratha', icon: '🫓' },
+    { id: 'chaat', name: 'Chaat', icon: '🥘' },
+    { id: 'dessert', name: 'Mithai', icon: '🍯' },
   ];
 
   const restaurants = [
     {
       id: 1,
-      name: "Luigi's Italian",
-      image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5",
+      name: "Karachi Biryani House",
+      image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8",
       rating: 4.8,
-      openingHours: "11:00 AM - 10:00 PM",
-      tags: ["Italian", "Pizza", "Pasta"],
-      category: "pizza",
+      openingHours: "11:00 AM - 11:00 PM",
+      tags: ["Biryani", "Pakistani", "BBQ"],
+      category: "biryani",
       priceRange: "$$",
-      description: "Authentic Italian cuisine served in a warm, family-friendly atmosphere.",
+      description: "Famous for authentic Karachi-style biryani and BBQ specialties.",
       distance: "1.2 km",
-      estimatedTime: "20-30 min"
+      estimatedTime: "20-30 min",
+      featured: true
     },
     {
       id: 2,
-      name: "Sushi Master",
-      image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c",
+      name: "Lahore Tikka House",
+      image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0",
       rating: 4.9,
-      openingHours: "12:00 PM - 11:00 PM",
-      tags: ["Japanese", "Sushi", "Asian"],
-      category: "sushi",
-      priceRange: "$$$",
-      description: "Premium sushi experience with fish imported daily from Japan.",
+      openingHours: "12:00 PM - 12:00 AM",
+      tags: ["Pakistani", "BBQ", "Karahi"],
+      category: "bbq",
+      priceRange: "$$",
+      description: "Authentic Lahori taste with signature tikka and karahi dishes.",
       distance: "0.8 km",
-      estimatedTime: "15-25 min"
+      estimatedTime: "15-25 min",
+      featured: true
     },
     {
       id: 3,
-      name: "Burger House",
-      image: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
+      name: "Peshawar Namak Mandi",
+      image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84",
       rating: 4.7,
-      openingHours: "11:00 AM - 12:00 AM",
-      tags: ["American", "Burgers", "Fast Food"],
-      category: "burger",
+      openingHours: "1:00 PM - 1:00 AM",
+      tags: ["BBQ", "Karahi", "Traditional"],
+      category: "karahi",
       priceRange: "$$",
-      description: "Gourmet burgers made with 100% Angus beef.",
+      description: "Famous for traditional Peshawari karahi and namkeen tikka.",
       distance: "2.1 km",
       estimatedTime: "25-35 min"
     },
     {
       id: 4,
-      name: "Green Garden",
-      image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
-      rating: 4.6,
-      openingHours: "10:00 AM - 9:00 PM",
-      tags: ["Healthy", "Vegan", "Salads"],
-      category: "healthy",
-      priceRange: "$$",
-      description: "Fresh, organic ingredients in every healthy dish we serve.",
+      name: "Gujranwala Nihari House",
+      image: "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a",
+      rating: 4.8,
+      openingHours: "6:00 AM - 11:00 PM",
+      tags: ["Nihari", "Pakistani", "Traditional"],
+      category: "nihari",
+      priceRange: "$",
+      description: "Serving the most authentic Nihari recipe since generations.",
       distance: "1.5 km",
-      estimatedTime: "15-25 min"
+      estimatedTime: "20-30 min"
     },
     {
       id: 5,
-      name: "Sweet Delights",
-      image: "https://images.unsplash.com/photo-1551024506-0bccd828d307",
-      rating: 4.9,
-      openingHours: "9:00 AM - 10:00 PM",
-      tags: ["Desserts", "Bakery", "Coffee"],
-      category: "dessert",
-      priceRange: "$$",
-      description: "Handcrafted desserts and artisanal coffee in a cozy setting.",
+      name: "Islamabad Chaat Corner",
+      image: "https://images.unsplash.com/photo-1601050690597-df0568f70950",
+      rating: 4.6,
+      openingHours: "11:00 AM - 11:00 PM",
+      tags: ["Chaat", "Street Food", "Snacks"],
+      category: "chaat",
+      priceRange: "$",
+      description: "Famous for gol gappay, dahi bhalla, and special chaat masala.",
       distance: "0.5 km",
-      estimatedTime: "10-20 min"
+      estimatedTime: "15-20 min"
     },
     {
       id: 6,
-      name: "Napoli Pizza",
-      image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002",
-      rating: 4.8,
-      openingHours: "11:30 AM - 11:00 PM",
-      tags: ["Pizza", "Italian", "Wine"],
-      category: "pizza",
-      priceRange: "$$",
-      description: "Authentic Neapolitan pizza made in a wood-fired oven.",
-      distance: "1.8 km",
-      estimatedTime: "25-35 min"
+      name: "Rawalpindi Paratha House",
+      image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641",
+      rating: 4.7,
+      openingHours: "6:00 AM - 11:00 PM",
+      tags: ["Breakfast", "Paratha", "Traditional"],
+      category: "paratha",
+      priceRange: "$",
+      description: "Best breakfast spot famous for crispy parathas and lassi.",
+      distance: "1.0 km",
+      estimatedTime: "15-25 min"
     },
     {
       id: 7,
-      name: "Tokyo Ramen",
-      image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624",
-      rating: 4.7,
-      openingHours: "11:00 AM - 10:30 PM",
-      tags: ["Japanese", "Ramen", "Asian"],
-      category: "sushi",
+      name: "Hyderabad Sweet House",
+      image: "https://images.unsplash.com/photo-1615832494873-b0c52d519696",
+      rating: 4.8,
+      openingHours: "9:00 AM - 11:00 PM",
+      tags: ["Mithai", "Desserts", "Traditional"],
+      category: "dessert",
       priceRange: "$$",
-      description: "Authentic Japanese ramen with homemade noodles.",
-      distance: "1.3 km",
+      description: "Famous for traditional Pakistani sweets and desserts.",
+      distance: "1.8 km",
       estimatedTime: "20-30 min"
     },
     {
       id: 8,
-      name: "Veggie Paradise",
-      image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352",
-      rating: 4.5,
-      openingHours: "10:00 AM - 9:30 PM",
-      tags: ["Vegetarian", "Healthy", "Organic"],
-      category: "healthy",
-      priceRange: "$$",
-      description: "Creative vegetarian dishes using local organic produce.",
-      distance: "2.0 km",
-      estimatedTime: "25-35 min"
-    },
-    {
-      id: 9,
-      name: "Gourmet Burgers",
-      image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
-      rating: 4.8,
-      openingHours: "11:00 AM - 11:00 PM",
-      tags: ["Burgers", "American", "Craft Beer"],
-      category: "burger",
-      priceRange: "$$$",
-      description: "Premium burgers with unique toppings and craft beers.",
-      distance: "1.6 km",
-      estimatedTime: "20-30 min"
-    },
-    {
-      id: 10,
-      name: "Sweet Dreams",
-      image: "https://images.unsplash.com/photo-1488477181946-6428a0291777",
-      rating: 4.9,
-      openingHours: "10:00 AM - 10:00 PM",
-      tags: ["Desserts", "Ice Cream", "Pastries"],
-      category: "dessert",
-      priceRange: "$$",
-      description: "Homemade ice cream and freshly baked pastries.",
-      distance: "0.9 km",
-      estimatedTime: "15-25 min"
-    },
-    {
-      id: 11,
-      name: "Mediterranean Delight",
-      image: "https://images.unsplash.com/photo-1544941968-1c6665ec9c17",
+      name: "Multan Food Street",
+      image: "https://images.unsplash.com/photo-1628294895950-9805252327bc",
       rating: 4.7,
-      openingHours: "11:00 AM - 10:00 PM",
-      tags: ["Mediterranean", "Healthy", "Seafood"],
-      category: "healthy",
-      priceRange: "$$$",
-      description: "Fresh Mediterranean cuisine with a modern twist.",
-      distance: "1.7 km",
+      openingHours: "11:00 AM - 12:00 AM",
+      tags: ["BBQ", "Traditional", "Street Food"],
+      category: "bbq",
+      priceRange: "$$",
+      description: "Authentic Multani flavors with special sohan halwa.",
+      distance: "2.5 km",
       estimatedTime: "25-35 min"
-    },
-    {
-      id: 12,
-      name: "Sushi Fusion",
-      image: "https://images.unsplash.com/photo-1553621042-f6e147245754",
-      rating: 4.6,
-      openingHours: "12:00 PM - 10:30 PM",
-      tags: ["Sushi", "Fusion", "Asian"],
-      category: "sushi",
-      priceRange: "$$$",
-      description: "Creative sushi rolls with a contemporary fusion twist.",
-      distance: "1.4 km",
-      estimatedTime: "20-30 min"
     }
   ];
 
@@ -207,149 +159,152 @@ export default function Home() {
     }
   };
 
+  const handleRestaurantClick = (restaurantId: number) => {
+    navigate(`/restaurant/${restaurantId}`);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation />
-
-      {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 bg-gradient-to-b from-red-50 to-white">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAzNGM0LjQxOCAwIDgtMy41ODIgOC04cy0zLjU4Mi04LTgtOC04IDMuNTgyLTggOCAzLjU4MiA4IDggOHoiIHN0cm9rZT0iI0ZFRTJFMiIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9nPjwvc3ZnPg==')] opacity-40"></div>
-        </div>
-
-        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center">
-            <motion.h1 
-              className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              Delicious Food,
-              <br />
-              <span className="text-red-500">Delivered to You</span>
-            </motion.h1>
-            <motion.p 
-              className="text-lg text-gray-600 max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              Discover the best restaurants in your area. From local favorites to new tastes, we bring it all to your doorstep.
-            </motion.p>
+    <Layout>
+      <div className="bg-white">
+        {/* Hero Section */}
+        <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 bg-gradient-to-b from-red-50 to-white">
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAzNGM0LjQxOCAwIDgtMy41ODIgOC04cy0zLjU4Mi04LTgtOC04IDMuNTgyLTggOCAzLjU4MiA4IDggOHoiIHN0cm9rZT0iI0ZFRTJFMiIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9nPjwvc3ZnPg==')] opacity-40"></div>
           </div>
-        </div>
 
-        {/* Decorative Elements */}
-        <motion.div 
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-56 h-56 bg-red-200 rounded-full blur-3xl opacity-30"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.3 }}
-          transition={{ duration: 1 }}
-        />
-        <motion.div 
-          className="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 w-72 h-72 bg-orange-200 rounded-full blur-3xl opacity-30"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.3 }}
-          transition={{ duration: 1, delay: 0.3 }}
-        />
-      </section>
+          <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="text-center">
+              <motion.h1 
+                className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                Delicious Food,
+                <br />
+                <span className="text-red-500">Delivered to You</span>
+              </motion.h1>
+              <motion.p 
+                className="text-lg text-gray-600 max-w-2xl mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                Discover the best restaurants in your area. From local favorites to new tastes, we bring it all to your doorstep.
+              </motion.p>
+            </div>
+          </div>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex gap-8">
-          {/* Sidebar */}
-          <motion.div
-            className="hidden md:block flex-none"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <FilterSidebar 
-              onFilterChange={setFilters} 
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-            />
-          </motion.div>
+          {/* Decorative Elements */}
+          <motion.div 
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-56 h-56 bg-red-200 rounded-full blur-3xl opacity-30"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.3 }}
+            transition={{ duration: 1 }}
+          />
+          <motion.div 
+            className="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 w-72 h-72 bg-orange-200 rounded-full blur-3xl opacity-30"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.3 }}
+            transition={{ duration: 1, delay: 0.3 }}
+          />
+        </section>
 
-          {/* Restaurant Grid */}
-          <div className="flex-grow">
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+        {/* Main Content */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex gap-8">
+            {/* Sidebar */}
+            <motion.div
+              className="hidden md:block flex-none"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              {filteredRestaurants.map((restaurant, index) => (
-                <motion.div
-                  key={restaurant.id}
-                  className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden cursor-pointer"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  onClick={() => navigate(`/restaurant/${restaurant.id}`)}
-                >
-                  {/* Restaurant Image */}
-                  <div className="relative h-48">
-                    <OptimizedImage
-                      src={restaurant.image}
-                      alt={restaurant.name}
-                      className="w-full h-full"
-                      width={400}
-                      height={300}
-                    />
-                    <button 
-                      className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        // Add to favorites logic here
-                      }}
-                    >
-                      <Heart className="w-5 h-5 text-red-500" />
-                    </button>
-                  </div>
-
-                  {/* Restaurant Info */}
-                  <div className="p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900">{restaurant.name}</h3>
-                      <div className="flex items-center">
-                        <Star className="w-4 h-4 text-yellow-400 mr-1" />
-                        <span className="text-sm font-medium text-gray-900">{restaurant.rating}</span>
-                      </div>
-                    </div>
-
-                    <p className="text-sm text-gray-600 mb-3">{restaurant.description}</p>
-
-                    <div className="flex items-center text-sm text-gray-500 space-x-4">
-                      <div className="flex items-center">
-                        <MapPin className="w-4 h-4 mr-1" />
-                        <span>{restaurant.distance}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Clock className="w-4 h-4 mr-1" />
-                        <span>{restaurant.estimatedTime}</span>
-                      </div>
-                    </div>
-
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {restaurant.tags.map((tag, i) => (
-                        <span 
-                          key={i}
-                          className="px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+              <FilterSidebar 
+                onFilterChange={setFilters} 
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+              />
             </motion.div>
+
+            {/* Restaurant Grid */}
+            <div className="flex-grow">
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                {filteredRestaurants.map((restaurant) => (
+                  <motion.div
+                    key={restaurant.id}
+                    className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all cursor-pointer"
+                    onClick={() => handleRestaurantClick(restaurant.id)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {/* Restaurant Image */}
+                    <div className="relative h-48">
+                      <OptimizedImage
+                        src={restaurant.image}
+                        alt={restaurant.name}
+                        className="w-full h-full"
+                        width={400}
+                        height={300}
+                      />
+                      <button 
+                        className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // Add to favorites logic here
+                        }}
+                      >
+                        <Heart className="w-5 h-5 text-red-500" />
+                      </button>
+                    </div>
+
+                    {/* Restaurant Info */}
+                    <div className="p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="text-lg font-semibold text-gray-900">{restaurant.name}</h3>
+                        <div className="flex items-center">
+                          <Star className="w-4 h-4 text-yellow-400 mr-1" />
+                          <span className="text-sm font-medium text-gray-900">{restaurant.rating}</span>
+                        </div>
+                      </div>
+
+                      <p className="text-sm text-gray-600 mb-3">{restaurant.description}</p>
+
+                      <div className="flex items-center text-sm text-gray-500 space-x-4">
+                        <div className="flex items-center">
+                          <MapPin className="w-4 h-4 mr-1" />
+                          <span>{restaurant.distance}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Clock className="w-4 h-4 mr-1" />
+                          <span>{restaurant.estimatedTime}</span>
+                        </div>
+                      </div>
+
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {restaurant.tags.map((tag, i) => (
+                          <span 
+                            key={i}
+                            className="px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
           </div>
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </Layout>
   );
 }
