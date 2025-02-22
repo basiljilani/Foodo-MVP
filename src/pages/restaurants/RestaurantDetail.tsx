@@ -73,7 +73,7 @@ export default function RestaurantDetail() {
     priceRange: "$$",
     cuisine: "Pakistani, Biryani, BBQ",
     address: "Block 2, Gulshan-e-Iqbal, Karachi",
-    phone: "+92 321 1234567",
+    phone: "+92 300 8853 111",
     email: "contact@karachibiryani.com",
     openingHours: {
       Mon: "11:00 AM - 11:00 PM",
