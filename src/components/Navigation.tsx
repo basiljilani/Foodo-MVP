@@ -20,8 +20,6 @@ export default function Navigation() {
     return '';
   };
 
-  const activeTab = getCurrentTab();
-
   const isActive = (path) => {
     return location.pathname === path;
   };
@@ -51,7 +49,6 @@ export default function Navigation() {
                 >
                   Home
                 </Link>
-
                 <Link
                   to="/offers"
                   className={`text-sm font-medium transition-colors duration-200 ${
@@ -62,18 +59,16 @@ export default function Navigation() {
                 >
                   Offers
                 </Link>
-
                 <Link
-                  to="/recipes"
+                  to="/foodo-ai"
                   className={`text-sm font-medium transition-colors duration-200 ${
-                    isActive('/recipes')
+                    isActive('/foodo-ai')
                       ? 'text-red-600 border-b-2 border-red-600 pb-1'
                       : 'text-gray-500 hover:text-gray-900'
                   }`}
                 >
-                  Recipes
+                  Foodo AI
                 </Link>
-
                 <Link
                   to="/help"
                   className={`text-sm font-medium transition-colors duration-200 ${
@@ -83,20 +78,6 @@ export default function Navigation() {
                   }`}
                 >
                   Help
-                </Link>
-
-                <Link
-                  to="/foodo-ai"
-                  className={`text-sm font-medium transition-colors duration-200 ${
-                    isActive('/foodo-ai')
-                      ? 'text-red-600 border-b-2 border-red-600 pb-1'
-                      : 'text-gray-500 hover:text-gray-900'
-                  } flex items-center`}
-                >
-                  Foodo AI
-                  <span className="ml-1 px-1.5 py-0.5 text-xs font-medium bg-red-100 text-red-600 rounded">
-                    Beta
-                  </span>
                 </Link>
               </div>
             </div>
@@ -113,7 +94,7 @@ export default function Navigation() {
               </button>
 
               {/* Mobile menu button */}
-              <div className="flex md:hidden">
+              <div className="md:hidden">
                 <button
                   onClick={() => setMenuOpen(!menuOpen)}
                   className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-500"
@@ -137,59 +118,42 @@ export default function Navigation() {
               <Link
                 to="/home"
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  activeTab === 'home'
-                    ? 'text-red-600 bg-red-50'
-                    : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
+                  isActive('/home')
+                    ? 'bg-red-50 text-red-600'
+                    : 'text-gray-700 hover:bg-gray-50'
                 }`}
               >
                 Home
               </Link>
-
               <Link
                 to="/offers"
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  activeTab === 'offers'
-                    ? 'text-red-600 bg-red-50'
-                    : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
+                  isActive('/offers')
+                    ? 'bg-red-50 text-red-600'
+                    : 'text-gray-700 hover:bg-gray-50'
                 }`}
               >
                 Offers
               </Link>
-
-              <Link
-                to="/recipes"
-                className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  activeTab === 'recipes'
-                    ? 'text-red-600 bg-red-50'
-                    : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
-                }`}
-              >
-                Recipes
-              </Link>
-
-              <Link
-                to="/help"
-                className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  activeTab === 'help'
-                    ? 'text-red-600 bg-red-50'
-                    : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
-                }`}
-              >
-                Help
-              </Link>
-
               <Link
                 to="/foodo-ai"
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  activeTab === 'foodo-ai'
-                    ? 'text-red-600 bg-red-50'
-                    : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
+                  isActive('/foodo-ai')
+                    ? 'bg-red-50 text-red-600'
+                    : 'text-gray-700 hover:bg-gray-50'
                 }`}
               >
                 Foodo AI
-                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-600">
-                  Beta
-                </span>
+              </Link>
+              <Link
+                to="/help"
+                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                  isActive('/help')
+                    ? 'bg-red-50 text-red-600'
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                Help
               </Link>
             </div>
           </div>

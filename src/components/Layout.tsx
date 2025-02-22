@@ -16,8 +16,7 @@ export default function Layout({ children }: LayoutProps) {
   const noFooterPages = ['/foodo-ai', '/profile', ...noNavFooterPages];
   
   const shouldShowNav = !noNavFooterPages.includes(path);
-  // Remove /home from noFooterPages check
-  const shouldShowFooter = true;
+  const shouldShowFooter = !noFooterPages.includes(path);
 
   return (
     <div className="min-h-screen flex flex-col">

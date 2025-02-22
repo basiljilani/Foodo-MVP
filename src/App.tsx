@@ -17,6 +17,8 @@ import Notifications from './pages/profile/Notifications';
 import Security from './pages/profile/Security';
 import FoodoAI from './pages/FoodoAI';
 import RestaurantDetail from './pages/restaurants/RestaurantDetail';
+import Partner from './pages/Partner';
+import Cart from './pages/Cart';
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
             <Route path="/help" element={<Help />} />
             <Route path="/foodo-ai" element={<FoodoAI />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/partner" element={<Partner />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/preferences" element={<Preferences />} />
             <Route path="/profile/payment" element={<Payment />} />

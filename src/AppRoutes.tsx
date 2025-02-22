@@ -24,6 +24,7 @@ import Orders from './pages/Orders';
 import Payment from './pages/Payment';
 import Settings from './pages/Settings';
 import Preferences from './pages/Preferences';
+import Partner from './pages/Partner';
 
 // Protected Route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -78,12 +79,13 @@ export default function AppRoutes() {
   return (
     <Routes>
       {/* Public routes - redirect to home if authenticated */}
-      <Route path="/" element={<Navigate to="/home" />} />
+      <Route path="/" element={<Navigate to="/home" replace />} />
       <Route path="/auth" element={<PublicRoute><Auth /></PublicRoute>} />
       <Route path="/features" element={<Features />} />
       <Route path="/how-it-works" element={<HowItWorks />} />
       <Route path="/testimonials" element={<Testimonials />} />
       <Route path="/about" element={<About />} />
+      <Route path="/partner" element={<Partner />} />
       
       {/* Semi-protected routes - accessible to both logged in and non-logged in users */}
       <Route path="/restaurant/:id" element={<RestaurantDetail />} />

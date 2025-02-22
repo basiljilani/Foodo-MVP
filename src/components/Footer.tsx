@@ -11,7 +11,7 @@ export default function Footer() {
       { name: 'Testimonials', href: '/testimonials' },
       { name: 'About Us', href: '/about' },
       { name: 'Careers', href: '#' },
-      { name: 'Partner with Us', href: '#' },
+      { name: 'Partner with Us', href: '/partner' },
       { name: 'Blog', href: '#' }
     ],
     support: [

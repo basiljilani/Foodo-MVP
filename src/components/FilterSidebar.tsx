@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Star, Clock, DollarSign, Filter, Search } from 'lucide-react';
+import CartButton from './CartButton';
 
 interface FilterSidebarProps {
   onFilterChange: (filters: any) => void;
@@ -112,6 +113,9 @@ export default function FilterSidebar({ onFilterChange, searchQuery, onSearchCha
 
   return (
     <div className="w-64 bg-white rounded-lg shadow-sm p-6">
+      {/* Cart Button */}
+      <CartButton />
+
       <div className="flex items-center space-x-2 mb-6">
         <Filter className="h-5 w-5 text-gray-500" />
         <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
