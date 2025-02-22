@@ -27,48 +27,42 @@ export default function Partner() {
     }
   ];
 
-  const plans = [
+  const pricingPlans = [
     {
-      name: "Starter",
-      price: "20",
-      description: "Perfect for new restaurants testing the waters",
+      name: "Basic",
+      price: "6,000",
+      description: "Perfect for small restaurants just getting started",
       features: [
-        "List your restaurant on Foodo",
         "Basic restaurant profile",
-        "Menu management tools",
-        "Customer support",
-        "Basic analytics",
-        "Up to 50 orders/month"
-      ],
-      popular: false
+        "Menu management",
+        "Order management",
+        "Customer reviews",
+        "Basic analytics"
+      ]
     },
     {
-      name: "Growth",
-      price: "50",
-      description: "Ideal for established restaurants looking to expand",
+      name: "Pro",
+      price: "14,000",
+      description: "Ideal for growing restaurants with regular orders",
       features: [
-        "Everything in Starter, plus:",
-        "Featured in search results",
-        "Advanced analytics",
+        "Everything in Basic",
         "Priority customer support",
+        "Advanced analytics",
         "Marketing tools",
-        "Unlimited orders"
-      ],
-      popular: true
+        "Inventory management"
+      ]
     },
     {
-      name: "Premium",
-      price: "100",
-      description: "For restaurants that want the complete package",
+      name: "Enterprise",
+      price: "28,000",
+      description: "For established restaurants with high order volume",
       features: [
-        "Everything in Growth, plus:",
-        "Premium placement in search",
+        "Everything in Pro",
         "Dedicated account manager",
-        "Custom promotions",
+        "Custom integrations",
         "Advanced marketing tools",
-        "API access"
-      ],
-      popular: false
+        "Multi-location support"
+      ]
     }
   ];
 
@@ -128,64 +122,43 @@ export default function Partner() {
             </div>
           </div>
 
-          {/* Pricing Section */}
-          <div className="py-20 bg-gray-50">
+          {/* Pricing Plans */}
+          <div className="py-12 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                  Simple, Transparent Pricing
-                </h2>
-                <p className="text-xl text-gray-600">
-                  Choose the plan that best fits your restaurant's needs
-                </p>
+              <div className="text-center">
+                <h2 className="text-3xl font-bold text-gray-900">Simple, Transparent Pricing</h2>
+                <p className="mt-4 text-lg text-gray-600">Choose the plan that best fits your business needs</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {plans.map((plan, index) => (
-                  <motion.div
-                    key={plan.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className={`relative bg-white rounded-2xl shadow-lg overflow-hidden ${
-                      plan.popular ? 'ring-2 ring-[#FF3838]' : ''
-                    }`}
-                  >
-                    {plan.popular && (
-                      <div className="absolute top-0 right-0 bg-[#FF3838] text-white px-4 py-1 rounded-bl-lg text-sm font-medium">
-                        Most Popular
-                      </div>
-                    )}
+
+              <div className="mt-12 space-y-4 sm:mt-16 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0 xl:grid-cols-3">
+                {pricingPlans.map((plan) => (
+                  <div key={plan.name} className="bg-white border border-gray-200 rounded-3xl shadow-sm divide-y divide-gray-200 transition-all duration-300 hover:shadow-xl hover:scale-[1.02]">
                     <div className="p-8">
-                      <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                        {plan.name}
-                      </h3>
-                      <div className="flex items-baseline mb-4">
-                        <span className="text-4xl font-bold text-gray-900">$</span>
-                        <span className="text-6xl font-bold text-gray-900">
-                          {plan.price}
-                        </span>
-                        <span className="text-gray-600 ml-2">/month</span>
+                      <h3 className="text-xl font-semibold text-gray-900">{plan.name}</h3>
+                      <p className="mt-4 text-sm text-gray-500">{plan.description}</p>
+                      <div className="mt-8 flex items-baseline">
+                        <span className="text-2xl font-medium text-gray-900">Rs.</span>
+                        <span className="text-5xl font-bold tracking-tight text-gray-900 ml-1">{plan.price}</span>
+                        <span className="text-base font-medium text-gray-500 ml-2">/month</span>
                       </div>
-                      <p className="text-gray-600 mb-6">{plan.description}</p>
-                      <ul className="space-y-4 mb-8">
+                      <button
+                        className="mt-8 block w-full bg-red-600 border border-transparent rounded-2xl py-3 text-sm font-semibold text-white text-center hover:bg-red-700 transition-colors duration-300"
+                      >
+                        Get started with {plan.name}
+                      </button>
+                    </div>
+                    <div className="px-8 pt-6 pb-8">
+                      <h4 className="text-sm font-medium text-gray-900">What's included</h4>
+                      <ul className="mt-6 space-y-4">
                         {plan.features.map((feature) => (
-                          <li key={feature} className="flex items-start">
-                            <Check className="w-5 h-5 text-[#FF3838] mr-3 mt-0.5" />
-                            <span>{feature}</span>
+                          <li key={feature} className="flex space-x-3">
+                            <Check className="flex-shrink-0 h-5 w-5 text-green-500" aria-hidden="true" />
+                            <span className="text-sm text-gray-500">{feature}</span>
                           </li>
                         ))}
                       </ul>
-                      <button
-                        className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${
-                          plan.popular
-                            ? 'bg-[#FF3838] text-white hover:bg-[#FF4D4D]'
-                            : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                        }`}
-                      >
-                        Choose {plan.name}
-                      </button>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
