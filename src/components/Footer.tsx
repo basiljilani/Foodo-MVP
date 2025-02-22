@@ -21,9 +21,9 @@ export default function Footer() {
       { name: 'Privacy Policy', href: '#' }
     ],
     contact: [
-      { icon: Mail, text: 'support@foodo.com' },
-      { icon: Phone, text: '+1 (555) 123-4567' },
-      { icon: MapPin, text: '123 Food Street, NY 10001' },
+      { icon: Mail, text: 'support@hifoodo.com' },
+      { icon: Phone, text: '+92 300 8853 111' },
+      { icon: MapPin, text: 'Evacuee Trust Complex' },
       { icon: Clock, text: 'Mon-Sun 24/7' }
     ]
   };
