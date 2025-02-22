@@ -38,7 +38,8 @@ export default function Partner() {
         "Order management",
         "Customer reviews",
         "Basic analytics"
-      ]
+      ],
+      recommended: false
     },
     {
       name: "Pro",
@@ -50,7 +51,8 @@ export default function Partner() {
         "Advanced analytics",
         "Marketing tools",
         "Inventory management"
-      ]
+      ],
+      recommended: true
     },
     {
       name: "Enterprise",
@@ -62,7 +64,8 @@ export default function Partner() {
         "Custom integrations",
         "Advanced marketing tools",
         "Multi-location support"
-      ]
+      ],
+      recommended: false
     }
   ];
 
@@ -132,17 +135,35 @@ export default function Partner() {
 
               <div className="mt-12 space-y-4 sm:mt-16 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0 xl:grid-cols-3">
                 {pricingPlans.map((plan) => (
-                  <div key={plan.name} className="bg-white border border-gray-200 rounded-3xl shadow-sm divide-y divide-gray-200 transition-all duration-300 hover:shadow-xl hover:scale-[1.02]">
+                  <div 
+                    key={plan.name} 
+                    className={`relative bg-white border ${
+                      plan.recommended 
+                        ? 'border-red-200 ring-2 ring-red-500' 
+                        : 'border-gray-200'
+                    } rounded-3xl shadow-sm divide-y divide-gray-200 transition-all duration-300 hover:shadow-xl hover:scale-[1.02]`}
+                  >
+                    {plan.recommended && (
+                      <div className="absolute -top-5 inset-x-0 flex justify-center">
+                        <span className="inline-flex rounded-full bg-red-100 px-4 py-1 text-sm font-semibold text-red-600">
+                          Recommended
+                        </span>
+                      </div>
+                    )}
                     <div className="p-8">
                       <h3 className="text-xl font-semibold text-gray-900">{plan.name}</h3>
-                      <p className="mt-4 text-sm text-gray-500">{plan.description}</p>
+                      <p className="mt-4 text-sm text-gray-500 min-h-[40px]">{plan.description}</p>
                       <div className="mt-8 flex items-baseline">
                         <span className="text-2xl font-medium text-gray-900">Rs.</span>
                         <span className="text-5xl font-bold tracking-tight text-gray-900 ml-1">{plan.price}</span>
                         <span className="text-base font-medium text-gray-500 ml-2">/month</span>
                       </div>
                       <button
-                        className="mt-8 block w-full bg-red-600 border border-transparent rounded-2xl py-3 text-sm font-semibold text-white text-center hover:bg-red-700 transition-colors duration-300"
+                        className={`mt-8 block w-full border border-transparent rounded-2xl py-3 text-sm font-semibold text-center transition-colors duration-300 ${
+                          plan.recommended
+                            ? 'bg-red-600 text-white hover:bg-red-700'
+                            : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                        }`}
                       >
                         Get started with {plan.name}
                       </button>
@@ -152,7 +173,7 @@ export default function Partner() {
                       <ul className="mt-6 space-y-4">
                         {plan.features.map((feature) => (
                           <li key={feature} className="flex space-x-3">
-                            <Check className="flex-shrink-0 h-5 w-5 text-green-500" aria-hidden="true" />
+                            <Check className={`flex-shrink-0 h-5 w-5 ${plan.recommended ? 'text-red-500' : 'text-green-500'}`} aria-hidden="true" />
                             <span className="text-sm text-gray-500">{feature}</span>
                           </li>
                         ))}
