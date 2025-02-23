@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Star, Clock, ChevronRight, Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
 import FilterSidebar from '../components/FilterSidebar';
 import OptimizedImage from '../components/OptimizedImage';
 import Layout from '../components/Layout';
+import { supabase } from '../lib/supabase';
 
 export default function Home() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [realRestaurants, setRealRestaurants] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState({
     categories: [],
     priceRange: [],
@@ -136,15 +139,33 @@ export default function Home() {
     }
   ];
 
-  const filteredRestaurants = restaurants.filter(restaurant => {
-    const matchesCategory = filters.categories.length === 0 || filters.categories.includes(restaurant.category);
-    const matchesPriceRange = filters.priceRange.length === 0 || filters.priceRange.includes(restaurant.priceRange);
-    const matchesRating = filters.rating === null || restaurant.rating >= filters.rating;
-    const matchesDeliveryTime = filters.deliveryTime === null || restaurant.estimatedTime <= filters.deliveryTime;
-    const matchesSearch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      restaurant.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesCategory && matchesPriceRange && matchesRating && matchesDeliveryTime && matchesSearch;
-  });
+  // Fetch real restaurants from Supabase
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('restaurants')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('Error fetching restaurants:', error);
+          return;
+        }
+
+        setRealRestaurants(data || []);
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchRestaurants();
+  }, []);
+
+  // Combine mock and real restaurants
+  const allRestaurants = [...restaurants, ...realRestaurants];
 
   const handleTabClick = (tab: string) => {
     switch (tab) {
@@ -231,75 +252,98 @@ export default function Home() {
             {/* Restaurant Grid */}
             <div className="flex-grow">
               <motion.div 
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                {filteredRestaurants.map((restaurant) => (
-                  <motion.div
-                    key={restaurant.id}
-                    className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all cursor-pointer"
-                    onClick={() => handleRestaurantClick(restaurant.id)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {/* Restaurant Image */}
-                    <div className="relative h-48">
-                      <OptimizedImage
-                        src={restaurant.image}
-                        alt={restaurant.name}
-                        className="w-full h-full"
-                        width={400}
-                        height={300}
-                      />
-                      <button 
-                        className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // Add to favorites logic here
-                        }}
+                {isLoading ? (
+                  // Add loading skeletons
+                  Array(3).fill(0).map((_, index) => (
+                    <div key={`skeleton-${index}`} className="animate-pulse">
+                      <div className="bg-gray-200 h-48 rounded-lg mb-4"></div>
+                      <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                      <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                    </div>
+                  ))
+                ) : (
+                  allRestaurants
+                    .filter(restaurant => {
+                      const matchesSearch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                          restaurant.description.toLowerCase().includes(searchQuery.toLowerCase());
+                      const matchesCategory = filters.categories.length === 0 || 
+                                            filters.categories.includes(restaurant.category);
+                      const matchesPriceRange = filters.priceRange.length === 0 || 
+                                              filters.priceRange.includes(restaurant.priceRange);
+                      const matchesRating = !filters.rating || restaurant.rating >= filters.rating;
+                      
+                      return matchesSearch && matchesCategory && matchesPriceRange && matchesRating;
+                    })
+                    .map((restaurant) => (
+                      <motion.div
+                        key={restaurant.id}
+                        className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-all cursor-pointer"
+                        onClick={() => handleRestaurantClick(restaurant.id)}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                       >
-                        <Heart className="w-5 h-5 text-red-500" />
-                      </button>
-                    </div>
-
-                    {/* Restaurant Info */}
-                    <div className="p-4">
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900">{restaurant.name}</h3>
-                        <div className="flex items-center">
-                          <Star className="w-4 h-4 text-yellow-400 mr-1" />
-                          <span className="text-sm font-medium text-gray-900">{restaurant.rating}</span>
-                        </div>
-                      </div>
-
-                      <p className="text-sm text-gray-600 mb-3">{restaurant.description}</p>
-
-                      <div className="flex items-center text-sm text-gray-500 space-x-4">
-                        <div className="flex items-center">
-                          <MapPin className="w-4 h-4 mr-1" />
-                          <span>{restaurant.distance}</span>
-                        </div>
-                        <div className="flex items-center">
-                          <Clock className="w-4 h-4 mr-1" />
-                          <span>{restaurant.estimatedTime}</span>
-                        </div>
-                      </div>
-
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {restaurant.tags.map((tag, i) => (
-                          <span 
-                            key={i}
-                            className="px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full"
+                        {/* Restaurant Image */}
+                        <div className="relative h-48">
+                          <OptimizedImage
+                            src={restaurant.image}
+                            alt={restaurant.name}
+                            className="w-full h-full"
+                            width={400}
+                            height={300}
+                          />
+                          <button 
+                            className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              // Add to favorites logic here
+                            }}
                           >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
+                            <Heart className="w-5 h-5 text-red-500" />
+                          </button>
+                        </div>
+
+                        {/* Restaurant Info */}
+                        <div className="p-4">
+                          <div className="flex justify-between items-start mb-2">
+                            <h3 className="text-lg font-semibold text-gray-900">{restaurant.name}</h3>
+                            <div className="flex items-center">
+                              <Star className="w-4 h-4 text-yellow-400 mr-1" />
+                              <span className="text-sm font-medium text-gray-900">{restaurant.rating}</span>
+                            </div>
+                          </div>
+
+                          <p className="text-sm text-gray-600 mb-3">{restaurant.description}</p>
+
+                          <div className="flex items-center text-sm text-gray-500 space-x-4">
+                            <div className="flex items-center">
+                              <MapPin className="w-4 h-4 mr-1" />
+                              <span>{restaurant.distance}</span>
+                            </div>
+                            <div className="flex items-center">
+                              <Clock className="w-4 h-4 mr-1" />
+                              <span>{restaurant.estimatedTime}</span>
+                            </div>
+                          </div>
+
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {restaurant.tags.map((tag, i) => (
+                              <span 
+                                key={i}
+                                className="px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))
+                )}
               </motion.div>
             </div>
           </div>
