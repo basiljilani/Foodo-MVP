@@ -26,24 +26,24 @@ export default function Navigation() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
-        <div className="max-w-[1280px] mx-auto px-1">
-          <div className="flex h-[42px] md:h-16 items-center justify-between">
+      <nav className="fixed top-0 left-0 right-0 bg-white shadow z-50">
+        <div className="max-w-[1280px] mx-auto px-4">
+          <div className="flex h-[56px] items-center justify-between">
             {/* Logo */}
             <div className="flex-shrink-0">
               <Link to="/" className="flex items-center">
-                <FoodoLogo className="h-6 md:h-8" />
+                <FoodoLogo className="h-7" />
               </Link>
             </div>
 
             {/* Navigation Links - Centered */}
             <div className="hidden md:flex flex-1 justify-center">
-              <div className="flex items-center space-x-8">
+              <div className="flex items-center space-x-10">
                 <Link
                   to="/home"
-                  className={`text-sm font-medium transition-colors duration-200 ${
+                  className={`text-base font-medium transition-colors duration-200 ${
                     isActive('/home')
-                      ? 'text-red-600 border-b-2 border-red-600'
+                      ? 'text-red-600'
                       : 'text-gray-500 hover:text-gray-900'
                   }`}
                 >
@@ -51,9 +51,9 @@ export default function Navigation() {
                 </Link>
                 <Link
                   to="/offers"
-                  className={`text-sm font-medium transition-colors duration-200 ${
+                  className={`text-base font-medium transition-colors duration-200 ${
                     isActive('/offers')
-                      ? 'text-red-600 border-b-2 border-red-600'
+                      ? 'text-red-600'
                       : 'text-gray-500 hover:text-gray-900'
                   }`}
                 >
@@ -61,9 +61,9 @@ export default function Navigation() {
                 </Link>
                 <Link
                   to="/foodo-ai"
-                  className={`text-sm font-medium transition-colors duration-200 ${
+                  className={`text-base font-medium transition-colors duration-200 ${
                     isActive('/foodo-ai')
-                      ? 'text-red-600 border-b-2 border-red-600'
+                      ? 'text-red-600'
                       : 'text-gray-500 hover:text-gray-900'
                   }`}
                 >
@@ -71,9 +71,9 @@ export default function Navigation() {
                 </Link>
                 <Link
                   to="/help"
-                  className={`text-sm font-medium transition-colors duration-200 ${
+                  className={`text-base font-medium transition-colors duration-200 ${
                     isActive('/help')
-                      ? 'text-red-600 border-b-2 border-red-600'
+                      ? 'text-red-600'
                       : 'text-gray-500 hover:text-gray-900'
                   }`}
                 >
@@ -87,7 +87,7 @@ export default function Navigation() {
               {/* Near Me Button */}
               <button
                 onClick={() => setIsNearMeModalOpen(true)}
-                className="group flex items-center space-x-2 rounded-lg bg-red-50 px-4 py-2 text-sm font-medium text-red-600 transition-all hover:bg-red-100"
+                className="group flex items-center space-x-2 rounded-lg bg-red-50 px-5 py-2.5 text-base font-medium text-red-600 transition-all hover:bg-red-100"
               >
                 <Map className="h-5 w-5 transition-transform group-hover:scale-110" />
                 <span>Near Me</span>

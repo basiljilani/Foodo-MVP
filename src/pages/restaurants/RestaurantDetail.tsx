@@ -19,6 +19,7 @@ import { ClockIcon, GiftIcon, StarIcon } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
 import Layout from '../../components/Layout';
 import Breadcrumb from '../../components/Breadcrumb';
+import RestaurantHero from '../../components/RestaurantHero';
 
 // Add CSS for hiding scrollbar and category animation
 const customStyles = `
@@ -153,178 +154,126 @@ const RestaurantDetail = () => {
   const restaurantId = parseInt(id || '1');
 
   // Sample menu items
-  const menuItems: MenuItem[] = [
+  const menuItems = [
+    // Popular Items
     {
-      id: 1,
-      name: "Chicken Biryani",
-      description: "Aromatic rice cooked with tender chicken pieces and special spices",
-      price: "Rs. 350",
-      category: "Biryani",
-      image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8"
+      name: "Special Chicken Biryani",
+      description: "Our signature biryani with tender chicken and aromatic rice",
+      price: "400",
+      image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop&q=60",
+      category: "Popular"
     },
     {
-      id: 2,
-      name: "Mutton Karahi",
-      description: "Tender mutton cooked in a spicy tomato-based gravy",
-      price: "Rs. 450",
-      category: "Curries",
-      image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0"
+      name: "Family Pack Deal",
+      description: "2 full biryani, 4 seekh kebabs, 2 drinks",
+      price: "1,499",
+      image: "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=800&auto=format&fit=crop&q=60",
+      category: "Popular"
     },
     {
-      id: 3,
       name: "Seekh Kebab",
       description: "Minced meat kebabs with herbs and spices",
-      price: "Rs. 300",
-      category: "BBQ",
-      image: "https://images.unsplash.com/photo-1512058564366-18510be2db19"
+      price: "300",
+      image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=800&auto=format&fit=crop&q=60",
+      category: "Popular"
+    },
+
+    // Biryani Category
+    {
+      name: "Chicken Biryani",
+      description: "Classic chicken biryani with basmati rice",
+      price: "350",
+      image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop&q=60",
+      category: "Biryani"
     },
     {
-      id: 4,
-      name: "Butter Naan",
-      description: "Soft bread topped with butter",
-      price: "Rs. 50",
-      category: "Bread",
-      image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0"
-    },
-    {
-      id: 5,
-      name: "Chicken Tikka",
-      description: "Marinated and grilled chicken pieces with special spices",
-      price: "Rs. 280",
-      category: "BBQ",
-      image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0"
-    },
-    {
-      id: 6,
       name: "Mutton Biryani",
-      description: "Fragrant rice cooked with tender mutton and aromatic spices",
-      price: "Rs. 400",
-      category: "Biryani",
-      image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8"
+      description: "Tender mutton pieces with aromatic rice",
+      price: "450",
+      image: "https://images.unsplash.com/photo-1589302168068-391b6a87d7b3?w=800&auto=format&fit=crop&q=60",
+      category: "Biryani"
     },
     {
-      id: 7,
-      name: "Chicken Malai Boti",
-      description: "Creamy and tender chicken pieces marinated in malai",
-      price: "Rs. 320",
-      category: "BBQ",
-      image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0"
+      name: "Beef Biryani",
+      description: "Spicy beef biryani with special masala",
+      price: "400",
+      image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=800&auto=format&fit=crop&q=60",
+      category: "Biryani"
+    },
+
+    // BBQ Category
+    {
+      name: "Chicken Tikka",
+      description: "Marinated and grilled chicken pieces",
+      price: "280",
+      image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=800&auto=format&fit=crop&q=60",
+      category: "BBQ"
     },
     {
-      id: 8,
-      name: "Chicken Korma",
-      description: "Rich and creamy curry with tender chicken",
-      price: "Rs. 380",
-      category: "Curries",
-      image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0"
+      name: "Malai Boti",
+      description: "Creamy and tender chicken pieces",
+      price: "320",
+      image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=800&auto=format&fit=crop&q=60",
+      category: "BBQ"
     },
     {
-      id: 9,
+      name: "Reshmi Kebab",
+      description: "Soft minced chicken kebabs",
+      price: "300",
+      image: "https://images.unsplash.com/photo-1615361200141-f45040f367be?w=800&auto=format&fit=crop&q=60",
+      category: "BBQ"
+    },
+
+    // Karahi & Curry
+    {
+      name: "Chicken Karahi",
+      description: "Traditional chicken karahi with fresh tomatoes",
+      price: "800",
+      image: "https://images.unsplash.com/photo-1603496987314-62888e43f875?w=800&auto=format&fit=crop&q=60",
+      category: "Karahi"
+    },
+    {
+      name: "Mutton Karahi",
+      description: "Spicy mutton karahi with special masala",
+      price: "1200",
+      image: "https://images.unsplash.com/photo-1605491138091-5bcfae5ad783?w=800&auto=format&fit=crop&q=60",
+      category: "Karahi"
+    },
+
+    // Bread
+    {
+      name: "Naan",
+      description: "Fresh tandoori naan",
+      price: "40",
+      image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800&auto=format&fit=crop&q=60",
+      category: "Bread"
+    },
+    {
       name: "Garlic Naan",
-      description: "Soft bread topped with garlic and butter",
-      price: "Rs. 70",
-      category: "Bread",
-      image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0"
+      description: "Naan topped with garlic and butter",
+      price: "60",
+      image: "https://images.unsplash.com/photo-1593882100739-68de1c6a3c4c?w=800&auto=format&fit=crop&q=60",
+      category: "Bread"
+    },
+
+    // Drinks
+    {
+      name: "Soft Drinks",
+      description: "Pepsi, Coke, Sprite, 7up (500ml)",
+      price: "80",
+      image: "https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=800&auto=format&fit=crop&q=60",
+      category: "Drinks"
     },
     {
-      id: 10,
-      name: "Gulab Jamun",
-      description: "Sweet milk-solid dumplings soaked in sugar syrup",
-      price: "Rs. 150",
-      category: "Desserts",
-      image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0"
-    },
-    {
-      id: 11,
-      name: "Kheer",
-      description: "Traditional rice pudding with nuts",
-      price: "Rs. 180",
-      category: "Desserts",
-      image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0"
-    },
-    {
-      id: 12,
-      name: "Chicken Soup",
-      description: "Hot and sour chicken soup with vegetables",
-      price: "Rs. 200",
-      category: "Appetizers",
-      image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0"
-    },
-    {
-      id: 13,
-      name: "Mango Lassi",
-      description: "Sweet yogurt drink with mango pulp",
-      price: "Rs. 120",
-      category: "Beverages",
-      image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0"
-    },
-    {
-      id: 14,
-      name: "Mint Raita",
-      description: "Yogurt dip with fresh mint and spices",
-      price: "Rs. 80",
-      category: "Appetizers",
-      image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0"
-    },
-    {
-      id: 15,
-      name: "Sweet Lassi",
-      description: "Traditional sweet yogurt drink",
-      price: "Rs. 100",
-      category: "Beverages",
-      image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0"
-    },
-    {
-      id: 16,
-      name: "Chicken Wings",
-      description: "Spicy buffalo wings with blue cheese dip",
-      price: "Rs. 420",
-      category: "Starters",
-      image: "https://images.unsplash.com/photo-1524114664604-cd8133a0728d"
-    },
-    {
-      id: 17,
-      name: "Fish and Chips",
-      description: "Crispy fried fish with french fries",
-      price: "Rs. 550",
-      category: "Seafood",
-      image: "https://images.unsplash.com/photo-1579208030886-b937da9925dc"
-    },
-    {
-      id: 18,
-      name: "Grilled Salmon",
-      description: "Fresh salmon with herbs and lemon",
-      price: "Rs. 850",
-      category: "Seafood",
-      image: "https://images.unsplash.com/photo-1580476262798-bddd9f4b7369"
-    },
-    {
-      id: 19,
-      name: "Sushi Roll",
-      description: "California roll with crab and avocado",
-      price: "Rs. 600",
-      category: "Japanese",
-      image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c"
-    },
-    {
-      id: 20,
-      name: "Ramen",
-      description: "Japanese noodle soup with pork",
-      price: "Rs. 520",
-      category: "Japanese",
-      image: "https://images.unsplash.com/photo-1591814468924-caf88d1232e1"
-    },
-    {
-      id: 21,
-      name: "Pad Thai",
-      description: "Thai style stir-fried noodles",
-      price: "Rs. 480",
-      category: "Thai",
-      image: "https://images.unsplash.com/photo-1559314809-0d155014e29e"
+      name: "Mineral Water",
+      description: "500ml bottle",
+      price: "50",
+      image: "https://images.unsplash.com/photo-1616118132534-381148898bb4?w=800&auto=format&fit=crop&q=60",
+      category: "Drinks"
     }
   ];
 
-  const [selectedCategory, setSelectedCategory] = useState<string>('Biryani');
+  const [activeCategory, setActiveCategory] = useState<string>("Popular");
   // Extract unique categories from menuItems
   const categories = useMemo(() => Array.from(new Set(menuItems.map(item => item.category))), [menuItems]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -339,13 +288,13 @@ const RestaurantDetail = () => {
   // Filter menu items based on category and search
   const filteredMenuItems = useMemo(() => {
     return menuItems.filter(item => {
-      const matchesCategory = item.category === selectedCategory;
+      const matchesCategory = item.category === activeCategory;
       const matchesSearch = searchQuery === '' || 
         item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.description.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [menuItems, selectedCategory, searchQuery]);
+  }, [menuItems, activeCategory, searchQuery]);
 
   // Check scroll position to show/hide arrows
   const checkScroll = useCallback(() => {
@@ -411,332 +360,144 @@ const RestaurantDetail = () => {
     <Layout>
       <style>{customStyles}</style>
       <div className="min-h-screen bg-gray-50">
-        {/* Restaurant Header */}
-        <div className="bg-white pt-[42px]">
-          <div className="max-w-[1280px] mx-auto px-3">
-            {/* Breadcrumb with less vertical space */}
-            <div className="py-2.5">
-              <Breadcrumb 
-                items={[
-                  { label: 'Islamabad', link: '/' },
-                  { label: 'Restaurant List', link: '/restaurant' },
-                  { label: restaurant.name }
-                ]} 
-              />
-            </div>
+        {/* Breadcrumb */}
+        <div className="bg-white">
+          <div className="max-w-[1280px] mx-auto">
+            <Breadcrumb
+              items={[
+                { label: 'Islamabad', link: '/islamabad' },
+                { label: 'Restaurant List', link: '/restaurant-list' },
+                { label: 'Karachi Biryani House' }
+              ]}
+            />
+          </div>
+        </div>
 
-            {/* Restaurant Header */}
-            <div className="flex items-start gap-4 pb-4">
-              {/* Restaurant Image */}
-              <div className="flex-shrink-0">
-                <img 
-                  src={restaurant.image} 
-                  alt={restaurant.name}
-                  className="w-[110px] h-[110px] object-cover rounded-lg"
+        {/* Restaurant Hero Section */}
+        <RestaurantHero
+          name="Karachi Biryani House"
+          cuisine="Pakistani, Biryani, BBQ"
+          rating={4.5}
+          totalReviews={1000}
+          isTopRestaurant={true}
+          deliveryFee={50}
+          minOrder={300}
+          image="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=800&auto=format&fit=crop&q=60"
+        />
+
+        {/* Menu Categories Filter with Search */}
+        <div className="bg-white border-t border-b border-gray-100 sticky top-[56px] z-10">
+          <div className="max-w-[1280px] mx-auto px-4">
+            <div className="flex items-center justify-between py-2">
+              {/* Categories */}
+              <div className="flex-1 flex items-center gap-3 overflow-x-auto no-scrollbar">
+                {categories.map((category, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveCategory(category)}
+                    className={`
+                      whitespace-nowrap px-4 py-1.5 rounded-full text-[13px] font-medium
+                      ${activeCategory === category 
+                        ? 'bg-gray-900 text-white' 
+                        : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                      }
+                    `}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+
+              {/* Search Button - Mobile */}
+              <button 
+                onClick={() => setShowMobileSearch(true)}
+                className="ml-3 flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100"
+              >
+                <Search className="w-4 h-4 text-gray-600" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Search Modal */}
+        {showMobileSearch && (
+          <div className="fixed inset-0 bg-black/50 z-50">
+            <div className="bg-white w-full p-4 absolute top-0 left-0">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search in menu"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-9 pr-9 py-2 bg-gray-50 border border-gray-200 rounded-lg text-[15px] focus:outline-none focus:border-gray-300"
+                  autoFocus
                 />
-              </div>
-
-              {/* Restaurant Info */}
-              <div className="flex-1 pt-1">
-                <div>
-                  <p className="text-[15px] text-gray-600 mb-0.5">{restaurant.cuisine}</p>
-                  <h1 className="text-[22px] font-bold text-gray-900 leading-tight mb-1">{restaurant.name}</h1>
-                  
-                  <div className="flex items-center gap-4 mb-2">
-                    <div className="flex items-center">
-                      <span className="text-[15px] font-medium">{restaurant.rating}</span>
-                      <span className="text-gray-500 text-[15px] ml-1">({restaurant.reviewCount} reviews)</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-blue-50 text-blue-800 rounded">
-                      Top restaurant
-                    </span>
-                    <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-green-50 text-green-800 rounded">
-                      Open now
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Available Deals Section */}
-          <div className="border-t border-gray-100">
-            <div className="max-w-[1280px] mx-auto px-3 py-4">
-              <h2 className="text-[17px] font-semibold text-gray-900 mb-3">Available deals</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-[600px]">
-                {/* Limited Time Deal */}
-                <div className="bg-red-50 rounded p-3">
-                  <div className="flex items-start">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-1.5 text-red-600 mb-1">
-                        <ClockIcon className="w-3.5 h-3.5" />
-                        <span className="text-[13px] font-medium">Limited time</span>
-                      </div>
-                      <div className="font-bold text-[15px] text-red-700">Rs. 1,000 off</div>
-                      <p className="text-[13px] text-red-600 mt-0.5">Min. order Rs. 1,000. Valid for selected items.</p>
-                      <div className="text-[11px] text-red-500 mt-1">Auto applied</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Rewards Deal */}
-                <div className="bg-[#FFF8E6] rounded p-3">
-                  <div className="flex items-start">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-1.5 text-[#B17D1C] mb-1">
-                        <GiftIcon className="w-3.5 h-3.5" />
-                        <span className="text-[13px] font-medium">Rewards</span>
-                      </div>
-                      <div className="font-bold text-[15px] text-[#B17D1C]">Stamp cards</div>
-                      <p className="text-[13px] text-[#B17D1C] mt-0.5">Collect stamps with every order.</p>
-                      <div className="text-[11px] text-[#B17D1C] mt-1">Get free items</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Menu Filter Bar */}
-          <div className="sticky top-[42px] bg-white border-b border-gray-100 z-10">
-            <div className="max-w-[1280px] mx-auto px-3">
-              <div className="flex items-center gap-4 relative">
-                {/* Left Arrow */}
-                <div className="flex-none w-8 mr-4">
-                  <button
-                    onClick={() => {
-                      const container = scrollContainerRef.current;
-                      if (container) {
-                        container.scrollLeft -= 200;
-                      }
-                    }}
-                    className={`scroll-button w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-200 hover:bg-gray-50 transition-transform hover:scale-105 ${canScrollLeft ? 'visible' : ''}`}
-                    aria-label="Scroll left"
-                    disabled={!canScrollLeft}
-                  >
-                    <ChevronLeft className="w-4 h-4 text-gray-600" />
-                  </button>
-                </div>
-
-                {/* Categories Scroll Container */}
-                <div className="flex-1 overflow-hidden">
-                  <div 
-                    ref={scrollContainerRef}
-                    className="flex py-3 overflow-x-auto no-scrollbar scroll-smooth"
-                    style={{ 
-                      scrollbarWidth: 'none',
-                      msOverflowStyle: 'none',
-                      WebkitOverflowScrolling: 'touch'
-                    }}
-                  >
-                    {categories.map((category, index) => (
-                      <div 
-                        key={category}
-                        className={`flex-none ${index > 0 ? 'ml-8' : ''}`}
-                      >
-                        <button
-                          onClick={() => setSelectedCategory(category)}
-                          className={`
-                            category-btn relative whitespace-nowrap text-[15px] font-medium
-                            ${selectedCategory === category ? 'text-gray-900 active' : 'text-gray-600 hover:text-gray-900'}
-                          `}
-                        >
-                          {category}
-                          <span className="ml-1.5 text-[13px] text-gray-400">
-                            ({menuItems.filter(item => item.category === category).length})
-                          </span>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Right Arrow */}
-                <div className="flex-none w-8 mx-4">
-                  <button
-                    onClick={() => {
-                      const container = scrollContainerRef.current;
-                      if (container) {
-                        container.scrollLeft += 200;
-                      }
-                    }}
-                    className={`scroll-button w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-200 hover:bg-gray-50 transition-transform hover:scale-105 ${canScrollRight ? 'visible' : ''}`}
-                    aria-label="Scroll right"
-                    disabled={!canScrollRight}
-                  >
-                    <ChevronRight className="w-4 h-4 text-gray-600" />
-                  </button>
-                </div>
-
-                {/* Search - Desktop */}
-                <div className="hidden md:block relative w-72 flex-shrink-0">
-                  <input
-                    type="text"
-                    placeholder="Search in menu"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-[15px] focus:outline-none focus:border-gray-300 focus:ring-0 transition-colors search-input"
-                  />
-                  <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                </div>
-
-                {/* Search Icon - Mobile */}
+                <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <button 
-                  onClick={() => setShowMobileSearch(true)}
-                  className="md:hidden flex-none w-10 h-10 flex items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors"
+                  onClick={() => setShowMobileSearch(false)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2"
                 >
-                  <Search className="w-5 h-5" />
+                  <X className="w-4 h-4 text-gray-400" />
                 </button>
               </div>
             </div>
           </div>
+        )}
 
-          {/* Add custom styles for hiding scrollbar */}
-          <style>{`
-            .hide-scrollbar::-webkit-scrollbar {
-              display: none;
-            }
-            .hide-scrollbar {
-              -ms-overflow-style: none;
-              scrollbar-width: none;
-            }
-          `}</style>
-
-          {/* Mobile Search Modal */}
-          {showMobileSearch && (
-            <div className="fixed inset-0 bg-black/50 z-50 md:hidden">
-              <div className="bg-white w-full p-4 absolute top-0 left-0">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search in menu"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-[15px] focus:outline-none focus:border-gray-300 focus:ring-0"
-                    autoFocus
-                  />
-                  <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                  <button 
-                    onClick={() => setShowMobileSearch(false)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2"
-                  >
-                    <X className="w-4 h-4 text-gray-400" />
-                  </button>
-                </div>
-              </div>
+        {/* Popular Section */}
+        <div className="bg-white">
+          <div className="max-w-[1280px] mx-auto px-4 py-4">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-[22px]">🔥</span>
+              <h2 className="text-[17px] font-bold">Popular</h2>
             </div>
-          )}
+            <p className="text-[13px] text-gray-600 mb-4">Most ordered right now.</p>
 
-          {/* Content Section */}
-          <div className="max-w-6xl mx-auto px-4 py-8">
-            {/* Menu Title */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-6">Our Menu</h2>
-            </div>
-
-            {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-              {/* Menu Items Grid */}
-              <div className="lg:col-span-3">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {filteredMenuItems.map((item) => (
-                    <motion.div
-                      key={item.id}
-                      className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <div className="relative h-48">
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="absolute inset-0 w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0" />
-                        <div className="absolute top-3 right-3">
-                          <span className="bg-white/90 backdrop-blur-sm text-red-600 px-3 py-1 rounded-full text-sm font-medium shadow-sm">
-                            {item.price}
-                          </span>
+            {/* Menu Cards */}
+            <div className="space-y-4">
+              {filteredMenuItems.map((item, index) => (
+                <div key={index} className="bg-white rounded-xl border border-gray-100">
+                  <div className="p-4">
+                    <div className="flex justify-between items-start gap-4">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-[15px] font-bold text-gray-900 mb-1">
+                          {item.name}
+                        </h3>
+                        <p className="text-[13px] text-gray-600 mb-2">
+                          {item.description}
+                        </p>
+                        <div className="text-[13px] text-gray-900">
+                          from Rs. {item.price}
                         </div>
                       </div>
-                      <div className="p-4">
-                        <h3 className="text-lg font-semibold mb-1">{item.name}</h3>
-                        <p className="text-gray-600 text-sm line-clamp-2">{item.description}</p>
+                      <div className="relative">
+                        <div className="w-[100px] h-[100px] rounded-lg overflow-hidden bg-gray-50">
+                          <img 
+                            src={item.image} 
+                            alt={item.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <button 
+                          className="absolute -bottom-2 right-0 w-8 h-8 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center"
+                          aria-label="Add to cart"
+                        >
+                          <svg width="12" height="12" viewBox="0 0 12 12">
+                            <path
+                              d="M6 1v10M1 6h10"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </button>
                       </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Info Cards Column */}
-              <div className="lg:col-span-1 space-y-6">
-                {/* Contact Info */}
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                  <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center">
-                      <Phone className="w-5 h-5 mr-3 text-gray-400" />
-                      <span>{restaurant.phone}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Mail className="w-5 h-5 mr-3 text-gray-400" />
-                      <span>{restaurant.email}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <MapPin className="w-5 h-5 mr-3 text-gray-400" />
-                      <span>{restaurant.address}</span>
                     </div>
                   </div>
                 </div>
-
-                {/* Opening Hours */}
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                  <h3 className="text-xl font-semibold mb-4 flex items-center">
-                    <ClockIcon className="w-5 h-5 mr-2" />
-                    Opening Hours
-                  </h3>
-                  <div className="space-y-2">
-                    {Object.entries(restaurant.openingHours).map(([day, hours]) => (
-                      <div key={day} className="flex justify-between py-2 border-b border-gray-100 last:border-0">
-                        <span className="text-gray-600">{day}</span>
-                        <span className="font-medium">{hours}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
-
-          {/* Floating Call Button */}
-          <AnimatePresence>
-            {showCallButton && (
-              <motion.div
-                initial={{ y: 100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 100, opacity: 0 }}
-                transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                className="fixed bottom-0 left-0 right-0 z-50"
-              >
-                <div className="bg-white border-t border-gray-100 shadow-lg backdrop-blur-lg">
-                  <div className="max-w-6xl mx-auto px-4 py-3">
-                    <a
-                      href={`tel:${restaurant.phone}`}
-                      className="block w-full bg-[#FF3838] hover:bg-[#FF4D4D] text-white rounded-xl py-3.5 flex items-center justify-center space-x-2 transition-all duration-300 font-medium"
-                    >
-                      <Phone className="w-5 h-5" />
-                      <span>Call Restaurant</span>
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </div>
     </Layout>
