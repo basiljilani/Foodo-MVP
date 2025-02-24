@@ -26,24 +26,24 @@ export default function Navigation() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
+      <nav className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+        <div className="max-w-[1280px] mx-auto px-1">
+          <div className="flex h-[42px] md:h-16 items-center justify-between">
             {/* Logo */}
             <div className="flex-shrink-0">
               <Link to="/" className="flex items-center">
-                <FoodoLogo />
+                <FoodoLogo className="h-6 md:h-8" />
               </Link>
             </div>
 
             {/* Navigation Links - Centered */}
             <div className="hidden md:flex flex-1 justify-center">
-              <div className="flex items-center space-x-12">
+              <div className="flex items-center space-x-8">
                 <Link
                   to="/home"
                   className={`text-sm font-medium transition-colors duration-200 ${
                     isActive('/home')
-                      ? 'text-red-600 border-b-2 border-red-600 pb-1'
+                      ? 'text-red-600 border-b-2 border-red-600'
                       : 'text-gray-500 hover:text-gray-900'
                   }`}
                 >
@@ -53,7 +53,7 @@ export default function Navigation() {
                   to="/offers"
                   className={`text-sm font-medium transition-colors duration-200 ${
                     isActive('/offers')
-                      ? 'text-red-600 border-b-2 border-red-600 pb-1'
+                      ? 'text-red-600 border-b-2 border-red-600'
                       : 'text-gray-500 hover:text-gray-900'
                   }`}
                 >
@@ -63,7 +63,7 @@ export default function Navigation() {
                   to="/foodo-ai"
                   className={`text-sm font-medium transition-colors duration-200 ${
                     isActive('/foodo-ai')
-                      ? 'text-red-600 border-b-2 border-red-600 pb-1'
+                      ? 'text-red-600 border-b-2 border-red-600'
                       : 'text-gray-500 hover:text-gray-900'
                   }`}
                 >
@@ -73,7 +73,7 @@ export default function Navigation() {
                   to="/help"
                   className={`text-sm font-medium transition-colors duration-200 ${
                     isActive('/help')
-                      ? 'text-red-600 border-b-2 border-red-600 pb-1'
+                      ? 'text-red-600 border-b-2 border-red-600'
                       : 'text-gray-500 hover:text-gray-900'
                   }`}
                 >
