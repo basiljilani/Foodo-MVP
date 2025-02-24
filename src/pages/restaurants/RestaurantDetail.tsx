@@ -390,30 +390,30 @@ const RestaurantDetail = () => {
           <div className="max-w-[1280px] mx-auto px-4">
             <div className="flex items-center justify-between py-2">
               {/* Categories */}
-              <div className="flex-1 flex items-center gap-3 overflow-x-auto no-scrollbar">
-                {categories.map((category, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveCategory(category)}
-                    className={`
-                      whitespace-nowrap px-4 py-1.5 rounded-full text-[13px] font-medium
-                      ${activeCategory === category 
-                        ? 'bg-gray-900 text-white' 
-                        : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                      }
-                    `}
-                  >
-                    {category}
-                  </button>
-                ))}
+              <div className="flex-1 overflow-x-auto">
+                <div className="flex gap-2">
+                  {categories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => setActiveCategory(category)}
+                      className={`px-3 py-1.5 rounded-full text-[13px] whitespace-nowrap ${
+                        activeCategory === category
+                          ? 'bg-gray-900 text-white'
+                          : 'bg-gray-100 text-gray-900'
+                      }`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              {/* Search Button - Mobile */}
-              <button 
+              {/* Search Button */}
+              <button
                 onClick={() => setShowMobileSearch(true)}
-                className="ml-3 flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100"
+                className="ml-4 p-2 hover:bg-gray-100 rounded-full"
               >
-                <Search className="w-4 h-4 text-gray-600" />
+                <Search className="w-5 h-5" />
               </button>
             </div>
           </div>
@@ -444,59 +444,50 @@ const RestaurantDetail = () => {
           </div>
         )}
 
-        {/* Popular Section */}
-        <div className="bg-white">
-          <div className="max-w-[1280px] mx-auto px-4 py-4">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-[22px]">🔥</span>
-              <h2 className="text-[17px] font-bold">Popular</h2>
-            </div>
-            <p className="text-[13px] text-gray-600 mb-4">Most ordered right now.</p>
-
-            {/* Menu Cards */}
-            <div className="space-y-4">
-              {filteredMenuItems.map((item, index) => (
-                <div key={index} className="bg-white rounded-xl border border-gray-100">
-                  <div className="p-4">
-                    <div className="flex justify-between items-start gap-4">
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-[15px] font-bold text-gray-900 mb-1">
-                          {item.name}
-                        </h3>
-                        <p className="text-[13px] text-gray-600 mb-2">
-                          {item.description}
-                        </p>
-                        <div className="text-[13px] text-gray-900">
-                          from Rs. {item.price}
-                        </div>
+        {/* Menu Items */}
+        <div className="max-w-[1280px] mx-auto px-4 py-4">
+          <div className="space-y-4">
+            {filteredMenuItems.map((item, index) => (
+              <div key={index} className="bg-white rounded-xl border border-gray-100">
+                <div className="p-4">
+                  <div className="flex justify-between items-start gap-4">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-[15px] font-bold text-gray-900 mb-1">
+                        {item.name}
+                      </h3>
+                      <p className="text-[13px] text-gray-600 mb-2">
+                        {item.description}
+                      </p>
+                      <div className="text-[13px] text-gray-900">
+                        from Rs. {item.price}
                       </div>
-                      <div className="relative">
-                        <div className="w-[100px] h-[100px] rounded-lg overflow-hidden bg-gray-50">
-                          <img 
-                            src={item.image} 
-                            alt={item.name}
-                            className="w-full h-full object-cover"
+                    </div>
+                    <div className="relative">
+                      <div className="w-[100px] h-[100px] rounded-lg overflow-hidden bg-gray-50">
+                        <img 
+                          src={item.image} 
+                          alt={item.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <button 
+                        className="absolute -bottom-2 right-0 w-8 h-8 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center"
+                        aria-label="Add to cart"
+                      >
+                        <svg width="12" height="12" viewBox="0 0 12 12">
+                          <path
+                            d="M6 1v10M1 6h10"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
                           />
-                        </div>
-                        <button 
-                          className="absolute -bottom-2 right-0 w-8 h-8 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center"
-                          aria-label="Add to cart"
-                        >
-                          <svg width="12" height="12" viewBox="0 0 12 12">
-                            <path
-                              d="M6 1v10M1 6h10"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                            />
-                          </svg>
-                        </button>
-                      </div>
+                        </svg>
+                      </button>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
