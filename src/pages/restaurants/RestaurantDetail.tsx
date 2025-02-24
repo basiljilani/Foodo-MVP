@@ -13,7 +13,9 @@ import {
   Bike,
   ChevronRight as ChevronRightSmall,
   X,
-  Package
+  Package,
+  Plus,
+  SlidersHorizontal
 } from 'lucide-react';
 import { ClockIcon, GiftIcon, StarIcon } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -155,29 +157,6 @@ const RestaurantDetail = () => {
 
   // Sample menu items
   const menuItems = [
-    // Popular Items
-    {
-      name: "Special Chicken Biryani",
-      description: "Our signature biryani with tender chicken and aromatic rice",
-      price: "400",
-      image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop&q=60",
-      category: "Popular"
-    },
-    {
-      name: "Family Pack Deal",
-      description: "2 full biryani, 4 seekh kebabs, 2 drinks",
-      price: "1,499",
-      image: "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=800&auto=format&fit=crop&q=60",
-      category: "Popular"
-    },
-    {
-      name: "Seekh Kebab",
-      description: "Minced meat kebabs with herbs and spices",
-      price: "300",
-      image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=800&auto=format&fit=crop&q=60",
-      category: "Popular"
-    },
-
     // Biryani Category
     {
       name: "Chicken Biryani",
@@ -273,9 +252,7 @@ const RestaurantDetail = () => {
     }
   ];
 
-  const [activeCategory, setActiveCategory] = useState<string>("Popular");
-  // Extract unique categories from menuItems
-  const categories = useMemo(() => Array.from(new Set(menuItems.map(item => item.category))), [menuItems]);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showCallButton, setShowCallButton] = useState(false);
@@ -288,13 +265,13 @@ const RestaurantDetail = () => {
   // Filter menu items based on category and search
   const filteredMenuItems = useMemo(() => {
     return menuItems.filter(item => {
-      const matchesCategory = item.category === activeCategory;
+      const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
       const matchesSearch = searchQuery === '' || 
         item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.description.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [menuItems, activeCategory, searchQuery]);
+  }, [menuItems, selectedCategory, searchQuery]);
 
   // Check scroll position to show/hide arrows
   const checkScroll = useCallback(() => {
@@ -356,6 +333,8 @@ const RestaurantDetail = () => {
     image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8"
   };
 
+  const categories = ['All', 'Biryani', 'BBQ', 'Karahi', 'Deals'];
+
   return (
     <Layout>
       <style>{customStyles}</style>
@@ -365,8 +344,8 @@ const RestaurantDetail = () => {
           <div className="max-w-[1280px] mx-auto">
             <Breadcrumb
               items={[
-                { label: 'Islamabad', link: '/islamabad' },
-                { label: 'Restaurant List', link: '/restaurant-list' },
+                { label: 'Islamabad', link: '/' },
+                { label: 'Restaurants', link: '/restaurants' },
                 { label: 'Karachi Biryani House' }
               ]}
             />
@@ -377,41 +356,87 @@ const RestaurantDetail = () => {
         <RestaurantHero
           name="Karachi Biryani House"
           cuisine="Pakistani, Biryani, BBQ"
-          rating={4.5}
-          totalReviews={1000}
+          rating={4.8}
+          totalReviews={500}
           isTopRestaurant={true}
-          deliveryFee={50}
-          minOrder={300}
-          image="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?w=800&auto=format&fit=crop&q=60"
+          deliveryFee={149}
+          minOrder={349}
+          image="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?q=80&w=2788&auto=format&fit=crop"
         />
 
-        {/* Menu Categories Filter with Search */}
-        <div className="bg-white border-t border-b border-gray-100 sticky top-[56px] z-10">
+        {/* Mobile Search Modal */}
+        <AnimatePresence>
+          {showMobileSearch && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/30 z-50"
+            >
+              <motion.div 
+                initial={{ translateY: "100%" }}
+                animate={{ translateY: 0 }}
+                exit={{ translateY: "100%" }}
+                className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-4"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <button onClick={() => setShowMobileSearch(false)}>
+                    <X className="w-6 h-6 text-gray-600" />
+                  </button>
+                  <input
+                    type="text"
+                    placeholder="Search menu items..."
+                    className="flex-1 bg-transparent text-[15px] placeholder:text-gray-400 focus:outline-none"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Menu Filter Bar */}
+        <div className="sticky top-[64px] bg-white z-10 border-t border-b border-gray-100">
           <div className="max-w-[1280px] mx-auto px-4">
             <div className="flex items-center justify-between py-2">
               {/* Categories */}
-              <div className="flex-1 overflow-x-auto">
-                <div className="flex gap-2">
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      onClick={() => setActiveCategory(category)}
-                      className={`px-3 py-1.5 rounded-full text-[13px] whitespace-nowrap ${
-                        activeCategory === category
-                          ? 'bg-gray-900 text-white'
-                          : 'bg-gray-100 text-gray-900'
-                      }`}
-                    >
-                      {category}
-                    </button>
-                  ))}
+              <div className="flex-1 flex items-center gap-3 overflow-x-auto no-scrollbar">
+                {categories.map((category, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedCategory(category.toLowerCase())}
+                    className={`
+                      whitespace-nowrap px-4 py-1.5 rounded-full text-[13px] font-medium
+                      ${selectedCategory === category.toLowerCase()
+                        ? 'bg-gray-900 text-white' 
+                        : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                      }
+                    `}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+
+              {/* Search Box - Desktop */}
+              <div className="hidden md:flex items-center gap-2 ml-4">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search menu..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-[200px] pl-9 pr-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-[13px] placeholder:text-gray-400 focus:outline-none focus:border-gray-300"
+                  />
+                  <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 </div>
               </div>
 
-              {/* Search Button */}
+              {/* Search Button - Mobile */}
               <button
                 onClick={() => setShowMobileSearch(true)}
-                className="ml-4 p-2 hover:bg-gray-100 rounded-full"
+                className="md:hidden ml-3 text-gray-700"
               >
                 <Search className="w-5 h-5" />
               </button>
@@ -419,75 +444,95 @@ const RestaurantDetail = () => {
           </div>
         </div>
 
-        {/* Mobile Search Modal */}
-        {showMobileSearch && (
-          <div className="fixed inset-0 bg-black/50 z-50">
-            <div className="bg-white w-full p-4 absolute top-0 left-0">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search in menu"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-9 py-2 bg-gray-50 border border-gray-200 rounded-lg text-[15px] focus:outline-none focus:border-gray-300"
-                  autoFocus
-                />
-                <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                <button 
-                  onClick={() => setShowMobileSearch(false)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2"
-                >
-                  <X className="w-4 h-4 text-gray-400" />
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Menu Items */}
-        <div className="max-w-[1280px] mx-auto px-4 py-4">
-          <div className="space-y-4">
-            {filteredMenuItems.map((item, index) => (
-              <div key={index} className="bg-white rounded-xl border border-gray-100">
-                <div className="p-4">
-                  <div className="flex justify-between items-start gap-4">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-[15px] font-bold text-gray-900 mb-1">
-                        {item.name}
-                      </h3>
-                      <p className="text-[13px] text-gray-600 mb-2">
-                        {item.description}
-                      </p>
-                      <div className="text-[13px] text-gray-900">
-                        from Rs. {item.price}
+        {/* Menu Items Grid */}
+        <div className="bg-white">
+          <div className="max-w-[1280px] mx-auto px-4 py-6">
+            {/* Mobile Version */}
+            <div className="md:hidden">
+              <div className="grid grid-cols-1 gap-4">
+                {filteredMenuItems.map((menuItem, index) => (
+                  <div key={index} className="bg-white rounded-lg border border-gray-100 p-4">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-[17px] font-medium mb-1">{menuItem.name}</h3>
+                        <p className="text-[15px] text-gray-600 mb-1">from Rs. {menuItem.price}</p>
+                        <p className="text-[13px] text-gray-500">{menuItem.description}</p>
+                      </div>
+                      <div className="relative">
+                        <img src={menuItem.image} 
+                             alt={menuItem.name} className="w-[100px] h-[100px] rounded-lg object-cover" />
+                        <button className="absolute -bottom-3 -right-3 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center">
+                          <Plus className="w-5 h-5" />
+                        </button>
                       </div>
                     </div>
-                    <div className="relative">
-                      <div className="w-[100px] h-[100px] rounded-lg overflow-hidden bg-gray-50">
-                        <img 
-                          src={item.image} 
-                          alt={item.name}
-                          className="w-full h-full object-cover"
-                        />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Web Version */}
+            <div className="hidden md:flex gap-6">
+              {/* Menu Items */}
+              <div className="flex-1">
+                <div className="grid grid-cols-2 gap-4">
+                  {filteredMenuItems.map((menuItem, index) => (
+                    <div key={index} className="bg-white rounded-lg border border-gray-100 p-4">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="text-[17px] font-medium mb-1">{menuItem.name}</h3>
+                          <p className="text-[15px] text-gray-600 mb-1">from Rs. {menuItem.price}</p>
+                          <p className="text-[13px] text-gray-500">{menuItem.description}</p>
+                        </div>
+                        <div className="relative">
+                          <img src={menuItem.image} 
+                               alt={menuItem.name} className="w-[100px] h-[100px] rounded-lg object-cover" />
+                          <button className="absolute -bottom-3 -right-3 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center">
+                            <Plus className="w-5 h-5" />
+                          </button>
+                        </div>
                       </div>
-                      <button 
-                        className="absolute -bottom-2 right-0 w-8 h-8 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center"
-                        aria-label="Add to cart"
-                      >
-                        <svg width="12" height="12" viewBox="0 0 12 12">
-                          <path
-                            d="M6 1v10M1 6h10"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                          />
-                        </svg>
-                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Contact Info & Hours - Web Only */}
+              <div className="w-[300px] flex-shrink-0">
+                <div className="bg-white rounded-lg border border-gray-100 p-4 sticky top-[80px]">
+                  <h3 className="text-[15px] font-medium mb-4">Contact & Hours</h3>
+                  
+                  {/* Contact Info */}
+                  <div className="space-y-3 mb-4">
+                    <div className="flex items-start gap-3">
+                      <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />
+                      <p className="text-[13px] text-gray-600">F-7 Markaz, Jinnah Super Market, Islamabad</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Phone className="w-4 h-4 text-gray-400" />
+                      <p className="text-[13px] text-gray-600">051-2345678</p>
+                    </div>
+                  </div>
+
+                  {/* Opening Hours */}
+                  <h4 className="text-[13px] font-medium mb-2">Opening Hours</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-[13px]">
+                      <span className="text-gray-600">Monday - Thursday</span>
+                      <span>11:00 - 23:00</span>
+                    </div>
+                    <div className="flex justify-between text-[13px]">
+                      <span className="text-gray-600">Friday - Saturday</span>
+                      <span>11:00 - 23:30</span>
+                    </div>
+                    <div className="flex justify-between text-[13px]">
+                      <span className="text-gray-600">Sunday</span>
+                      <span>11:00 - 23:00</span>
                     </div>
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>
