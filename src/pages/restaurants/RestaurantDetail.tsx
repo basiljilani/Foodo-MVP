@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Layout from '../../components/Layout';
 import Breadcrumb from '../../components/Breadcrumb';
 import RestaurantHero from '../../components/RestaurantHero';
+import { useRestaurantData } from '../../hooks/useRestaurantData';
 
 // Add CSS for hiding scrollbar and category animation
 const customStyles = `
@@ -153,10 +154,10 @@ interface MenuItem {
 
 const RestaurantDetail = () => {
   const { id } = useParams();
-  const restaurantId = parseInt(id || '1');
+  const { restaurant, menuItems: dynamicMenuItems, isLoading, error } = useRestaurantData(id || '1');
 
-  // Sample menu items
-  const menuItems = [
+  // Sample menu items - only used for static restaurants
+  const staticMenuItems = [
     // Biryani Category
     {
       name: "Chicken Biryani",
@@ -252,6 +253,9 @@ const RestaurantDetail = () => {
     }
   ];
 
+  // Use dynamic menu items if available, otherwise fall back to static
+  const menuItems = dynamicMenuItems.length > 0 ? dynamicMenuItems : staticMenuItems;
+
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showMobileSearch, setShowMobileSearch] = useState(false);
@@ -310,28 +314,6 @@ const RestaurantDetail = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const restaurant = {
-    name: "Karachi Biryani House",
-    description: "Famous for authentic Karachi-style biryani and BBQ specialties.",
-    rating: 4.8,
-    reviewCount: 245,
-    priceRange: "$$",
-    cuisine: "Pakistani, Biryani, BBQ",
-    address: "Block 2, Gulshan-e-Iqbal, Karachi",
-    phone: "+92 300 8853 111",
-    email: "contact@karachibiryani.com",
-    openingHours: {
-      Mon: "11:00 AM - 11:00 PM",
-      Tue: "11:00 AM - 11:00 PM",
-      Wed: "11:00 AM - 11:00 PM",
-      Thu: "11:00 AM - 11:00 PM",
-      Fri: "11:00 AM - 11:30 PM",
-      Sat: "11:00 AM - 11:30 PM",
-      Sun: "11:00 AM - 11:00 PM"
-    },
-    image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8"
-  };
 
   const categories = ['All', 'Biryani', 'BBQ', 'Karahi', 'Deals'];
 

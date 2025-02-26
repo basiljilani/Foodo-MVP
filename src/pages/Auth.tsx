@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
-import { Mail, Lock, User, ChevronRight, ArrowRight } from 'lucide-react';
+import { Mail, Lock, User, ChevronRight, ArrowRight, ChevronLeft, Home } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -44,7 +45,18 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-orange-100 to-orange-200 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-orange-100 to-orange-200 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center relative">
+      {/* Return to Home Link */}
+      <Link
+        to="/"
+        className="absolute top-8 left-8 inline-flex items-center px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md hover:bg-white text-gray-700 hover:text-red-600 transition-all duration-200 group"
+      >
+        <ChevronLeft className="h-5 w-5 mr-2 group-hover:-translate-x-0.5 transition-transform" />
+        <span className="font-medium inline-flex items-center">
+          Return to Home <Home className="h-4 w-4 ml-1.5" />
+        </span>
+      </Link>
+
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

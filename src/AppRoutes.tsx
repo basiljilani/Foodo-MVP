@@ -45,7 +45,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-// Public Route component - redirects to home if authenticated
+// Public Route component - redirects to profile if authenticated
 const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
   
@@ -58,7 +58,7 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   }
   
   if (user) {
-    return <Navigate to="/home" />;
+    return <Navigate to="/profile" />;
   }
   
   return <>{children}</>;
@@ -78,8 +78,8 @@ const protectedRoutes = [
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* Public routes - redirect to home if authenticated */}
-      <Route path="/" element={<Navigate to="/home" replace />} />
+      {/* Public routes - redirect to profile if authenticated */}
+      <Route path="/" element={<PublicRoute><Navigate to="/auth" replace /></PublicRoute>} />
       <Route path="/auth" element={<PublicRoute><Auth /></PublicRoute>} />
       <Route path="/features" element={<Features />} />
       <Route path="/how-it-works" element={<HowItWorks />} />
