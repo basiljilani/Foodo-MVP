@@ -78,8 +78,10 @@ const protectedRoutes = [
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* Public routes - redirect to profile if authenticated */}
-      <Route path="/" element={<PublicRoute><Navigate to="/auth" replace /></PublicRoute>} />
+      {/* Redirect root to home */}
+      <Route path="/" element={<Navigate to="/home" replace />} />
+      
+      {/* Public routes */}
       <Route path="/auth" element={<PublicRoute><Auth /></PublicRoute>} />
       <Route path="/features" element={<Features />} />
       <Route path="/how-it-works" element={<HowItWorks />} />

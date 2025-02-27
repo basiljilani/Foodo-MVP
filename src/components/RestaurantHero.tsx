@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Star, Clock, Bike, Award, Package2, Heart, Crown, Info } from 'lucide-react';
+import RestaurantInfoModal from './RestaurantInfoModal';
 
 interface RestaurantHeroProps {
   name: string;
@@ -10,6 +11,7 @@ interface RestaurantHeroProps {
   deliveryFee: number;
   minOrder: number;
   image: string;
+  restaurant: any; // This will contain all restaurant details
 }
 
 export default function RestaurantHero({
@@ -21,7 +23,10 @@ export default function RestaurantHero({
   deliveryFee,
   minOrder,
   image,
+  restaurant,
 }: RestaurantHeroProps) {
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+
   return (
     <div className="bg-white">
       {/* Mobile Version */}
@@ -60,7 +65,10 @@ export default function RestaurantHero({
               <span className="text-gray-600 ml-1">({totalReviews}+)</span>
             </div>
             <span className="text-gray-600 hover:underline cursor-pointer">See reviews</span>
-            <span className="flex items-center gap-1 text-gray-600">
+            <span 
+              className="flex items-center gap-1 text-gray-600 cursor-pointer hover:text-gray-900 transition-colors"
+              onClick={() => setIsInfoModalOpen(true)}
+            >
               <Info className="w-4 h-4" />
               <span>More info</span>
             </span>
@@ -90,9 +98,22 @@ export default function RestaurantHero({
             </div>
 
             <div className="flex-1">
-              <p className="text-[15px] text-gray-600 mb-2">{cuisine}</p>
               <div className="flex items-start justify-between">
                 <div>
+                  {/* Restaurant Tags */}
+                  <div className="flex flex-wrap items-center gap-3 mb-3 text-[14px] text-gray-500">
+                    {restaurant.tags?.map((tag, index) => (
+                      <>
+                        {index > 0 && <span className="text-gray-300">•</span>}
+                        <span 
+                          key={index}
+                          className="hover:text-gray-800 transition-colors cursor-default capitalize"
+                        >
+                          {tag.toLowerCase()}
+                        </span>
+                      </>
+                    ))}
+                  </div>
                   <h1 className="text-[32px] font-bold mb-2">{name}</h1>
                   {isTopRestaurant && (
                     <div className="inline-flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-md mb-3">
@@ -101,12 +122,18 @@ export default function RestaurantHero({
                     </div>
                   )}
                   <div className="flex items-center gap-3 text-[13px]">
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-1">
                       <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                      <span className="ml-1 font-medium">{rating}</span>
-                      <span className="text-gray-500">/{totalReviews} reviews</span>
+                      <span className="font-medium">{rating}</span>
+                      <span className="text-gray-500">/150 reviews</span>
+                      <button 
+                        onClick={() => setIsInfoModalOpen(true)}
+                        className="ml-2 flex items-center gap-1 text-gray-600 hover:text-gray-900"
+                      >
+                        <Info className="w-4 h-4" />
+                        <span>More info</span>
+                      </button>
                     </div>
-                    <button className="text-gray-500 hover:text-gray-700">More info</button>
                   </div>
                 </div>
                 <button 
@@ -157,6 +184,13 @@ export default function RestaurantHero({
           </div>
         </div>
       </div>
+
+      {/* Restaurant Info Modal */}
+      <RestaurantInfoModal
+        isOpen={isInfoModalOpen}
+        onClose={() => setIsInfoModalOpen(false)}
+        restaurant={restaurant}
+      />
     </div>
   );
 }

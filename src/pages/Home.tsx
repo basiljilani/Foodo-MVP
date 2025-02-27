@@ -153,7 +153,18 @@ export default function Home() {
           return;
         }
 
-        setRealRestaurants(data || []);
+        // Transform and validate the data
+        const transformedData = (data || []).map(restaurant => ({
+          ...restaurant,
+          tags: restaurant.tags || [],
+          rating: restaurant.rating || 0,
+          distance: restaurant.distance || 'N/A',
+          estimatedTime: restaurant.estimatedTime || 'N/A',
+          image: restaurant.image || 'https://placehold.co/400x300?text=No+Image',
+          description: restaurant.description || 'No description available'
+        }));
+
+        setRealRestaurants(transformedData);
       } catch (error) {
         console.error('Error:', error);
       } finally {
@@ -331,7 +342,7 @@ export default function Home() {
                           </div>
 
                           <div className="mt-3 flex flex-wrap gap-2">
-                            {restaurant.tags.map((tag, i) => (
+                            {restaurant.tags && restaurant.tags.map((tag, i) => (
                               <span 
                                 key={i}
                                 className="px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full"

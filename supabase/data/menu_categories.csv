@@ -1,0 +1,6 @@
+restaurant_name,name,description,display_order,is_available
+"Karachi Biryani House","Biryanis","Our signature biryani selection",1,true
+"Karachi Biryani House","BBQ","Fresh from the grill",2,true
+"Karachi Biryani House","Curries","Traditional Pakistani curries",3,true
+"Karachi Biryani House","Breads","Freshly baked naans and rotis",4,true
+"Karachi Biryani House","Drinks","Refreshing beverages",5,true

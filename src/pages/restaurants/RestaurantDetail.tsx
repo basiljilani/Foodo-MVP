@@ -1,402 +1,175 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { 
   Star, 
   MapPin, 
   Clock, 
   Phone, 
   Mail, 
-  Search, 
-  ChevronLeft, 
+  Search,
+  ChevronLeft,
   ChevronRight,
   Heart,
-  Bike,
-  ChevronRight as ChevronRightSmall,
   X,
-  Package,
   Plus,
-  SlidersHorizontal
+  Info,
+  Sparkles,
+  Clock as ClockIcon
 } from 'lucide-react';
-import { ClockIcon, GiftIcon, StarIcon } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
 import Layout from '../../components/Layout';
-import Breadcrumb from '../../components/Breadcrumb';
 import RestaurantHero from '../../components/RestaurantHero';
+import RestaurantAdCarousel from '../../components/RestaurantAdCarousel';
+import CampaignCard from '../../components/CampaignCard';
 import { useRestaurantData } from '../../hooks/useRestaurantData';
-
-// Add CSS for hiding scrollbar and category animation
-const customStyles = `
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  @keyframes slideIn {
-    from {
-      transform: scaleX(0);
-    }
-    to {
-      transform: scaleX(1);
-    }
-  }
-
-  .category-indicator {
-    animation: slideIn 0.2s ease-out forwards;
-    transform-origin: center;
-  }
-
-  .scroll-button {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease-out, visibility 0.2s ease-out, transform 0.2s ease-out;
-    transform: scale(0.9);
-  }
-
-  .scroll-button.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1);
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  .scroll-button {
-    animation: fadeIn 0.2s ease-out forwards;
-  }
-
-  .category-btn {
-    position: relative;
-  }
-
-  .category-btn::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 50%;
-    width: 4px;
-    height: 2px;
-    background-color: #dc2626;
-    border-radius: 1px;
-    transform: translateX(-50%) scaleX(0);
-    transform-origin: center;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0;
-  }
-
-  .category-btn:hover::after {
-    opacity: 0.5;
-    width: 24px;
-  }
-
-  .category-btn.active::after {
-    opacity: 1;
-    width: 32px;
-    transform: translateX(-50%) scaleX(1);
-  }
-
-  .search-input:focus {
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
-  }
-
-  @keyframes float {
-    0% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-5px);
-    }
-    100% {
-      transform: translateY(0px);
-    }
-  }
-
-  .deal-card {
-    animation: float 3s ease-in-out infinite;
-  }
-
-  .deal-card:hover {
-    animation-play-state: paused;
-  }
-
-  .gradient-text {
-    background-size: 200% auto;
-    animation: shine 2s linear infinite;
-  }
-
-  @keyframes shine {
-    to {
-      background-position: 200% center;
-    }
-  }
-`;
-
-interface MenuItem {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  category: string;
-  image: string;
-}
+import Breadcrumb from '../../components/Breadcrumb';
+import * as LucideIcons from 'lucide-react';
 
 const RestaurantDetail = () => {
-  const { id } = useParams();
-  const { restaurant, menuItems: dynamicMenuItems, isLoading, error } = useRestaurantData(id || '1');
-
-  // Sample menu items - only used for static restaurants
-  const staticMenuItems = [
-    // Biryani Category
-    {
-      name: "Chicken Biryani",
-      description: "Classic chicken biryani with basmati rice",
-      price: "350",
-      image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop&q=60",
-      category: "Biryani"
-    },
-    {
-      name: "Mutton Biryani",
-      description: "Tender mutton pieces with aromatic rice",
-      price: "450",
-      image: "https://images.unsplash.com/photo-1589302168068-391b6a87d7b3?w=800&auto=format&fit=crop&q=60",
-      category: "Biryani"
-    },
-    {
-      name: "Beef Biryani",
-      description: "Spicy beef biryani with special masala",
-      price: "400",
-      image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=800&auto=format&fit=crop&q=60",
-      category: "Biryani"
-    },
-
-    // BBQ Category
-    {
-      name: "Chicken Tikka",
-      description: "Marinated and grilled chicken pieces",
-      price: "280",
-      image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=800&auto=format&fit=crop&q=60",
-      category: "BBQ"
-    },
-    {
-      name: "Malai Boti",
-      description: "Creamy and tender chicken pieces",
-      price: "320",
-      image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=800&auto=format&fit=crop&q=60",
-      category: "BBQ"
-    },
-    {
-      name: "Reshmi Kebab",
-      description: "Soft minced chicken kebabs",
-      price: "300",
-      image: "https://images.unsplash.com/photo-1615361200141-f45040f367be?w=800&auto=format&fit=crop&q=60",
-      category: "BBQ"
-    },
-
-    // Karahi & Curry
-    {
-      name: "Chicken Karahi",
-      description: "Traditional chicken karahi with fresh tomatoes",
-      price: "800",
-      image: "https://images.unsplash.com/photo-1603496987314-62888e43f875?w=800&auto=format&fit=crop&q=60",
-      category: "Karahi"
-    },
-    {
-      name: "Mutton Karahi",
-      description: "Spicy mutton karahi with special masala",
-      price: "1200",
-      image: "https://images.unsplash.com/photo-1605491138091-5bcfae5ad783?w=800&auto=format&fit=crop&q=60",
-      category: "Karahi"
-    },
-
-    // Bread
-    {
-      name: "Naan",
-      description: "Fresh tandoori naan",
-      price: "40",
-      image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800&auto=format&fit=crop&q=60",
-      category: "Bread"
-    },
-    {
-      name: "Garlic Naan",
-      description: "Naan topped with garlic and butter",
-      price: "60",
-      image: "https://images.unsplash.com/photo-1593882100739-68de1c6a3c4c?w=800&auto=format&fit=crop&q=60",
-      category: "Bread"
-    },
-
-    // Drinks
-    {
-      name: "Soft Drinks",
-      description: "Pepsi, Coke, Sprite, 7up (500ml)",
-      price: "80",
-      image: "https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=800&auto=format&fit=crop&q=60",
-      category: "Drinks"
-    },
-    {
-      name: "Mineral Water",
-      description: "500ml bottle",
-      price: "50",
-      image: "https://images.unsplash.com/photo-1616118132534-381148898bb4?w=800&auto=format&fit=crop&q=60",
-      category: "Drinks"
-    }
-  ];
-
-  // Use dynamic menu items if available, otherwise fall back to static
-  const menuItems = dynamicMenuItems.length > 0 ? dynamicMenuItems : staticMenuItems;
-
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  // 1. All useState hooks first
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [showCallButton, setShowCallButton] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
-  // Refs
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  // 2. useRef hooks
+  const categoriesRef = useRef<HTMLDivElement>(null);
 
-  // Filter menu items based on category and search
-  const filteredMenuItems = useMemo(() => {
-    return menuItems.filter(item => {
-      const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
-      const matchesSearch = searchQuery === '' || 
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
-    });
-  }, [menuItems, selectedCategory, searchQuery]);
+  // 3. Route params
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  // Check scroll position to show/hide arrows
-  const checkScroll = useCallback(() => {
-    const container = scrollContainerRef.current;
-    if (container) {
-      setCanScrollLeft(container.scrollLeft > 0);
-      const canScroll = container.scrollWidth > container.clientWidth;
-      const isEnd = Math.abs(container.scrollWidth - container.clientWidth - container.scrollLeft) < 1;
-      setCanScrollRight(canScroll && !isEnd);
-    }
-  }, []);
+  // 4. Custom hooks
+  const { restaurant, menuItems: dynamicMenuItems, ads, isLoading, error } = useRestaurantData(id || '');
 
-  // Add scroll event listener
+  // 5. useEffect hooks
   useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.addEventListener('scroll', checkScroll);
-      checkScroll();
-      window.addEventListener('resize', checkScroll);
+    const handleScroll = () => {
+      if (categoriesRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = categoriesRef.current;
+        setCanScrollLeft(scrollLeft > 0);
+        setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+      }
+    };
+
+    const currentRef = categoriesRef.current;
+    if (currentRef) {
+      currentRef.addEventListener('scroll', handleScroll);
+      handleScroll();
     }
 
     return () => {
-      if (container) {
-        container.removeEventListener('scroll', checkScroll);
+      if (currentRef) {
+        currentRef.removeEventListener('scroll', handleScroll);
       }
-      window.removeEventListener('resize', checkScroll);
     };
-  }, [checkScroll]);
-
-  // Handle scroll for call button
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowCallButton(window.scrollY > 200);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const categories = ['All', 'Biryani', 'BBQ', 'Karahi', 'Deals'];
+  useEffect(() => {
+    if (!isLoading && !restaurant) {
+      navigate('/restaurants');  // Redirect to restaurants list if not found
+    }
+  }, [isLoading, restaurant, navigate]);
+
+  // 6. useMemo hooks
+  const filteredMenuItems = useMemo(() => {
+    if (!dynamicMenuItems) return [];
+    return dynamicMenuItems.filter(item => {
+      const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
+      const matchesSearch = !searchQuery || 
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description?.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [dynamicMenuItems, selectedCategory, searchQuery]);
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (error || !restaurant) {
+    return (
+      <Layout>
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <h1 className="text-2xl font-bold mb-4">Restaurant Not Found</h1>
+          <p className="text-gray-600 mb-6">The restaurant you're looking for doesn't exist or there was an error loading it.</p>
+          <button 
+            onClick={() => navigate('/restaurants')}
+            className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+          >
+            View All Restaurants
+          </button>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
-      <style>{customStyles}</style>
       <div className="min-h-screen bg-gray-50">
         {/* Breadcrumb */}
-        <div className="bg-white">
-          <div className="max-w-[1280px] mx-auto">
+        <div className="bg-white border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4">
             <Breadcrumb
               items={[
                 { label: 'Islamabad', link: '/' },
                 { label: 'Restaurants', link: '/restaurants' },
-                { label: 'Karachi Biryani House' }
+                { label: restaurant.name }
               ]}
             />
           </div>
         </div>
 
-        {/* Restaurant Hero Section */}
         <RestaurantHero
-          name="Karachi Biryani House"
-          cuisine="Pakistani, Biryani, BBQ"
-          rating={4.8}
-          totalReviews={500}
-          isTopRestaurant={true}
-          deliveryFee={149}
-          minOrder={349}
-          image="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?q=80&w=2788&auto=format&fit=crop"
+          name={restaurant.name}
+          cuisine={restaurant.category}
+          rating={restaurant.rating}
+          totalReviews={150}
+          isTopRestaurant={restaurant.settings?.is_featured}
+          deliveryFee={restaurant.settings?.delivery_fee || 0}
+          minOrder={restaurant.settings?.minimum_order || 0}
+          image={restaurant.image}
+          restaurant={restaurant}
         />
 
-        {/* Mobile Search Modal */}
-        <AnimatePresence>
-          {showMobileSearch && (
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/30 z-50"
-            >
-              <motion.div 
-                initial={{ translateY: "100%" }}
-                animate={{ translateY: 0 }}
-                exit={{ translateY: "100%" }}
-                className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-4"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <button onClick={() => setShowMobileSearch(false)}>
-                    <X className="w-6 h-6 text-gray-600" />
-                  </button>
-                  <input
-                    type="text"
-                    placeholder="Search menu items..."
-                    className="flex-1 bg-transparent text-[15px] placeholder:text-gray-400 focus:outline-none"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Menu Filter Bar */}
-        <div className="sticky top-[64px] bg-white z-10 border-t border-b border-gray-100">
-          <div className="max-w-[1280px] mx-auto px-4">
+        {/* Menu Categories */}
+        <div className="sticky top-14 bg-white border-b border-gray-100 z-20">
+          <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-center justify-between py-2">
-              {/* Categories */}
-              <div className="flex-1 flex items-center gap-3 overflow-x-auto no-scrollbar">
-                {categories.map((category, index) => (
+              <div className="flex-1 flex items-center gap-3 overflow-x-auto no-scrollbar" ref={categoriesRef}>
+                <button
+                  onClick={() => setSelectedCategory('All')}
+                  className={`
+                    whitespace-nowrap px-4 py-1.5 rounded-full text-[13px] font-medium transition-all
+                    ${selectedCategory === 'All'
+                      ? 'bg-gray-900 text-white'
+                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                    }
+                  `}
+                >
+                  All
+                </button>
+                {restaurant.menu_categories?.map(category => (
                   <button
-                    key={index}
-                    onClick={() => setSelectedCategory(category.toLowerCase())}
+                    key={category.id}
+                    onClick={() => setSelectedCategory(category.name)}
                     className={`
-                      whitespace-nowrap px-4 py-1.5 rounded-full text-[13px] font-medium
-                      ${selectedCategory === category.toLowerCase()
-                        ? 'bg-gray-900 text-white' 
+                      whitespace-nowrap px-4 py-1.5 rounded-full text-[13px] font-medium transition-all
+                      ${selectedCategory === category.name
+                        ? 'bg-gray-900 text-white'
                         : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                       }
                     `}
                   >
-                    {category}
+                    {category.name}
                   </button>
                 ))}
               </div>
@@ -417,7 +190,7 @@ const RestaurantDetail = () => {
 
               {/* Search Button - Mobile */}
               <button
-                onClick={() => setShowMobileSearch(true)}
+                onClick={() => setIsSearchModalOpen(true)}
                 className="md:hidden ml-3 text-gray-700"
               >
                 <Search className="w-5 h-5" />
@@ -427,23 +200,26 @@ const RestaurantDetail = () => {
         </div>
 
         {/* Menu Items Grid */}
-        <div className="bg-white">
-          <div className="max-w-[1280px] mx-auto px-4 py-6">
-            {/* Mobile Version */}
-            <div className="md:hidden">
-              <div className="grid grid-cols-1 gap-4">
-                {filteredMenuItems.map((menuItem, index) => (
-                  <div key={index} className="bg-white rounded-lg border border-gray-100 p-4">
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Menu Items - Takes up 2 columns on desktop */}
+            <div className="flex-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {filteredMenuItems.map((item, index) => (
+                  <div key={item.id || index} className="bg-white rounded-lg border border-gray-100 p-4">
                     <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="text-[17px] font-medium mb-1">{menuItem.name}</h3>
-                        <p className="text-[15px] text-gray-600 mb-1">from Rs. {menuItem.price}</p>
-                        <p className="text-[13px] text-gray-500">{menuItem.description}</p>
+                      <div className="flex-1">
+                        <h3 className="text-[17px] font-medium mb-1">{item.name}</h3>
+                        <p className="text-[15px] text-gray-600 mb-1">from Rs. {item.price}</p>
+                        <p className="text-[13px] text-gray-500">{item.description}</p>
                       </div>
-                      <div className="relative">
-                        <img src={menuItem.image} 
-                             alt={menuItem.name} className="w-[100px] h-[100px] rounded-lg object-cover" />
-                        <button className="absolute -bottom-3 -right-3 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center">
+                      <div className="relative ml-4">
+                        <img 
+                          src={item.image} 
+                          alt={item.name} 
+                          className="w-[100px] h-[100px] rounded-lg object-cover"
+                        />
+                        <button className="absolute -bottom-3 -right-3 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gray-50">
                           <Plus className="w-5 h-5" />
                         </button>
                       </div>
@@ -453,73 +229,94 @@ const RestaurantDetail = () => {
               </div>
             </div>
 
-            {/* Web Version */}
-            <div className="hidden md:flex gap-6">
-              {/* Menu Items */}
-              <div className="flex-1">
-                <div className="grid grid-cols-2 gap-4">
-                  {filteredMenuItems.map((menuItem, index) => (
-                    <div key={index} className="bg-white rounded-lg border border-gray-100 p-4">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h3 className="text-[17px] font-medium mb-1">{menuItem.name}</h3>
-                          <p className="text-[15px] text-gray-600 mb-1">from Rs. {menuItem.price}</p>
-                          <p className="text-[13px] text-gray-500">{menuItem.description}</p>
-                        </div>
-                        <div className="relative">
-                          <img src={menuItem.image} 
-                               alt={menuItem.name} className="w-[100px] h-[100px] rounded-lg object-cover" />
-                          <button className="absolute -bottom-3 -right-3 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center">
-                            <Plus className="w-5 h-5" />
-                          </button>
-                        </div>
+            {/* Right Column - Ads and Campaign */}
+            <div className="lg:w-[420px] space-y-8">
+              {/* Promotions */}
+              {ads && ads.length > 0 && (
+                <div className="overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-100">
+                  {/* Ad Carousel */}
+                  <div className="relative">
+                    <RestaurantAdCarousel ads={ads} />
+                    
+                    {/* Offer Count Badge */}
+                    <div className="absolute top-4 right-4 px-3 py-1 bg-black/70 backdrop-blur-sm rounded-full">
+                      <div className="flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                        <span className="text-xs font-medium text-white">
+                          {ads.length} {ads.length === 1 ? 'Offer' : 'Offers'}
+                        </span>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Contact Info & Hours - Web Only */}
-              <div className="w-[300px] flex-shrink-0">
-                <div className="bg-white rounded-lg border border-gray-100 p-4 sticky top-[80px]">
-                  <h3 className="text-[15px] font-medium mb-4">Contact & Hours</h3>
-                  
-                  {/* Contact Info */}
-                  <div className="space-y-3 mb-4">
-                    <div className="flex items-start gap-3">
-                      <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />
-                      <p className="text-[13px] text-gray-600">F-7 Markaz, Jinnah Super Market, Islamabad</p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Phone className="w-4 h-4 text-gray-400" />
-                      <p className="text-[13px] text-gray-600">051-2345678</p>
-                    </div>
                   </div>
 
-                  {/* Opening Hours */}
-                  <h4 className="text-[13px] font-medium mb-2">Opening Hours</h4>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-[13px]">
-                      <span className="text-gray-600">Monday - Thursday</span>
-                      <span>11:00 - 23:00</span>
-                    </div>
-                    <div className="flex justify-between text-[13px]">
-                      <span className="text-gray-600">Friday - Saturday</span>
-                      <span>11:00 - 23:30</span>
-                    </div>
-                    <div className="flex justify-between text-[13px]">
-                      <span className="text-gray-600">Sunday</span>
-                      <span>11:00 - 23:00</span>
+                  {/* Bottom Section */}
+                  <div className="px-4 py-3 border-t border-gray-100 bg-gray-50">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                        <ClockIcon className="w-3.5 h-3.5" />
+                        <span>Limited time offers</span>
+                      </div>
+                      <button 
+                        className="text-xs font-medium text-gray-700 hover:text-gray-900 transition-colors"
+                        onClick={() => {
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                          navigate(`/offers?restaurant=${id}`);
+                        }}
+                      >
+                        View All →
+                      </button>
                     </div>
                   </div>
                 </div>
+              )}
+
+              {/* Tree Plantation Campaign */}
+              <div className="h-full">
+                <CampaignCard 
+                  onDonate={() => {
+                    // Handle donation logic
+                    console.log('Donation clicked');
+                  }}
+                />
               </div>
             </div>
           </div>
         </div>
+
+        {/* Search Modal */}
+        <AnimatePresence>
+          {isSearchModalOpen && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/30 z-50"
+            >
+              <motion.div 
+                initial={{ translateY: "100%" }}
+                animate={{ translateY: 0 }}
+                exit={{ translateY: "100%" }}
+                className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-4"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <button onClick={() => setIsSearchModalOpen(false)}>
+                    <X className="w-6 h-6 text-gray-600" />
+                  </button>
+                  <input
+                    type="text"
+                    placeholder="Search menu items..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="flex-1 bg-transparent text-[15px] placeholder:text-gray-400 focus:outline-none"
+                  />
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </Layout>
   );
-}
+};
 
 export default RestaurantDetail;

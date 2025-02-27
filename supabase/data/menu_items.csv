@@ -1,0 +1,8 @@
+category_name,restaurant_name,name,description,price,image_url,is_vegetarian,is_spicy,is_available,display_order
+"Biryanis","Karachi Biryani House","Chicken Biryani","Aromatic rice cooked with tender chicken and spices",12.99,"https://example.com/chicken-biryani.jpg",false,true,true,1
+"Biryanis","Karachi Biryani House","Mutton Biryani","Rich biryani made with tender mutton",14.99,"https://example.com/mutton-biryani.jpg",false,true,true,2
+"BBQ","Karachi Biryani House","Seekh Kebab","Minced meat kebabs with herbs and spices",10.99,"https://example.com/seekh-kebab.jpg",false,true,true,1
+"BBQ","Karachi Biryani House","Chicken Tikka","Marinated and grilled chicken pieces",11.99,"https://example.com/chicken-tikka.jpg",false,true,true,2
+"Curries","Karachi Biryani House","Butter Chicken","Creamy tomato-based curry with chicken",13.99,"https://example.com/butter-chicken.jpg",false,false,true,1
+"Breads","Karachi Biryani House","Garlic Naan","Freshly baked bread with garlic",2.99,"https://example.com/garlic-naan.jpg",true,false,true,1
+"Drinks","Karachi Biryani House","Mango Lassi","Sweet yogurt drink with mango",3.99,"https://example.com/mango-lassi.jpg",true,false,true,1

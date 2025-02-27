@@ -45,7 +45,7 @@ export default function Offers() {
       code: "MCFOODO30",
       discount: "30% OFF",
       validUntil: "2024-03-31",
-      image: "https://images.unsplash.com/photo-1619881589176-57d9c5e23d30",
+      image: "https://images.unsplash.com/photo-1619893227858-b9dd08950e1d",
       type: "partnerships",
       featured: true,
       partnerLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/McDonald%27s_Golden_Arches.svg/2339px-McDonald%27s_Golden_Arches.svg.png",
@@ -98,7 +98,7 @@ export default function Offers() {
       code: "FREEDEL",
       discount: "FREE DELIVERY",
       validUntil: "2024-03-31",
-      image: "https://images.unsplash.com/photo-1629905679177-4c4e2623654f",
+      image: "https://images.unsplash.com/photo-1526367790999-0150786686a2",
       type: "trending",
       featured: false,
       partnerLogo: null,
@@ -148,7 +148,7 @@ export default function Offers() {
       name: "Dragon Roll",
       restaurant: "Sushi Master",
       image: "https://images.unsplash.com/photo-1559847844-5315695dadae",
-      price: 16.99,
+      price: 4500,
       rating: 4.8
     },
     {
@@ -156,7 +156,7 @@ export default function Offers() {
       name: "Truffle Burger",
       restaurant: "Burger House",
       image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
-      price: 14.99,
+      price: 4000,
       rating: 4.9
     },
     {
@@ -164,7 +164,7 @@ export default function Offers() {
       name: "Margherita Pizza",
       restaurant: "Pizza Palace",
       image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38",
-      price: 12.99,
+      price: 3500,
       rating: 4.7
     }
   ];
@@ -260,24 +260,19 @@ export default function Offers() {
                   className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
                 >
                   {/* Image Container */}
-                  <div className="relative h-48">
+                  <div className="relative h-48 bg-gray-100">
                     <img
                       src={promo.image}
                       alt={promo.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-opacity duration-300"
+                      loading="lazy"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c';
+                        target.onerror = null;
+                      }}
                     />
-                    {promo.featured && (
-                      <div className="absolute top-4 left-4 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
-                        <Star className="w-4 h-4" />
-                        Featured
-                      </div>
-                    )}
-                    {promo.type === 'flash_deals' && (
-                      <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
-                        <Timer className="w-4 h-4" />
-                        {promo.timeLeft}
-                      </div>
-                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
                   </div>
 
                   <div className="p-6">
@@ -302,28 +297,54 @@ export default function Offers() {
                       </div>
                       <div className="flex items-center gap-1">
                         <Clock className="w-4 h-4" />
-                        Valid until {promo.validUntil}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <User className="w-4 h-4" />
-                        {promo.usageCount.toLocaleString()}+ used
+                        Valid until: {promo.validUntil}
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 bg-gray-50 rounded-lg px-4 py-2 font-mono text-gray-900">
-                        {promo.code}
+                    {/* Tags Section at Bottom */}
+                    <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-gray-100">
+                      {promo.featured && (
+                        <span className="bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1">
+                          <Star className="w-3.5 h-3.5" />
+                          Featured
+                        </span>
+                      )}
+                      {promo.type === 'flash_deals' && (
+                        <span className="bg-red-50 text-red-700 px-2.5 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1">
+                          <Timer className="w-3.5 h-3.5" />
+                          {promo.timeLeft} left
+                        </span>
+                      )}
+                      {promo.type === 'partnerships' && (
+                        <span className="bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1">
+                          <Award className="w-3.5 h-3.5" />
+                          Partner Offer
+                        </span>
+                      )}
+                      <span className="bg-gray-50 text-gray-600 px-2.5 py-1 rounded-full text-xs font-medium">
+                        {promo.usageCount.toLocaleString()}+ used
+                      </span>
+                    </div>
+
+                    <div className="mt-4 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleCopyCode(promo.code)}
+                          className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-900 bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg transition-colors"
+                        >
+                          {copiedCode === promo.code ? (
+                            <>
+                              <Check className="w-4 h-4 text-green-600" />
+                              Copied!
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-4 h-4" />
+                              {promo.code}
+                            </>
+                          )}
+                        </button>
                       </div>
-                      <button
-                        onClick={() => handleCopyCode(promo.code)}
-                        className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors"
-                      >
-                        {copiedCode === promo.code ? (
-                          <Check className="w-5 h-5" />
-                        ) : (
-                          <Copy className="w-5 h-5" />
-                        )}
-                      </button>
                     </div>
                   </div>
                 </motion.div>
@@ -376,32 +397,47 @@ export default function Offers() {
                 ))}
 
                 {/* Trending Dishes */}
-                <div className="bg-gray-900 rounded-xl p-6 relative">
-                  <div className="absolute right-0 top-0 bg-white/90 text-gray-900 text-xs px-2 py-1 rounded-bl-lg">
-                    Ad
-                  </div>
-                  <h3 className="text-lg font-semibold text-white mb-4">
-                    🔥 Trending Dishes
-                  </h3>
-                  <div className="space-y-4">
-                    {trendingDishes.map((dish) => (
-                      <div key={dish.id} className="flex items-center space-x-3 p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer">
-                        <img
-                          src={dish.image}
-                          alt={dish.name}
-                          className="w-16 h-16 rounded-lg object-cover"
-                        />
-                        <div className="flex-1">
-                          <h4 className="font-medium text-white">{dish.name}</h4>
-                          <p className="text-sm text-gray-400">{dish.restaurant}</p>
-                          <div className="flex items-center mt-1">
-                            <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                            <span className="text-sm text-gray-400 ml-1">{dish.rating}</span>
-                          </div>
-                        </div>
-                        <span className="text-green-400">${dish.price}</span>
+                <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-6">
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900">Trending Dishes</h3>
+                        <p className="text-sm text-gray-500 mt-1">Most ordered dishes this week</p>
                       </div>
-                    ))}
+                      <div className="h-10 w-10 rounded-full bg-red-50 flex items-center justify-center">
+                        <TrendingUp className="w-5 h-5 text-red-500" />
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      {trendingDishes.map((dish) => (
+                        <div 
+                          key={dish.id} 
+                          className="group flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-all cursor-pointer"
+                        >
+                          <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                            <img
+                              src={dish.image}
+                              alt={dish.name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-medium text-gray-900 truncate">{dish.name}</h4>
+                            <p className="text-sm text-gray-500 truncate">{dish.restaurant}</p>
+                            <p className="text-sm font-medium text-green-600 mt-1">
+                              Rs. {dish.price.toLocaleString()}
+                            </p>
+                          </div>
+                          <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors" />
+                        </div>
+                      ))}
+                    </div>
+
+                    <button className="mt-6 w-full py-3 px-4 bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                      View All Trending Dishes
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
               </div>
