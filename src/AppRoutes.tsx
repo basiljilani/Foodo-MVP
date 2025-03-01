@@ -25,6 +25,7 @@ import Payment from './pages/Payment';
 import Settings from './pages/Settings';
 import Preferences from './pages/Preferences';
 import Partner from './pages/Partner';
+import GreenFuture from './pages/GreenFuture';
 
 // Protected Route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -88,6 +89,7 @@ export default function AppRoutes() {
       <Route path="/testimonials" element={<Testimonials />} />
       <Route path="/about" element={<About />} />
       <Route path="/partner" element={<Partner />} />
+      <Route path="/green-future" element={<GreenFuture />} />
       
       {/* Semi-protected routes - accessible to both logged in and non-logged in users */}
       <Route path="/restaurant/:id" element={<RestaurantDetail />} />

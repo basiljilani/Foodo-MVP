@@ -10,7 +10,7 @@ import { supabase } from '../lib/supabase';
 export default function Home() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  const [realRestaurants, setRealRestaurants] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState({
     categories: [],
@@ -30,153 +30,64 @@ export default function Home() {
     { id: 'dessert', name: 'Mithai', icon: '🍯' },
   ];
 
-  const restaurants = [
-    {
-      id: 1,
-      name: "Karachi Biryani House",
-      image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8",
-      rating: 4.8,
-      openingHours: "11:00 AM - 11:00 PM",
-      tags: ["Biryani", "Pakistani", "BBQ"],
-      category: "biryani",
-      priceRange: "$$",
-      description: "Famous for authentic Karachi-style biryani and BBQ specialties.",
-      distance: "1.2 km",
-      estimatedTime: "20-30 min",
-      featured: true
-    },
-    {
-      id: 2,
-      name: "Lahore Tikka House",
-      image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0",
-      rating: 4.9,
-      openingHours: "12:00 PM - 12:00 AM",
-      tags: ["Pakistani", "BBQ", "Karahi"],
-      category: "bbq",
-      priceRange: "$$",
-      description: "Authentic Lahori taste with signature tikka and karahi dishes.",
-      distance: "0.8 km",
-      estimatedTime: "15-25 min",
-      featured: true
-    },
-    {
-      id: 3,
-      name: "Peshawar Namak Mandi",
-      image: "https://images.unsplash.com/photo-1606491956689-2ea866880c84",
-      rating: 4.7,
-      openingHours: "1:00 PM - 1:00 AM",
-      tags: ["BBQ", "Karahi", "Traditional"],
-      category: "karahi",
-      priceRange: "$$",
-      description: "Famous for traditional Peshawari karahi and namkeen tikka.",
-      distance: "2.1 km",
-      estimatedTime: "25-35 min"
-    },
-    {
-      id: 4,
-      name: "Gujranwala Nihari House",
-      image: "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a",
-      rating: 4.8,
-      openingHours: "6:00 AM - 11:00 PM",
-      tags: ["Nihari", "Pakistani", "Traditional"],
-      category: "nihari",
-      priceRange: "$",
-      description: "Serving the most authentic Nihari recipe since generations.",
-      distance: "1.5 km",
-      estimatedTime: "20-30 min"
-    },
-    {
-      id: 5,
-      name: "Islamabad Chaat Corner",
-      image: "https://images.unsplash.com/photo-1601050690597-df0568f70950",
-      rating: 4.6,
-      openingHours: "11:00 AM - 11:00 PM",
-      tags: ["Chaat", "Street Food", "Snacks"],
-      category: "chaat",
-      priceRange: "$",
-      description: "Famous for gol gappay, dahi bhalla, and special chaat masala.",
-      distance: "0.5 km",
-      estimatedTime: "15-20 min"
-    },
-    {
-      id: 6,
-      name: "Rawalpindi Paratha House",
-      image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641",
-      rating: 4.7,
-      openingHours: "6:00 AM - 11:00 PM",
-      tags: ["Breakfast", "Paratha", "Traditional"],
-      category: "paratha",
-      priceRange: "$",
-      description: "Best breakfast spot famous for crispy parathas and lassi.",
-      distance: "1.0 km",
-      estimatedTime: "15-25 min"
-    },
-    {
-      id: 7,
-      name: "Hyderabad Sweet House",
-      image: "https://images.unsplash.com/photo-1615832494873-b0c52d519696",
-      rating: 4.8,
-      openingHours: "9:00 AM - 11:00 PM",
-      tags: ["Mithai", "Desserts", "Traditional"],
-      category: "dessert",
-      priceRange: "$$",
-      description: "Famous for traditional Pakistani sweets and desserts.",
-      distance: "1.8 km",
-      estimatedTime: "20-30 min"
-    },
-    {
-      id: 8,
-      name: "Multan Food Street",
-      image: "https://images.unsplash.com/photo-1628294895950-9805252327bc",
-      rating: 4.7,
-      openingHours: "11:00 AM - 12:00 AM",
-      tags: ["BBQ", "Traditional", "Street Food"],
-      category: "bbq",
-      priceRange: "$$",
-      description: "Authentic Multani flavors with special sohan halwa.",
-      distance: "2.5 km",
-      estimatedTime: "25-35 min"
-    }
-  ];
-
-  // Fetch real restaurants from Supabase
   useEffect(() => {
-    const fetchRestaurants = async () => {
+    async function fetchRestaurants() {
       try {
+        setIsLoading(true);
         const { data, error } = await supabase
-          .from('restaurants')
+          .from('unified_restaurants')
           .select('*')
-          .order('created_at', { ascending: false });
+          .eq('is_open', true);
 
         if (error) {
           console.error('Error fetching restaurants:', error);
+          setRestaurants([]);
           return;
         }
 
-        // Transform and validate the data
-        const transformedData = (data || []).map(restaurant => ({
-          ...restaurant,
-          tags: restaurant.tags || [],
-          rating: restaurant.rating || 0,
-          distance: restaurant.distance || 'N/A',
-          estimatedTime: restaurant.estimatedTime || 'N/A',
-          image: restaurant.image || 'https://placehold.co/400x300?text=No+Image',
-          description: restaurant.description || 'No description available'
-        }));
+        // Create a Map to deduplicate restaurants by restaurant_id
+        const restaurantMap = new Map();
+        
+        data.forEach(restaurant => {
+          // Only add if we haven't seen this restaurant_id before
+          if (!restaurantMap.has(restaurant.restaurant_id)) {
+            restaurantMap.set(restaurant.restaurant_id, {
+              id: restaurant.restaurant_id,
+              name: restaurant.restaurant_name,
+              image: restaurant.restaurant_image,
+              rating: restaurant.rating || 0,
+              openingHours: restaurant.opening_hours,
+              tags: typeof restaurant.restaurant_tags === 'string' 
+                ? [restaurant.restaurant_tags] 
+                : restaurant.restaurant_tags 
+                  ? JSON.parse(restaurant.restaurant_tags) 
+                  : [],
+              category: restaurant.restaurant_categories ? restaurant.restaurant_categories.split('_')[0].toLowerCase() : 'all',
+              priceRange: restaurant.price_range || '$$',
+              description: restaurant.restaurant_description,
+              distance: restaurant.distance || 'N/A',
+              estimatedTime: restaurant.delivery_time || '30-45 min',
+              featured: restaurant.is_featured || false
+            });
+          }
+        });
 
-        setRealRestaurants(transformedData);
-      } catch (error) {
-        console.error('Error:', error);
+        // Convert Map values back to array
+        const transformedData = Array.from(restaurantMap.values());
+        console.log('Fetched restaurants:', transformedData);
+        setRestaurants(transformedData);
+      } catch (err) {
+        console.error('Error processing restaurants:', err);
+        setRestaurants([]);
       } finally {
         setIsLoading(false);
       }
-    };
+    }
 
     fetchRestaurants();
   }, []);
 
-  // Combine mock and real restaurants
-  const allRestaurants = [...restaurants, ...realRestaurants];
+  const filteredRestaurants = restaurants;
 
   const handleTabClick = (tab: string) => {
     switch (tab) {
@@ -278,7 +189,7 @@ export default function Home() {
                     </div>
                   ))
                 ) : (
-                  allRestaurants
+                  filteredRestaurants
                     .filter(restaurant => {
                       const matchesSearch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                           restaurant.description.toLowerCase().includes(searchQuery.toLowerCase());

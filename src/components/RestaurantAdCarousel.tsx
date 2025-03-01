@@ -1,126 +1,79 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { Database } from '../types/supabase';
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-type Ad = Database['public']['Tables']['restaurant_ads']['Row'];
+interface Ad {
+  id: string;
+  title: string;
+  description: string;
+  image?: string;
+}
 
 interface RestaurantAdCarouselProps {
   ads: Ad[];
 }
 
-export default function RestaurantAdCarousel({ ads }: RestaurantAdCarouselProps) {
+const RestaurantAdCarousel: React.FC<RestaurantAdCarouselProps> = ({ ads }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
 
-  useEffect(() => {
-    // Auto-advance every 5 seconds
-    const timer = setInterval(() => {
-      setDirection(1);
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % ads.length);
-    }, 5000);
-
-    return () => clearInterval(timer);
-  }, [ads.length]);
-
-  const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1
-    },
-    exit: (direction: number) => ({
-      zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
-      opacity: 0
-    })
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % ads.length);
   };
 
-  const swipeConfidenceThreshold = 10000;
-  const swipePower = (offset: number, velocity: number) => {
-    return Math.abs(offset) * velocity;
-  };
-
-  const paginate = (newDirection: number) => {
-    setDirection(newDirection);
-    setCurrentIndex((prevIndex) => (prevIndex + newDirection + ads.length) % ads.length);
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + ads.length) % ads.length);
   };
 
   if (!ads || ads.length === 0) return null;
 
   return (
-    <div className="relative h-full">
-      <div className="relative overflow-hidden rounded-xl aspect-[16/9]">
-        <AnimatePresence initial={false} custom={direction}>
-          <motion.div
-            key={currentIndex}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              x: { type: "spring", stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 }
-            }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={1}
-            onDragEnd={(e, { offset, velocity }) => {
-              const swipe = swipePower(offset.x, velocity.x);
+    <div className="relative">
+      {/* Current Ad */}
+      <div className="relative h-[200px] bg-gradient-to-r from-purple-500 to-pink-500">
+        <img
+          src={ads[currentIndex].image || 'https://placehold.co/800x400?text=Special+Offer'}
+          alt={ads[currentIndex].title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40 p-6 flex flex-col justify-end">
+          <h3 className="text-xl font-bold text-white mb-2">{ads[currentIndex].title}</h3>
+          <p className="text-white/90">{ads[currentIndex].description}</p>
+        </div>
+      </div>
 
-              if (swipe < -swipeConfidenceThreshold) {
-                paginate(1);
-              } else if (swipe > swipeConfidenceThreshold) {
-                paginate(-1);
-              }
-            }}
-            className="absolute w-full h-full"
-          >
-            <img
-              src={ads[currentIndex].image_url}
-              alt={ads[currentIndex].title}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10">
-              <div className="absolute bottom-0 left-0 right-0 p-5">
-                <h4 className="text-base font-medium text-white mb-1.5">{ads[currentIndex].title}</h4>
-                <p className="text-sm text-gray-200 line-clamp-2">{ads[currentIndex].description}</p>
-              </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Navigation Buttons */}
-        <div className="absolute inset-0 flex items-center justify-between px-3 opacity-0 hover:opacity-100 transition-opacity">
+      {/* Navigation Buttons */}
+      {ads.length > 1 && (
+        <>
           <button
-            className="w-8 h-8 rounded-full bg-black/20 backdrop-blur flex items-center justify-center text-white hover:bg-black/30 transition-colors"
-            onClick={() => paginate(-1)}
+            onClick={prevSlide}
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/30 hover:bg-black/50 flex items-center justify-center text-white transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
-            className="w-8 h-8 rounded-full bg-black/20 backdrop-blur flex items-center justify-center text-white hover:bg-black/30 transition-colors"
-            onClick={() => paginate(1)}
+            onClick={nextSlide}
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/30 hover:bg-black/50 flex items-center justify-center text-white transition-colors"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
-        </div>
+        </>
+      )}
 
-        {/* Progress Bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
-          <motion.div
-            className="h-full bg-white"
-            initial={{ width: "0%" }}
-            animate={{ width: `${((currentIndex + 1) / ads.length) * 100}%` }}
-            transition={{ duration: 0.3 }}
-          />
+      {/* Dots */}
+      {ads.length > 1 && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
+          {ads.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-1.5 h-1.5 rounded-full transition-all ${
+                index === currentIndex ? 'bg-white w-3' : 'bg-white/50'
+              }`}
+            />
+          ))}
         </div>
-      </div>
+      )}
     </div>
   );
-}
+};
+
+export default RestaurantAdCarousel;
