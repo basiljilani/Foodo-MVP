@@ -1,15 +1,73 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { mockRestaurants } from '../data/mockData';
+
+export interface MenuItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  isAvailable: boolean;
+  preparationTime: string;
+  allergens: string[];
+  spicyLevel: string;
+  isVegetarian: boolean;
+  isVegan: boolean;
+  isRecommended: boolean;
+  category: string;
+}
+
+export interface Restaurant {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  logo: string;
+  bannerImage: string;
+  rating: number;
+  reviewsCount: number;
+  cuisine: string;
+  priceRange: string;
+  deliveryTime: string;
+  minimumOrder: number;
+  deliveryFee: number;
+  isTopRestaurant: boolean;
+  isFeatured: boolean;
+  contact: {
+    phone: string;
+    email: string;
+    website: string;
+    address: string;
+    city: string;
+    social: {
+      instagram: string;
+      facebook: string;
+      whatsapp: string;
+    };
+  };
+  features: {
+    isOpen: boolean;
+    acceptsOnlinePayment: boolean;
+    hasHappyHours: boolean;
+    autoAcceptOrders: boolean;
+    atmosphere: string;
+    dressCode: string;
+    parking: string;
+    alcohol: string;
+  };
+  menuItems: Record<string, MenuItem[]>;
+  menuCategories: string[];
+}
 
 export function useRestaurantData(restaurantId: string) {
-  const [restaurant, setRestaurant] = useState<any | null>(null);
-  const [menuItems, setMenuItems] = useState<any[]>([]);
-  const [menuCategories, setMenuCategories] = useState<any[]>([]);
+  const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('Popular');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchData() {
+    const timer = setTimeout(() => {
       try {
         setIsLoading(true);
         setError(null);
@@ -18,115 +76,34 @@ export function useRestaurantData(restaurantId: string) {
           throw new Error('Restaurant ID is required');
         }
 
-        // Get the base restaurant data
-        const { data: restaurantData, error: restaurantError } = await supabase
-          .from('restaurants')
-          .select('*')
-          .eq('restaurant_id', parseInt(restaurantId))
-          .limit(1)
-          .single();
+        const restaurantData = mockRestaurants.find(r => r.id === restaurantId);
 
-        if (restaurantError) throw restaurantError;
-        if (!restaurantData) throw new Error('Restaurant not found');
+        if (!restaurantData) {
+          throw new Error('Restaurant not found');
+        }
 
-        // Transform restaurant data
-        const transformedRestaurant = {
-          id: restaurantData.restaurant_id.toString(),
-          name: restaurantData.restaurant_name,
-          description: restaurantData.restaurant_description,
-          cuisine: restaurantData.restaurant_categories?.split('_')[0] || 'Steakhouse',
-          image: restaurantData.restaurant_image,
-          bannerImage: restaurantData.restaurant_banner_image,
-          logo: restaurantData.restaurant_logo,
-          rating: restaurantData.rating || 4.5,
-          totalReviews: restaurantData.reviews_count || 100,
-          isTopRestaurant: restaurantData.is_top_restaurant || false,
-          deliveryFee: restaurantData.delivery_fee || 0,
-          minOrder: restaurantData.minimum_order || 0,
-          estimatedTime: restaurantData.delivery_time || '30-45 min',
-          distance: restaurantData.distance || '2.5 km',
-          priceRange: restaurantData.price_range || '$$$$',
-          tags: typeof restaurantData.restaurant_tags === 'string'
-            ? [restaurantData.restaurant_tags]
-            : restaurantData.restaurant_tags
-              ? JSON.parse(restaurantData.restaurant_tags)
-              : [],
-          contact: {
-            phone: restaurantData.restaurant_phone,
-            email: restaurantData.restaurant_email,
-            website: restaurantData.restaurant_website,
-            address: restaurantData.restaurant_address,
-            city: restaurantData.restaurant_city,
-            social: {
-              instagram: restaurantData.instagram_link,
-              facebook: restaurantData.facebook_link,
-              whatsapp: restaurantData.whatsapp_number
-            }
-          },
-          features: {
-            isOpen: restaurantData.is_open || true,
-            acceptsOnlinePayment: restaurantData.accepts_online_payment || false,
-            hasHappyHours: restaurantData.has_happy_hours || false,
-            autoAcceptOrders: restaurantData.auto_accept_orders || false
-          }
-        };
+        setRestaurant(restaurantData);
+        
+        // Get menu items for the selected category
+        const categoryItems = restaurantData.menuItems[selectedCategory] || [];
+        setMenuItems(categoryItems);
 
-        // Get menu categories
-        const { data: categoryData, error: categoryError } = await supabase
-          .from('menu_categories')
-          .select('*')
-          .eq('restaurant_id', parseInt(restaurantId))
-          .order('category_display_order');
-
-        if (categoryError) throw categoryError;
-
-        // Transform categories
-        const transformedCategories = categoryData.map(cat => ({
-          id: cat.category_id.toString(),
-          name: cat.category_name,
-          displayOrder: cat.category_display_order || 0
-        }));
-
-        // Get menu items
-        const { data: itemData, error: itemError } = await supabase
-          .from('menu_items')
-          .select(`
-            *,
-            menu_categories (
-              category_name
-            )
-          `)
-          .eq('restaurant_id', parseInt(restaurantId));
-
-        if (itemError) throw itemError;
-
-        // Transform menu items
-        const transformedItems = itemData.map(item => ({
-          id: item.item_id.toString(),
-          name: item.item_name,
-          description: item.item_description || '',
-          price: item.item_price || 0,
-          image: item.item_image || '',
-          isAvailable: item.item_is_available !== false,
-          category: item.menu_categories?.category_name || 'Uncategorized',
-          allergens: item.item_allergens?.split('_') || [],
-          isVegetarian: item.item_is_vegetarian || false,
-          isVegan: item.item_is_vegan || false,
-          spicyLevel: item.item_spicy_level || 'low'
-        }));
-
-        setRestaurant(transformedRestaurant);
-        setMenuCategories(transformedCategories);
-        setMenuItems(transformedItems);
       } catch (err: any) {
         setError(err.message);
       } finally {
         setIsLoading(false);
       }
-    }
+    }, 500); // Simulate API delay
 
-    fetchData();
-  }, [restaurantId]);
+    return () => clearTimeout(timer);
+  }, [restaurantId, selectedCategory]);
 
-  return { restaurant, menuItems, menuCategories, isLoading, error };
+  return {
+    restaurant,
+    menuItems,
+    selectedCategory,
+    setSelectedCategory,
+    isLoading,
+    error
+  };
 }

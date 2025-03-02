@@ -1,0 +1,4 @@
+id,name,description,cuisine,rating,reviews_count,price_range,delivery_time,minimum_order,delivery_fee,image_url,is_featured,is_top_restaurant,created_at,updated_at
+1001,La Cucina,Authentic Italian cuisine in the heart of Dubai,Italian Fine Dining,4.60,128,$$$,25-40,40.00,5.00,https://images.unsplash.com/photo-1555396273-367ea4eb4db5,true,true,2025-03-02 10:55:23.075986+00,2025-03-02 10:55:23.075986+00
+1002,Sushi Master,Premium Japanese dining experience,Japanese,4.80,156,$$$$,20-35,50.00,6.00,https://images.unsplash.com/photo-1579871494447-9811cf80d66c,true,true,2025-03-02 10:55:23.075986+00,2025-03-02 10:55:23.075986+00
+1003,Burger Fusion,Gourmet burgers with a modern twist,American,4.40,203,$$,15-30,30.00,4.00,https://images.unsplash.com/photo-1568901346375-23c9450c58cd,false,false,2025-03-02 10:55:23.075986+00,2025-03-02 10:55:23.075986+00
