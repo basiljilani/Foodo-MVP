@@ -28,7 +28,7 @@ export default function Navigation() {
     <>
       <nav className="fixed top-0 left-0 right-0 bg-white shadow z-50">
         <div className="max-w-[1280px] mx-auto px-4">
-          <div className="flex h-[56px] items-center justify-between">
+          <div className="flex h-[70px] items-center justify-between">
             {/* Logo */}
             <div className="flex-shrink-0">
               <Link to="/" className="flex items-center">

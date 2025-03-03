@@ -30,7 +30,7 @@ const mockRestaurants: Restaurant[] = [
     name: 'KFC',
     description: 'Finger lickin good',
     image: '/images/kfc-hero.jpg',
-    logo: '/images/kfc-logo.png',
+    logo: '/images/new-kfc-logo.png',
     coverImage: 'https://images.unsplash.com/photo-1513639776629-7b61b0ac49cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1767&q=80',
     rating: 4.5,
     reviewsCount: 100,
