@@ -11,6 +11,8 @@ interface Restaurant {
   name: string;
   description: string;
   image: string;
+  logo: string;
+  coverImage: string;
   rating: number;
   reviewsCount: number;
   contact: {
@@ -27,7 +29,9 @@ const mockRestaurants: Restaurant[] = [
     id: 'kfc',
     name: 'KFC',
     description: 'Finger lickin good',
-    image: 'https://example.com/kfc.jpg',
+    image: '/images/kfc-hero.jpg',
+    logo: '/images/kfc-logo.png',
+    coverImage: 'https://images.unsplash.com/photo-1513639776629-7b61b0ac49cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1767&q=80',
     rating: 4.5,
     reviewsCount: 100,
     contact: {
@@ -154,56 +158,50 @@ export default function Home() {
                     onClick={() => handleRestaurantClick(restaurant.id)}
                     whileHover={{ y: -5 }}
                   >
-                    <div className="relative h-48">
-                      <OptimizedImage
-                        src={restaurant.image}
-                        alt={restaurant.name}
-                        className="w-full h-full object-cover"
-                      />
+                    <div className="relative h-48 bg-gray-50">
+                      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${restaurant.coverImage})` }}>
+                        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+                      </div>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <img
+                          src={restaurant.logo}
+                          alt={restaurant.name}
+                          className="w-32 h-32 object-contain"
+                        />
+                      </div>
+                      <div className="absolute top-4 right-4">
+                        <Heart className="w-6 h-6 text-white hover:text-red-500 transition-colors" />
+                      </div>
                       {restaurant.features.isOpen ? (
-                        <span className="absolute top-4 right-4 px-2 py-1 bg-green-500 text-white text-sm rounded-full">
+                        <div className="absolute top-4 left-4 px-2 py-1 bg-green-500 text-white text-sm rounded-full">
                           Open
-                        </span>
+                        </div>
                       ) : (
-                        <span className="absolute top-4 right-4 px-2 py-1 bg-red-500 text-white text-sm rounded-full">
+                        <div className="absolute top-4 left-4 px-2 py-1 bg-red-500 text-white text-sm rounded-full">
                           Closed
-                        </span>
+                        </div>
                       )}
                     </div>
 
                     <div className="p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          {restaurant.name}
-                        </h3>
-                        <button className="text-gray-400 hover:text-red-500 transition-colors">
-                          <Heart size={20} />
-                        </button>
+                        <h3 className="text-lg font-semibold text-gray-900">{restaurant.name}</h3>
+                        <div className="flex items-center">
+                          <Star className="w-5 h-5 text-yellow-400 mr-1" />
+                          <span className="text-sm font-medium text-gray-600">
+                            {restaurant.rating} ({restaurant.reviewsCount})
+                          </span>
+                        </div>
                       </div>
 
-                      <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                        {restaurant.description}
-                      </p>
-
-                      <div className="flex items-center text-sm text-gray-500 mb-3">
-                        <MapPin size={16} className="mr-1" />
+                      <div className="flex items-center text-sm text-gray-500 mb-2">
+                        <MapPin className="w-4 h-4 mr-1" />
                         <span>{restaurant.contact.city}</span>
                       </div>
 
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <Star size={16} className="text-yellow-400 mr-1" />
-                          <span className="text-sm font-medium">
-                            {restaurant.rating}
-                          </span>
-                          <span className="text-gray-400 text-sm ml-1">
-                            ({restaurant.reviewsCount})
-                          </span>
-                        </div>
-                        <div className="flex items-center text-sm">
-                          <Clock size={16} className="mr-1" />
-                          <span>{restaurant.deliveryTime}</span>
-                        </div>
+                      <div className="flex items-center text-sm text-gray-500">
+                        <Clock className="w-4 h-4 mr-1" />
+                        <span>{restaurant.deliveryTime}</span>
                       </div>
                     </div>
                   </motion.div>

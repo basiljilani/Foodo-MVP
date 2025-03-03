@@ -8,9 +8,9 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bg-white shadow-sm">
+      <nav className="bg-white shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 justify-between">
+          <div className="flex h-24 justify-between">
             {/* Logo */}
             <div className="flex items-center">
               <Link to="/" className="flex items-center">

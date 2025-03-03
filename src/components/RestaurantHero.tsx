@@ -145,3 +145,11 @@ const RestaurantHero: React.FC<RestaurantHeroProps> = ({
 };
 
 export default RestaurantHero;
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RestaurantHero;
