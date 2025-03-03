@@ -118,11 +118,11 @@ export default function RestaurantDetail() {
 
         {/* Restaurant Header */}
         <div className="flex gap-6">
-          <div className="w-[160px] h-[160px] bg-[#E4002B] rounded-lg flex items-center justify-center p-6">
+          <div className="w-[160px] h-[160px] bg-[#E4002B] rounded-lg flex items-center justify-center p-2">
             <img
               src={restaurant.logo}
               alt={restaurant.name}
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain scale-150"
               loading="eager"
             />
           </div>
