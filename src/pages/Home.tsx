@@ -27,15 +27,15 @@ interface Restaurant {
 const mockRestaurants: Restaurant[] = [
   {
     id: 'kfc',
-    name: 'KFC',
+    name: 'KFC F-11 Islamabad',
     description: 'Finger lickin good',
     image: '/images/kfc-hero.jpg',
-    logo: '/images/new-kfc-logo.png',
+    logo: '/images/kfc-logo-proper.png',
     coverImage: 'https://images.unsplash.com/photo-1513639776629-7b61b0ac49cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1767&q=80',
     rating: 4.5,
     reviewsCount: 100,
     contact: {
-      city: 'New York',
+      city: 'F-11, Islamabad',
     },
     deliveryTime: '30-45 min',
     features: {
@@ -159,9 +159,13 @@ export default function Home() {
                     whileHover={{ y: -5 }}
                   >
                     <div className="relative h-48 bg-gray-50">
-                      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${restaurant.coverImage})` }}>
-                        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-                      </div>
+                      {restaurant.id === 'kfc' ? (
+                        <div className="absolute inset-0" style={{ backgroundColor: '#E4002B' }}></div>
+                      ) : (
+                        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${restaurant.coverImage})` }}>
+                          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+                        </div>
+                      )}
                       <div className="absolute inset-0 flex items-center justify-center">
                         <img
                           src={restaurant.logo}
@@ -172,15 +176,15 @@ export default function Home() {
                       <div className="absolute top-4 right-4">
                         <Heart className="w-6 h-6 text-white hover:text-red-500 transition-colors" />
                       </div>
-                      {restaurant.features.isOpen ? (
+                      {restaurant.features.isOpen && restaurant.id !== 'kfc' ? (
                         <div className="absolute top-4 left-4 px-2 py-1 bg-green-500 text-white text-sm rounded-full">
                           Open
                         </div>
-                      ) : (
+                      ) : restaurant.id !== 'kfc' && !restaurant.features.isOpen ? (
                         <div className="absolute top-4 left-4 px-2 py-1 bg-red-500 text-white text-sm rounded-full">
                           Closed
                         </div>
-                      )}
+                      ) : null}
                     </div>
 
                     <div className="p-4">
