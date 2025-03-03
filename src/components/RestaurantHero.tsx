@@ -124,16 +124,9 @@ const RestaurantHero: React.FC<RestaurantHeroProps> = ({
                   <Info className="w-4 h-4 md:w-5 md:h-5" />
                   More info
                 </button>
-                <a
-                  href="tel:051111532532"
-                  className="flex items-center gap-1 md:gap-2 text-gray-500 px-3 md:px-4 py-1.5 md:py-2 rounded-lg hover:bg-[#E4002B] hover:text-white transition-all duration-300 text-xs md:text-sm"
-                >
-                  <Phone className="w-4 h-4 md:w-5 md:h-5" />
-                  <span className="font-medium">Call Now</span>
-                </a>
               </div>
               <button 
-                className={`text-gray-400 hover:text-red-500 transition-colors`}
+                className={`text-gray-400 hover:text-red-500`}
                 onClick={handleFavoriteClick}
               >
                 <Heart className={`w-6 h-6 ${isFavorite ? 'fill-current text-red-500' : ''}`} />
