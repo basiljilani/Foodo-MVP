@@ -20,9 +20,11 @@ import {
   CreditCard, 
   Banknote, 
   Zap, 
-  CheckCircle 
+  CheckCircle, 
+  Phone 
 } from 'lucide-react';
 import { Dialog, Transition } from '@headlessui/react';
+import { motion } from 'framer-motion';
 import Layout from '../../components/Layout';
 import RestaurantAds from '../../components/RestaurantAds';
 import { useRestaurantData } from '../../hooks/useRestaurantData';
@@ -143,13 +145,39 @@ export default function RestaurantDetail() {
             </div>
             
             <div className="flex items-center justify-between pb-1">
-              <button 
-                className="text-gray-500 hover:text-gray-700 flex items-center gap-2"
-                onClick={() => setIsInfoModalOpen(true)}
-              >
-                <Info className="w-5 h-5" />
-                More info
-              </button>
+              <div className="flex items-center gap-4">
+                <button 
+                  className="text-gray-500 hover:text-gray-700 flex items-center gap-2"
+                  onClick={() => setIsInfoModalOpen(true)}
+                >
+                  <Info className="w-5 h-5" />
+                  More info
+                </button>
+                <motion.a
+                  href="tel:051111532532"
+                  className="flex items-center gap-2 text-gray-500 px-4 py-2 rounded-lg"
+                  whileHover={{ 
+                    scale: 1.05,
+                    backgroundColor: '#E4002B',
+                    color: '#ffffff',
+                    paddingLeft: '16px',
+                    paddingRight: '16px',
+                    paddingTop: '8px',
+                    paddingBottom: '8px'
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: 0.2,
+                    type: "spring",
+                    stiffness: 500
+                  }}
+                >
+                  <Phone className="w-5 h-5" />
+                  <span className="font-medium">Call Now</span>
+                </motion.a>
+              </div>
               <button className="text-gray-400 hover:text-red-500 transition-colors">
                 <Heart className="w-6 h-6" />
               </button>

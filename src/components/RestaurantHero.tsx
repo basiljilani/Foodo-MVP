@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Info, Star, ChevronRight } from 'lucide-react';
+import { Heart, Info, Star, ChevronRight, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface RestaurantHeroProps {
@@ -50,101 +50,65 @@ const RestaurantHero: React.FC<RestaurantHeroProps> = ({
 
       {/* Restaurant Info */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="flex items-start gap-6">
-          {/* Restaurant Image */}
-          <div className="shrink-0">
+        <div className="flex gap-6">
+          {/* Restaurant Logo */}
+          <div className="w-[160px] h-[160px] bg-[#E4002B] rounded-lg flex items-center justify-center p-2">
             <img
               src={restaurant.image}
               alt={name}
-              className="w-24 h-24 rounded-lg object-cover"
+              className="w-full h-full object-contain"
+              loading="eager"
             />
           </div>
           
           {/* Restaurant Details */}
-          <div className="flex-1">
-            {/* Cuisine Tags */}
-            <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
-              <span>Pakistani</span>
-              <span>•</span>
-              <span>{cuisine}</span>
-              <span>•</span>
-              <span>Pulao</span>
+          <div className="flex-1 flex flex-col justify-between">
+            <div>
+              <div className="text-gray-500 mb-1 flex items-center gap-2">
+                <span>Burgers</span>
+                <span>·</span>
+                <span>Fast Food</span>
+                <span>·</span>
+                <span>Western</span>
+                <span>·</span>
+                <span>Broast</span>
+              </div>
+              <h1 className="text-4xl font-bold text-gray-900">
+                {name}
+              </h1>
             </div>
 
-            {/* Restaurant Name */}
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">{name}</h1>
-
-            {/* Stats */}
-            <div className="flex items-center gap-6 text-sm">
-              {isTopRestaurant && (
-                <div className="flex items-center gap-1">
-                  <span className="font-medium">Top restaurant</span>
-                </div>
-              )}
-              {deliveryFee !== undefined && (
-                <div className="flex items-center gap-1">
-                  <span>Rs. {deliveryFee} delivery</span>
-                </div>
-              )}
-              {minOrder !== undefined && (
-                <div className="flex items-center gap-1">
-                  <span>Min. order Rs. {minOrder}</span>
-                </div>
-              )}
-            </div>
-
-            {/* Rating and Actions */}
-            <div className="flex items-center justify-between mt-3">
+            <div className="flex items-center justify-between pb-1">
               <div className="flex items-center gap-4">
-                {restaurant.rating && (
-                  <div className="flex items-center gap-1">
-                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    <span className="font-medium">{restaurant.rating}</span>
-                    {restaurant.reviewsCount && (
-                      <>
-                        <span className="text-gray-500">({restaurant.reviewsCount})</span>
-                        <button 
-                          className="text-gray-600 hover:text-gray-900 text-sm ml-1"
-                          onClick={onMoreInfoClick}
-                        >
-                          See reviews
-                        </button>
-                      </>
-                    )}
-                  </div>
-                )}
-                <button 
-                  className="text-gray-600 hover:text-gray-900 text-sm"
+                <motion.button 
+                  className="text-gray-500 hover:text-gray-700 flex items-center gap-2"
                   onClick={onMoreInfoClick}
                 >
+                  <Info className="w-5 h-5" />
                   More info
-                </button>
+                </motion.button>
+                <motion.a
+                  href="tel:051111532532"
+                  className="flex items-center gap-2 text-gray-500 select-none px-4 py-2 rounded-lg"
+                  whileHover={{ 
+                    backgroundColor: '#E4002B',
+                    color: '#ffffff'
+                  }}
+                  transition={{ 
+                    duration: 0.2
+                  }}
+                >
+                  <Phone className="w-5 h-5" />
+                  <span className="font-medium">Call Now</span>
+                </motion.a>
               </div>
-
-              <button 
-                className={`flex items-center gap-1 text-gray-600 hover:text-gray-900 ${isFavorite ? 'text-red-500 hover:text-red-600' : ''}`}
+              <motion.button 
+                className={`text-gray-400 hover:text-red-500 transition-colors`}
                 onClick={handleFavoriteClick}
               >
-                <motion.div
-                  whileTap={{ scale: 0.9 }}
-                  animate={isFavorite ? {
-                    scale: [1, 1.2, 0.95, 1],
-                    transition: { duration: 0.3 }
-                  } : {}}
-                >
-                  <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
-                </motion.div>
-                <span>Add to favourites</span>
-              </button>
+                <Heart className={`w-6 h-6 ${isFavorite ? 'fill-current text-red-500' : ''}`} />
+              </motion.button>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default RestaurantHero;
           </div>
         </div>
       </div>
