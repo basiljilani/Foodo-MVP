@@ -56,7 +56,7 @@ const RestaurantHero: React.FC<RestaurantHeroProps> = ({
             <img
               src={restaurant.image}
               alt={name}
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain scale-150"
               loading="eager"
             />
           </div>
