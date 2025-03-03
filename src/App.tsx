@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import { SupabaseProvider } from './contexts/SupabaseContext';
 import AppRoutes from './AppRoutes';
+import MobileBlocker from './components/MobileBlocker';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               },
             }}
           />
+          <MobileBlocker />
           <AppRoutes />
         </AuthProvider>
       </SupabaseProvider>

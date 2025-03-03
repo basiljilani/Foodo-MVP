@@ -26,7 +26,12 @@ export default function Layout({ children }: LayoutProps) {
           {children}
         </div>
       </main>
-      {shouldShowFooter && <Footer />}
+      {shouldShowFooter && (
+        <>
+          <div className="mt-16"></div>
+          <Footer />
+        </>
+      )}
     </div>
   );
 }

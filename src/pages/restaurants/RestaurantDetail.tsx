@@ -18,9 +18,9 @@ import {
   MessageCircle, 
   Quote, 
   CreditCard, 
-  Banknote, 
-  Zap, 
-  CheckCircle, 
+  Banknote,
+  Zap,
+  CheckCircle,
   Phone 
 } from 'lucide-react';
 import { Dialog, Transition } from '@headlessui/react';
@@ -36,6 +36,7 @@ export default function RestaurantDetail() {
   const [showLeftScroll, setShowLeftScroll] = useState(false);
   const [showRightScroll, setShowRightScroll] = useState(false);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
   const categoriesRef = useRef<HTMLDivElement>(null);
   
   const { 
@@ -52,19 +53,19 @@ export default function RestaurantDetail() {
     item.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const checkScroll = () => {
-    if (categoriesRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = categoriesRef.current;
-      setShowLeftScroll(scrollLeft > 0);
-      setShowRightScroll(scrollLeft < scrollWidth - clientWidth - 10);
-    }
-  };
-
   useEffect(() => {
     checkScroll();
     window.addEventListener('resize', checkScroll);
     return () => window.removeEventListener('resize', checkScroll);
   }, []);
+
+  const checkScroll = () => {
+    if (categoriesRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = categoriesRef.current;
+      setShowLeftScroll(scrollLeft > 0);
+      setShowRightScroll(scrollLeft + clientWidth < scrollWidth - 10);
+    }
+  };
 
   const scroll = (direction: 'left' | 'right') => {
     if (categoriesRef.current) {
@@ -147,10 +148,10 @@ export default function RestaurantDetail() {
             <div className="flex items-center justify-between pb-1">
               <div className="flex items-center gap-4">
                 <button 
-                  className="text-gray-500 hover:text-gray-700 flex items-center gap-2"
+                  className="text-gray-500 hover:text-gray-700 flex items-center gap-2 p-2"
                   onClick={() => setIsInfoModalOpen(true)}
                 >
-                  <Info className="w-5 h-5" />
+                  <Info className="w-4 h-4" />
                   More info
                 </button>
                 <motion.a
@@ -174,70 +175,137 @@ export default function RestaurantDetail() {
                     stiffness: 500
                   }}
                 >
-                  <Phone className="w-5 h-5" />
+                  <Phone className="w-4 h-4" />
                   <span className="font-medium">Call Now</span>
                 </motion.a>
               </div>
-              <button className="text-gray-400 hover:text-red-500 transition-colors">
-                <Heart className="w-6 h-6" />
+              <button className="text-gray-400 hover:text-red-500 transition-colors p-2">
+                <Heart className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Menu Categories */}
-        <div className="sticky top-[56px] -mx-4 sm:-mx-6 lg:-mx-8 bg-white z-40 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)]">
-          <div className="px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between py-4">
-              <div className="flex items-center relative" style={{ maxWidth: 'calc(100% - 232px)' }}>
-                <button
-                  onClick={() => scroll('left')}
-                  className={`absolute left-0 z-10 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.15)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.2)] rounded-full p-1.5 transition-all ${
-                    showLeftScroll ? 'opacity-100 translate-x-0' : 'opacity-0 pointer-events-none -translate-x-4'
-                  }`}
-                  style={{ transform: 'translateX(-50%)' }}
-                >
-                  <ChevronLeft className="w-4 h-4 text-gray-600" />
-                </button>
-                <div 
-                  ref={categoriesRef}
-                  className="flex items-center gap-1 overflow-x-auto no-scrollbar px-5"
-                  onScroll={checkScroll}
-                >
-                  {restaurant.menuCategories.map((category) => {
-                    const count = restaurant.menuItems[category]?.length || 0;
-                    return (
-                      <button
-                        key={category}
-                        className={`px-4 py-2 whitespace-nowrap text-sm font-medium rounded-full transition-colors flex-shrink-0 ${
-                          selectedCategory === category
-                            ? 'bg-red-500 text-white'
-                            : 'text-gray-600 hover:bg-gray-100'
-                        }`}
-                        onClick={() => setSelectedCategory(category)}
-                      >
-                        {category} ({count})
-                      </button>
-                    );
-                  })}
+        {/* Mobile Call Now Button */}
+        <div className="md:hidden px-4 py-3 border-b border-gray-100">
+          <a
+            href="tel:051111532532"
+            className="flex items-center justify-center gap-2 text-gray-600 py-2 w-full"
+          >
+            <Phone className="w-4 h-4" />
+            <span className="font-medium">Call Now</span>
+          </a>
+        </div>
+
+        {/* Categories Section */}
+        <div className="border-b border-gray-200 sticky top-[56px] bg-white z-10 shadow-sm">
+          <div className="max-w-7xl mx-auto">
+            {/* Mobile filter bar */}
+            <div className="md:hidden flex items-center justify-between px-4 py-3">
+              <div className="flex-1 overflow-x-auto no-scrollbar pr-4">
+                <div className="flex items-center gap-4">
+                  {restaurant.menuCategories.map((category) => (
+                    <button
+                      key={category}
+                      className={`whitespace-nowrap text-sm font-medium transition-colors ${
+                        selectedCategory === category
+                          ? 'text-[#E4002B] border-b-2 border-[#E4002B] pb-1'
+                          : 'text-gray-600'
+                      }`}
+                      onClick={() => setSelectedCategory(category)}
+                    >
+                      {category}
+                    </button>
+                  ))}
                 </div>
-                <button
-                  onClick={() => scroll('right')}
-                  className={`absolute right-0 z-10 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.15)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.2)] rounded-full p-1.5 transition-all ${
-                    showRightScroll ? 'opacity-100 translate-x-0' : 'opacity-0 pointer-events-none translate-x-4'
-                  }`}
-                  style={{ transform: 'translateX(50%)' }}
-                >
-                  <ChevronRight className="w-4 h-4 text-gray-600" />
-                </button>
               </div>
-              <div className="flex-shrink-0 relative ml-4">
+              <button
+                onClick={() => setShowMobileSearch(!showMobileSearch)}
+                className="ml-4 p-2 flex-shrink-0"
+                aria-label="Search menu"
+              >
+                <Search className="w-5 h-5 text-gray-600" />
+              </button>
+            </div>
+            
+            {/* Mobile search input (conditionally shown) */}
+            {showMobileSearch && (
+              <div className="md:hidden px-4 pb-3">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search menu"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-3 pr-10 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#E4002B] focus:ring-1 focus:ring-[#E4002B] w-full"
+                    autoFocus
+                  />
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
+                    {searchQuery && (
+                      <button 
+                        onClick={() => setSearchQuery('')}
+                        className="mr-1"
+                      >
+                        <X className="w-4 h-4 text-gray-400" />
+                      </button>
+                    )}
+                    <Search className="w-4 h-4 text-gray-400" />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Desktop filter bar */}
+            <div className="hidden md:flex flex-row items-center justify-between py-2 px-4">
+              <div className="relative flex-1 max-w-[calc(100%-220px)] bg-white">
+                <div className="relative">
+                  <button
+                    onClick={() => scroll('left')}
+                    className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.15)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.2)] rounded-full p-2 transition-all ${
+                      showLeftScroll ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    }`}
+                  >
+                    <ChevronLeft className="w-4 h-4 text-gray-600" />
+                  </button>
+                  <div 
+                    ref={categoriesRef}
+                    className="flex items-center gap-2 overflow-x-auto no-scrollbar px-8"
+                    onScroll={checkScroll}
+                  >
+                    {restaurant.menuCategories.map((category) => {
+                      const count = restaurant.menuItems[category]?.length || 0;
+                      return (
+                        <button
+                          key={category}
+                          className={`px-4 py-2 whitespace-nowrap text-sm font-medium rounded-full transition-colors flex-shrink-0 ${
+                            selectedCategory === category
+                              ? 'bg-[#E4002B] text-white'
+                              : 'text-gray-600 hover:bg-gray-100'
+                          }`}
+                          onClick={() => setSelectedCategory(category)}
+                        >
+                          {category} ({count})
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <button
+                    onClick={() => scroll('right')}
+                    className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.15)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.2)] rounded-full p-2 transition-all ${
+                      showRightScroll ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    }`}
+                  >
+                    <ChevronRight className="w-4 h-4 text-gray-600" />
+                  </button>
+                </div>
+              </div>
+              <div className="flex-shrink-0 relative ml-4 w-[200px]">
                 <input
                   type="text"
                   placeholder="Search menu"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-3 pr-10 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 w-[200px]"
+                  className="pl-3 pr-10 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#E4002B] focus:ring-1 focus:ring-[#E4002B] w-full"
                 />
                 <Search className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2" />
               </div>
@@ -246,33 +314,33 @@ export default function RestaurantDetail() {
         </div>
 
         {/* Menu and Ads Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 px-4 md:px-0">
           {/* Menu Items */}
           <div className="lg:col-span-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 auto-rows-[120px]">
               {filteredItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex flex-col bg-white rounded-lg border border-gray-200 p-3 hover:border-red-100 hover:shadow-sm transition-all"
+                  className="flex flex-col bg-white rounded-lg border border-gray-200 p-2 md:p-3 hover:border-[#E4002B]/20 hover:shadow-sm transition-all"
                 >
-                  <div className="flex flex-col justify-between h-full space-y-2">
-                    <div className="space-y-1">
-                      <h3 className="text-base font-medium text-gray-900">
+                  <div className="flex flex-col justify-between h-full space-y-1 md:space-y-2">
+                    <div className="space-y-0.5 md:space-y-1">
+                      <h3 className="text-sm md:text-base font-medium text-gray-900">
                         {item.name}
                       </h3>
-                      <p className="text-sm text-gray-500 line-clamp-2">
+                      <p className="text-xs md:text-sm text-gray-500 line-clamp-2">
                         {item.description}
                       </p>
                     </div>
                     <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium text-gray-900">
+                      <p className="text-xs md:text-sm font-medium text-gray-900">
                         {item.price.toString().startsWith('from') ? item.price : `Rs. ${item.price}`}
                       </p>
                       <button
-                        className="rounded-full p-1.5 text-red-500 hover:bg-red-50 transition-colors"
+                        className="rounded-full p-2 text-[#E4002B] hover:bg-[#E4002B]/5 transition-colors"
                         onClick={() => {/* Add to cart logic */}}
                       >
-                        <Plus className="w-5 h-5" />
+                        <Plus className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
@@ -301,15 +369,9 @@ export default function RestaurantDetail() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-medium text-green-800">Save Trees, Go Digital</h3>
-                  <p className="mt-1 text-sm text-green-600">
-                    We've gone paperless! Your digital receipt helps save trees. Together we can make a difference.
-                  </p>
-                  <button className="mt-3 text-sm font-medium text-green-700 hover:text-green-800 flex items-center space-x-1">
-                    <span>Learn more</span>
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
+                <div>
+                  <h3 className="font-medium text-green-800">Eco-Friendly Packaging</h3>
+                  <p className="text-sm text-green-600 mt-1">We're committed to reducing our environmental impact with sustainable packaging.</p>
                 </div>
               </div>
             </div>
@@ -348,20 +410,20 @@ export default function RestaurantDetail() {
 
                         <div className="grid grid-cols-2 gap-4 mb-8">
                           <div className="flex items-center gap-2">
-                            <Star className="w-5 h-5 text-yellow-400 fill-current" />
+                            <Star className="w-4 h-4 text-yellow-400 fill-current" />
                             <span className="text-gray-900 font-medium">{restaurant.rating}/5</span>
                             <span className="text-gray-500">(1000+ reviews)</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Clock className="w-5 h-5 text-gray-600" />
+                            <Clock className="w-4 h-4 text-gray-600" />
                             <span className="text-gray-900">Rs. {restaurant.deliveryFee} delivery</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Info className="w-5 h-5 text-gray-600" />
+                            <Info className="w-4 h-4 text-gray-600" />
                             <span className="text-gray-900">Min. order Rs. {restaurant.minimumOrder}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Zap className="w-5 h-5 text-gray-600" />
+                            <Zap className="w-4 h-4 text-gray-600" />
                             <span className="text-gray-900">30-45 min delivery</span>
                           </div>
                         </div>
@@ -397,7 +459,7 @@ export default function RestaurantDetail() {
                       
                       <button
                         type="button"
-                        className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+                        className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none p-2"
                         onClick={() => setIsInfoModalOpen(false)}
                       >
                         <span className="sr-only">Close</span>
@@ -444,7 +506,7 @@ export default function RestaurantDetail() {
                   <div className="space-y-8">
                     <div>
                       <h4 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <Clock className="w-5 h-5 text-gray-600" />
+                        <Clock className="w-4 h-4 text-gray-600" />
                         Opening Hours
                       </h4>
                       <div className="bg-white rounded-xl p-4 shadow-sm">
@@ -467,7 +529,7 @@ export default function RestaurantDetail() {
 
                     <div>
                       <h4 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <MapPin className="w-5 h-5 text-gray-600" />
+                        <MapPin className="w-4 h-4 text-gray-600" />
                         Delivery Information
                       </h4>
                       <div className="bg-white rounded-xl p-4 shadow-sm space-y-4">
@@ -488,25 +550,25 @@ export default function RestaurantDetail() {
 
                     <div>
                       <h4 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <Star className="w-5 h-5 text-gray-600" />
+                        <Star className="w-4 h-4 text-gray-600" />
                         Additional Information
                       </h4>
                       <div className="bg-white rounded-xl p-4 shadow-sm">
                         <div className="grid grid-cols-2 gap-4">
                           <div className="flex items-center gap-2 text-gray-600">
-                            <CreditCard className="w-5 h-5" />
+                            <CreditCard className="w-4 h-4" />
                             Card Payment
                           </div>
                           <div className="flex items-center gap-2 text-gray-600">
-                            <Banknote className="w-5 h-5" />
+                            <Banknote className="w-4 h-4" />
                             Cash on Delivery
                           </div>
                           <div className="flex items-center gap-2 text-gray-600">
-                            <Zap className="w-5 h-5" />
+                            <Zap className="w-4 h-4" />
                             Express Delivery
                           </div>
                           <div className="flex items-center gap-2 text-gray-600">
-                            <CheckCircle className="w-5 h-5" />
+                            <CheckCircle className="w-4 h-4" />
                             Order Tracking
                           </div>
                         </div>
