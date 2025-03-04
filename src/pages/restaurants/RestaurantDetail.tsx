@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, Fragment } from 'react';
+import React, { useState, useRef, useEffect, Fragment, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
   Star, 
@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { Dialog, Transition } from '@headlessui/react';
 import { motion } from 'framer-motion';
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import Layout from '../../components/Layout';
 import RestaurantAds from '../../components/RestaurantAds';
 import { useRestaurantData } from '../../hooks/useRestaurantData';
@@ -435,17 +436,13 @@ export default function RestaurantDetail() {
                             </span>
                           </div>
                           <div className="w-full h-48 rounded-xl overflow-hidden">
-                            <iframe
-                              title="Restaurant Location"
-                              width="100%"
-                              height="100%"
-                              frameBorder="0"
-                              style={{ border: 0 }}
-                              src={`https://www.openstreetmap.org/export/embed.html?bbox=73.011,33.693,73.013,33.695&layer=mapnik&marker=33.694,73.012`}
+                            <GoogleMapComponent 
+                              address={restaurant.contact.address} 
+                              apiKey="AIzaSyBq0x5ylLdwyERDXQUX2hqRv5Y_shib_CY"
                             />
                           </div>
                           <a 
-                            href="https://www.openstreetmap.org/?mlat=33.694&mlon=73.012#map=18"
+                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(restaurant.contact.address)}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1"
@@ -581,5 +578,48 @@ export default function RestaurantDetail() {
         </Dialog>
       </Transition>
     </Layout>
+  );
+}
+
+function GoogleMapComponent({ address, apiKey }) {
+  // KFC F-11 branch coordinates in Islamabad
+  const kfcF11Location = { lat: 33.6845, lng: 72.9913 };
+  
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: apiKey
+  });
+
+  const mapRef = useRef(null);
+  
+  const onLoad = useCallback(map => {
+    mapRef.current = map;
+  }, []);
+
+  const onUnmount = useCallback(() => {
+    mapRef.current = null;
+  }, []);
+
+  if (!isLoaded) return <div className="w-full h-full bg-gray-100 flex items-center justify-center">Loading map...</div>;
+
+  return (
+    <GoogleMap
+      mapContainerStyle={{ width: '100%', height: '100%' }}
+      center={kfcF11Location}
+      zoom={16}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
+      options={{
+        fullscreenControl: false,
+        streetViewControl: false,
+        mapTypeControl: false,
+        zoomControl: true
+      }}
+    >
+      <Marker 
+        position={kfcF11Location} 
+        title="KFC F-11 Branch"
+      />
+    </GoogleMap>
   );
 }
