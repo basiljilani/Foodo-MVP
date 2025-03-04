@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { TreePine, Leaf, Sprout, BatteryCharging, Recycle } from 'lucide-react';
 import MainLayout from '../layouts/MainLayout';
 
 export default function GreenFuture() {
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const successStories = [
     {
       title: "Urban Greening",

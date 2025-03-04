@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Mail, Phone, MapPin, Clock } from 'lucide-react';
 import FoodoLogo from './FoodoLogo';
+import ScrollToTopLink from './ScrollToTopLink';
 
 export default function Footer() {
   const footerLinks = {
@@ -56,9 +57,9 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.foodo.map((link) => (
                 <li key={link.name}>
-                  <Link to={link.href} className="text-gray-300 hover:text-white transition-colors">
+                  <ScrollToTopLink to={link.href} className="text-gray-300 hover:text-white transition-colors">
                     {link.name}
-                  </Link>
+                  </ScrollToTopLink>
                 </li>
               ))}
             </ul>
@@ -70,9 +71,9 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
-                  <Link to={link.href} className="text-gray-300 hover:text-white transition-colors">
+                  <ScrollToTopLink to={link.href} className="text-gray-300 hover:text-white transition-colors">
                     {link.name}
-                  </Link>
+                  </ScrollToTopLink>
                 </li>
               ))}
             </ul>

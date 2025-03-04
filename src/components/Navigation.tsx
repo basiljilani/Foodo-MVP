@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, Map } from 'lucide-react';
 import FoodoLogo from './FoodoLogo';
 import NearMeModal from './NearMeModal';
+import ScrollToTopLink from './ScrollToTopLink';
 
 export default function Navigation() {
   const navigate = useNavigate();
@@ -31,15 +32,15 @@ export default function Navigation() {
           <div className="flex h-[70px] items-center justify-between">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <Link to="/" className="flex items-center">
+              <ScrollToTopLink to="/" className="flex items-center">
                 <FoodoLogo className="h-7" />
-              </Link>
+              </ScrollToTopLink>
             </div>
 
             {/* Navigation Links - Centered */}
             <div className="hidden md:flex flex-1 justify-center">
               <div className="flex items-center space-x-10">
-                <Link
+                <ScrollToTopLink
                   to="/home"
                   className={`text-base font-medium transition-colors duration-200 ${
                     isActive('/home')
@@ -48,8 +49,8 @@ export default function Navigation() {
                   }`}
                 >
                   Home
-                </Link>
-                <Link
+                </ScrollToTopLink>
+                <ScrollToTopLink
                   to="/offers"
                   className={`text-base font-medium transition-colors duration-200 ${
                     isActive('/offers')
@@ -58,8 +59,8 @@ export default function Navigation() {
                   }`}
                 >
                   Offers
-                </Link>
-                <Link
+                </ScrollToTopLink>
+                <ScrollToTopLink
                   to="/foodo-ai"
                   className={`text-base font-medium transition-colors duration-200 ${
                     isActive('/foodo-ai')
@@ -68,8 +69,8 @@ export default function Navigation() {
                   }`}
                 >
                   Foodo AI
-                </Link>
-                <Link
+                </ScrollToTopLink>
+                <ScrollToTopLink
                   to="/help"
                   className={`text-base font-medium transition-colors duration-200 ${
                     isActive('/help')
@@ -78,7 +79,7 @@ export default function Navigation() {
                   }`}
                 >
                   Help
-                </Link>
+                </ScrollToTopLink>
               </div>
             </div>
 
@@ -115,7 +116,7 @@ export default function Navigation() {
         {menuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <Link
+              <ScrollToTopLink
                 to="/home"
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
                   isActive('/home')
@@ -124,8 +125,8 @@ export default function Navigation() {
                 }`}
               >
                 Home
-              </Link>
-              <Link
+              </ScrollToTopLink>
+              <ScrollToTopLink
                 to="/offers"
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
                   isActive('/offers')
@@ -134,8 +135,8 @@ export default function Navigation() {
                 }`}
               >
                 Offers
-              </Link>
-              <Link
+              </ScrollToTopLink>
+              <ScrollToTopLink
                 to="/foodo-ai"
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
                   isActive('/foodo-ai')
@@ -144,8 +145,8 @@ export default function Navigation() {
                 }`}
               >
                 Foodo AI
-              </Link>
-              <Link
+              </ScrollToTopLink>
+              <ScrollToTopLink
                 to="/help"
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
                   isActive('/help')
@@ -154,7 +155,7 @@ export default function Navigation() {
                 }`}
               >
                 Help
-              </Link>
+              </ScrollToTopLink>
             </div>
           </div>
         )}

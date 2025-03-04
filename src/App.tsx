@@ -5,6 +5,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { SupabaseProvider } from './contexts/SupabaseContext';
 import AppRoutes from './AppRoutes';
 import MobileBlocker from './components/MobileBlocker';
+import ScrollToTop from './components/ScrollToTop';
 import RestaurantDetail from "./pages/restaurants/RestaurantDetail";
 import RestaurantList from "./pages/restaurants/RestaurantList";
 import RestaurantAds from "./components/RestaurantAds";
@@ -15,6 +16,7 @@ function App() {
     <BrowserRouter>
       <SupabaseProvider>
         <AuthProvider>
+          <ScrollToTop />
           <Toaster
             position="top-right"
             toastOptions={{
