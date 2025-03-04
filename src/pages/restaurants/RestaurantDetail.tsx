@@ -29,6 +29,7 @@ import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import Layout from '../../components/Layout';
 import RestaurantAds from '../../components/RestaurantAds';
 import { useRestaurantData } from '../../hooks/useRestaurantData';
+import { GOOGLE_MAPS_API_KEY, googleMapsLibraries, GOOGLE_MAPS_SCRIPT_ID } from '../../utils/googleMapsConfig';
 
 export default function RestaurantDetail() {
   const { id } = useParams();
@@ -438,7 +439,7 @@ export default function RestaurantDetail() {
                           <div className="w-full h-48 rounded-xl overflow-hidden">
                             <GoogleMapComponent 
                               address={restaurant.contact.address} 
-                              apiKey="AIzaSyBq0x5ylLdwyERDXQUX2hqRv5Y_shib_CY"
+                              apiKey={GOOGLE_MAPS_API_KEY}
                             />
                           </div>
                           <a 
@@ -586,8 +587,9 @@ function GoogleMapComponent({ address, apiKey }) {
   const kfcF11Location = { lat: 33.6845, lng: 72.9913 };
   
   const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: apiKey
+    id: GOOGLE_MAPS_SCRIPT_ID,
+    googleMapsApiKey: apiKey,
+    libraries: googleMapsLibraries
   });
 
   const mapRef = useRef(null);
