@@ -22,7 +22,7 @@ export default function Layout({ children }: LayoutProps) {
     <div className="min-h-screen flex flex-col">
       {shouldShowNav && <Navigation />}
       <main className="flex-1">
-        <div className="pt-[56px]">
+        <div className="pt-[70px]">
           {children}
         </div>
       </main>

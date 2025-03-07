@@ -79,6 +79,17 @@ export default function RestaurantDetail() {
     }
   };
 
+  // Theme colors based on restaurant ID
+  const getThemeColor = () => {
+    if (id === 'kfc') return '#E4002B';
+    if (id === 'mcdonalds') return '#FFC72C';
+    if (id === 'savour') return '#9C27B0';
+    return '#E4002B'; // Default to KFC red
+  };
+  
+  const themeColor = getThemeColor();
+  const textColor = id === 'mcdonalds' ? 'text-gray-900' : 'text-white';
+
   if (isLoading) {
     return (
       <Layout>
@@ -123,11 +134,15 @@ export default function RestaurantDetail() {
 
         {/* Restaurant Header */}
         <div className="flex gap-6">
-          <div className="w-[160px] h-[160px] bg-[#E4002B] rounded-lg flex items-center justify-center p-2">
+          <div className={`w-[200px] h-[200px] rounded-2xl flex items-center justify-center overflow-hidden ${
+            id === 'kfc' || id === 'mcdonalds' ? 'bg-[#E4002B]' : id === 'savour' ? 'bg-[#9C27B0]' : 'bg-transparent'
+          }`}>
             <img
               src={restaurant.logo}
               alt={restaurant.name}
-              className="w-full h-full object-contain scale-150"
+              className={`object-contain ${
+                id === 'kfc' ? 'w-[90%] h-[90%]' : 'w-full h-full'
+              }`}
               loading="eager"
             />
           </div>
@@ -157,8 +172,12 @@ export default function RestaurantDetail() {
                   More info
                 </button>
                 <a
-                  href="tel:051111532532"
-                  className="flex items-center gap-2 text-gray-500 px-4 py-2 rounded-lg hover:bg-[#E4002B] hover:text-white"
+                  href={`tel:${restaurant.contact.phone}`}
+                  className={`flex items-center gap-2 text-gray-500 px-4 py-2 rounded-lg ${
+                    id === 'mcdonalds' 
+                      ? 'hover:bg-[#FFC72C] hover:text-gray-900' 
+                      : 'hover:bg-[#E4002B] hover:text-white'
+                  }`}
                 >
                   <Phone className="w-4 h-4" />
                   <span className="font-medium">Call Now</span>
@@ -174,8 +193,10 @@ export default function RestaurantDetail() {
         {/* Mobile Call Now Text */}
         <div className="md:hidden px-4 py-3 border-b border-gray-100">
           <a
-            href="tel:051111532532"
-            className="flex items-center justify-center gap-2 text-gray-600 py-2 w-full hover:text-[#E4002B]"
+            href={`tel:${restaurant.contact.phone}`}
+            className={`flex items-center justify-center gap-2 text-gray-600 py-2 w-full ${
+              id === 'mcdonalds' ? 'hover:text-[#FFC72C]' : 'hover:text-[#E4002B]'
+            }`}
           >
             <Phone className="w-4 h-4" />
             <span className="font-medium">Call Now</span>
@@ -183,7 +204,7 @@ export default function RestaurantDetail() {
         </div>
 
         {/* Categories Section */}
-        <div className="border-b border-gray-200 sticky top-[56px] bg-white z-10 shadow-sm">
+        <div className="border-b border-gray-200 sticky top-[70px] bg-white z-10 shadow-sm">
           <div className="max-w-7xl mx-auto">
             {/* Mobile filter bar */}
             <div className="md:hidden flex items-center justify-between px-4 py-3">
@@ -194,7 +215,9 @@ export default function RestaurantDetail() {
                       key={category}
                       className={`whitespace-nowrap text-sm font-medium transition-colors ${
                         selectedCategory === category
-                          ? 'text-[#E4002B] border-b-2 border-[#E4002B] pb-1'
+                          ? id === 'mcdonalds'
+                            ? 'text-[#FFC72C] border-b-2 border-[#FFC72C] pb-1'
+                            : 'text-[#E4002B] border-b-2 border-[#E4002B] pb-1'
                           : 'text-gray-600'
                       }`}
                       onClick={() => setSelectedCategory(category)}
@@ -222,7 +245,11 @@ export default function RestaurantDetail() {
                     placeholder="Search menu"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-3 pr-10 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#E4002B] focus:ring-1 focus:ring-[#E4002B] w-full"
+                    className={`pl-3 pr-10 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none ${
+                      id === 'mcdonalds' 
+                        ? 'focus:border-[#FFC72C] focus:ring-1 focus:ring-[#FFC72C]' 
+                        : 'focus:border-[#E4002B] focus:ring-1 focus:ring-[#E4002B]'
+                    } w-full`}
                     autoFocus
                   />
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
@@ -264,7 +291,9 @@ export default function RestaurantDetail() {
                           key={category}
                           className={`px-4 py-2 whitespace-nowrap text-sm font-medium rounded-full transition-colors flex-shrink-0 ${
                             selectedCategory === category
-                              ? 'bg-[#E4002B] text-white'
+                              ? id === 'mcdonalds'
+                                ? 'bg-[#FFC72C] text-gray-900'
+                                : 'bg-[#E4002B] text-white'
                               : 'text-gray-600 hover:bg-gray-100'
                           }`}
                           onClick={() => setSelectedCategory(category)}
@@ -290,7 +319,11 @@ export default function RestaurantDetail() {
                   placeholder="Search menu"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-3 pr-10 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#E4002B] focus:ring-1 focus:ring-[#E4002B] w-full"
+                  className={`pl-3 pr-10 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none ${
+                    id === 'mcdonalds' 
+                      ? 'focus:border-[#FFC72C] focus:ring-1 focus:ring-[#FFC72C]' 
+                      : 'focus:border-[#E4002B] focus:ring-1 focus:ring-[#E4002B]'
+                  } w-full`}
                 />
                 <Search className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2" />
               </div>
@@ -306,7 +339,11 @@ export default function RestaurantDetail() {
               {filteredItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex flex-col bg-white rounded-lg border border-gray-200 p-2 md:p-3 hover:border-[#E4002B]/20 hover:shadow-sm transition-all"
+                  className={`flex flex-col bg-white rounded-lg border border-gray-200 p-2 md:p-3 ${
+                    id === 'mcdonalds' 
+                      ? 'hover:border-[#FFC72C]/20' 
+                      : 'hover:border-[#E4002B]/20'
+                  } hover:shadow-sm transition-all`}
                 >
                   <div className="flex flex-col justify-between h-full space-y-1 md:space-y-2">
                     <div className="space-y-0.5 md:space-y-1">
@@ -322,7 +359,7 @@ export default function RestaurantDetail() {
                         {item.price.toString().startsWith('from') ? item.price : `Rs. ${item.price}`}
                       </p>
                       <button
-                        className="rounded-full p-2 text-[#E4002B] hover:bg-[#E4002B]/5 transition-colors"
+                        className={`rounded-full p-2 ${id === 'mcdonalds' ? 'text-[#FFC72C] hover:bg-[#FFC72C]/5' : 'text-[#E4002B] hover:bg-[#E4002B]/5'} transition-colors`}
                         onClick={() => {/* Add to cart logic */}}
                       >
                         <Plus className="w-4 h-4" />
@@ -342,8 +379,8 @@ export default function RestaurantDetail() {
           {/* Ads and Campaign Section */}
           <div className="space-y-6">
             {/* Ads Section */}
-            <div className="h-[280px]">
-              <RestaurantAds />
+            <div className="h-[200px] md:h-[250px] rounded-xl overflow-hidden shadow-sm">
+              <RestaurantAds id={id} />
             </div>
 
             {/* Campaign Card - Smaller Version */}
@@ -401,12 +438,18 @@ export default function RestaurantDetail() {
                           <span className="text-gray-600 font-medium">Since 1997</span>
                         </Dialog.Title>
                         
-                        <div className="relative mb-8 py-6 px-8 bg-gray-50 rounded-xl">
-                          <Quote className="absolute -left-3 -top-3 w-8 h-8 text-red-500 rotate-6" />
+                        <div className={`relative mb-8 py-6 px-8 rounded-xl ${
+                          id === 'kfc' ? 'bg-gray-50' : id === 'mcdonalds' ? 'bg-[#FFC72C]/10' : id === 'savour' ? 'bg-[#9C27B0]/10' : 'bg-gray-50'
+                        }`}>
+                          <Quote className={`absolute -left-3 -top-3 w-8 h-8 rotate-6 ${
+                            id === 'kfc' ? 'text-red-500' : id === 'mcdonalds' ? 'text-[#FFC72C]' : id === 'savour' ? 'text-[#9C27B0]' : 'text-gray-400'
+                          }`} />
                           <p className="text-xl text-gray-700 font-medium text-center">
-                            It's Finger Lickin' Good!
+                            {id === 'kfc' ? "It's Finger Lickin' Good!" : id === 'mcdonalds' ? "I'm Lovin' It" : id === 'savour' ? 'Savour the taste' : "Delicious food delivered!"}
                           </p>
-                          <Quote className="absolute -right-3 -bottom-3 w-8 h-8 text-red-500 -rotate-6" />
+                          <Quote className={`absolute -right-3 -bottom-3 w-8 h-8 -rotate-6 ${
+                            id === 'kfc' ? 'text-red-500' : id === 'mcdonalds' ? 'text-[#FFC72C]' : id === 'savour' ? 'text-[#9C27B0]' : 'text-gray-400'
+                          }`} />
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 mb-8">
@@ -583,8 +626,18 @@ export default function RestaurantDetail() {
 }
 
 function GoogleMapComponent({ address, apiKey }) {
-  // KFC F-11 branch coordinates in Islamabad
-  const kfcF11Location = { lat: 33.6845, lng: 72.9913 };
+  // Restaurant locations in Islamabad
+  const restaurantLocations = {
+    kfc: { lat: 33.6845, lng: 72.9913 }, // KFC F-11 branch coordinates
+    mcdonalds: { lat: 33.6943, lng: 73.0188 } // McDonald's F-10 branch coordinates
+  };
+  
+  // Get the restaurant ID from the URL
+  const { id } = useParams();
+  
+  // Default to KFC location if ID not found in our locations
+  const defaultLocation = restaurantLocations.kfc;
+  const location = id && restaurantLocations[id] ? restaurantLocations[id] : defaultLocation;
   
   const { isLoaded } = useJsApiLoader({
     id: GOOGLE_MAPS_SCRIPT_ID,
@@ -602,26 +655,23 @@ function GoogleMapComponent({ address, apiKey }) {
     mapRef.current = null;
   }, []);
 
-  if (!isLoaded) return <div className="w-full h-full bg-gray-100 flex items-center justify-center">Loading map...</div>;
+  if (!isLoaded) {
+    return <div className="w-full h-full bg-gray-100 flex items-center justify-center">Loading map...</div>;
+  }
 
   return (
     <GoogleMap
       mapContainerStyle={{ width: '100%', height: '100%' }}
-      center={kfcF11Location}
-      zoom={16}
+      center={location}
+      zoom={15}
       onLoad={onLoad}
       onUnmount={onUnmount}
       options={{
-        fullscreenControl: false,
-        streetViewControl: false,
-        mapTypeControl: false,
-        zoomControl: true
+        disableDefaultUI: true,
+        zoomControl: true,
       }}
     >
-      <Marker 
-        position={kfcF11Location} 
-        title="KFC F-11 Branch"
-      />
+      <Marker position={location} />
     </GoogleMap>
   );
 }

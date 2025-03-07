@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <rect width="300" height="200" fill="#8D6E63" rx="10" ry="10"/>
+  <text x="150" y="110" font-family="Arial, sans-serif" font-weight="bold" font-size="36" fill="white" text-anchor="middle">CHAAYE</text>
+  <text x="150" y="150" font-family="Arial, sans-serif" font-weight="bold" font-size="36" fill="white" text-anchor="middle">KHANA</text>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100">
+  <style>
+    .text { font-family: Arial, sans-serif; font-weight: bold; font-size: 48px; }
+    .howdy { fill: #FF5722; }
+  </style>
+  <text x="50" y="70" class="text howdy">HOWDY</text>
+</svg>

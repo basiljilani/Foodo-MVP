@@ -1,0 +1,212 @@
+{
+  "id": "chaaye-khana",
+  "name": "Chaaye Khana - F7",
+  "logo": "https://chaayekhana.com/wp-content/uploads/2020/05/ck-logo.png",
+  "coverImage": "https://images.unsplash.com/photo-1534040385115-33dcb3acba5b?auto=format&fit=crop&w=1200",
+  "rating": 4.6,
+  "cuisine": "Cafe, Pakistani, Continental",
+  "deliveryTime": "30-45 min",
+  "deliveryFee": 70,
+  "minimumOrder": 350,
+  "branding": {
+    "slogan": "More Than Just Tea",
+    "themeColor": "#8D6E63",
+    "textColor": "text-white",
+    "since": 2010
+  },
+  "contact": {
+    "address": "F7 Markaz, Islamabad",
+    "phone": "+92-51-2656789",
+    "email": "info@chaayekhana.com",
+    "website": "https://chaayekhana.com"
+  },
+  "socialMedia": {
+    "facebook": "https://www.facebook.com/ChaayeKhanaIsb",
+    "instagram": "https://www.instagram.com/chaayekhanaisb",
+    "twitter": "https://twitter.com/chaayekhanaisb",
+    "whatsapp": "+92-51-2656789"
+  },
+  "location": {
+    "lat": 33.7156,
+    "lng": 73.0537
+  },
+  "hours": {
+    "monday": "8:00 AM - 12:00 AM",
+    "tuesday": "8:00 AM - 12:00 AM",
+    "wednesday": "8:00 AM - 12:00 AM",
+    "thursday": "8:00 AM - 12:00 AM",
+    "friday": "8:00 AM - 1:00 AM",
+    "saturday": "8:00 AM - 1:00 AM",
+    "sunday": "8:00 AM - 12:00 AM"
+  },
+  "menuCategories": [
+    {
+      "id": "popular",
+      "name": "Popular",
+      "description": "Most ordered items"
+    },
+    {
+      "id": "breakfast",
+      "name": "Breakfast",
+      "description": "Traditional Pakistani breakfast options"
+    },
+    {
+      "id": "tea-coffee",
+      "name": "Tea & Coffee",
+      "description": "Specialty teas and coffees"
+    },
+    {
+      "id": "main-course",
+      "name": "Main Course",
+      "description": "Hearty meals for lunch and dinner"
+    }
+  ],
+  "menuItems": [
+    {
+      "id": "doodh-patti",
+      "categoryId": ["popular", "tea-coffee"],
+      "name": "Doodh Patti Chai",
+      "description": "Traditional Pakistani milk tea brewed to perfection",
+      "price": 180,
+      "image": "https://images.unsplash.com/photo-1561336526-2914f13ceb36?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": true,
+      "isSpicy": false,
+      "allergens": ["dairy"],
+      "nutritionalInfo": {
+        "calories": 120,
+        "protein": 4,
+        "carbs": 15,
+        "fat": 5
+      }
+    },
+    {
+      "id": "paratha-roll",
+      "categoryId": ["popular", "breakfast"],
+      "name": "Paratha Roll",
+      "description": "Flaky paratha filled with chicken or beef and special sauces",
+      "price": 350,
+      "image": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": false,
+      "isSpicy": true,
+      "allergens": ["gluten"],
+      "nutritionalInfo": {
+        "calories": 450,
+        "protein": 25,
+        "carbs": 40,
+        "fat": 20
+      }
+    },
+    {
+      "id": "halwa-puri",
+      "categoryId": ["breakfast"],
+      "name": "Halwa Puri",
+      "description": "Traditional Pakistani breakfast with semolina halwa, chickpea curry and fried bread",
+      "price": 400,
+      "image": "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": true,
+      "isSpicy": false,
+      "allergens": ["gluten"],
+      "nutritionalInfo": {
+        "calories": 650,
+        "protein": 15,
+        "carbs": 80,
+        "fat": 30
+      }
+    },
+    {
+      "id": "omelette-paratha",
+      "categoryId": ["breakfast"],
+      "name": "Omelette Paratha",
+      "description": "Flaky paratha served with fluffy omelette and chutney",
+      "price": 350,
+      "image": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": false,
+      "isSpicy": false,
+      "allergens": ["eggs", "gluten"],
+      "nutritionalInfo": {
+        "calories": 500,
+        "protein": 20,
+        "carbs": 45,
+        "fat": 25
+      }
+    },
+    {
+      "id": "kashmiri-tea",
+      "categoryId": ["tea-coffee"],
+      "name": "Kashmiri Pink Tea",
+      "description": "Traditional pink tea with cardamom, cinnamon and nuts",
+      "price": 250,
+      "image": "https://images.unsplash.com/photo-1593443320739-77f74939d0da?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": true,
+      "isSpicy": false,
+      "allergens": ["dairy", "nuts"],
+      "nutritionalInfo": {
+        "calories": 180,
+        "protein": 5,
+        "carbs": 20,
+        "fat": 8
+      }
+    },
+    {
+      "id": "chicken-karahi",
+      "categoryId": ["main-course"],
+      "name": "Chicken Karahi",
+      "description": "Spicy chicken curry cooked in a traditional wok",
+      "price": 850,
+      "image": "https://images.unsplash.com/photo-1603496987351-f84a3ba5ec85?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": false,
+      "isSpicy": true,
+      "allergens": [],
+      "nutritionalInfo": {
+        "calories": 650,
+        "protein": 40,
+        "carbs": 15,
+        "fat": 45
+      }
+    },
+    {
+      "id": "biryani",
+      "categoryId": ["main-course"],
+      "name": "Biryani",
+      "description": "Aromatic rice dish with tender chicken and special spices",
+      "price": 550,
+      "image": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": false,
+      "isSpicy": true,
+      "allergens": [],
+      "nutritionalInfo": {
+        "calories": 580,
+        "protein": 30,
+        "carbs": 70,
+        "fat": 20
+      }
+    }
+  ],
+  "ads": [
+    {
+      "id": "1",
+      "title": "Breakfast Special",
+      "description": "Get a complimentary Doodh Patti with any breakfast item from 8-11 AM",
+      "image": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=1200&auto=format&fit=crop",
+      "link": "/promotions/breakfast-special",
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31"
+    },
+    {
+      "id": "2",
+      "title": "Family Dinner Deal",
+      "description": "Family dinner for 4 at just Rs. 2500, includes main course, sides and beverages",
+      "image": "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=1200&auto=format&fit=crop",
+      "link": "/promotions/family-dinner",
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31"
+    }
+  ]
+}

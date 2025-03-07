@@ -1,0 +1,8 @@
+<svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="500" fill="#9C27B0"/>
+  <path d="M100 200 C 200 100, 300 100, 400 200 S 300 300, 100 200" fill="#E91E63"/>
+  <g transform="translate(120, 230)">
+    <text font-family="Arial" font-size="48" font-weight="bold" fill="white">Savour Foods</text>
+    <text y="40" font-family="Arial" font-size="24" fill="white">پلاؤ کباب</text>
+  </g>
+</svg>

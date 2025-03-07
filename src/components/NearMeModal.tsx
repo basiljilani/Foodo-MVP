@@ -3,6 +3,7 @@ import { Map as MapIcon, MapPin, Navigation, Star, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GoogleMap, useJsApiLoader, Marker, DirectionsRenderer } from '@react-google-maps/api';
 import { GOOGLE_MAPS_API_KEY, googleMapsLibraries, GOOGLE_MAPS_SCRIPT_ID } from '../utils/googleMapsConfig';
+import { Link } from 'react-router-dom';
 
 interface Restaurant {
   id: string;
@@ -82,21 +83,33 @@ export default function NearMeModal({ isOpen, onClose }: { isOpen: boolean; onCl
 
   const getNearbyRestaurants = () => {
     // In a real app, you would fetch restaurants based on user location
-    // For now, we'll use the KFC F-11 location and calculate actual distance
+    // For now, we'll use the KFC F-11 and McDonald's F-10 locations and calculate actual distance
     
     // KFC F-11 branch in Islamabad
     const kfcF11: Restaurant = {
-      id: '1',
+      id: 'kfc',
       name: 'KFC F-11',
       distance: 'Calculating...',
       rating: 4.3,
       cuisine: 'Fast Food, Chicken',
-      image: 'https://images.unsplash.com/photo-1513639776629-7b61b0ac49cb?auto=format&fit=crop&w=200',
+      image: 'https://logos-world.net/wp-content/uploads/2020/04/KFC-Logo.png',
       address: 'F-11 Markaz, Islamabad',
       location: { lat: 33.6845, lng: 72.9913 }
     };
 
-    const restaurants = [kfcF11];
+    // McDonald's F-10 branch in Islamabad
+    const mcdonaldsF10: Restaurant = {
+      id: 'mcdonalds',
+      name: 'McDonald\'s F-10',
+      distance: 'Calculating...',
+      rating: 4.2,
+      cuisine: 'Fast Food, Burgers',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/McDonald%27s_Golden_Arches.svg/1200px-McDonald%27s_Golden_Arches.svg.png',
+      address: 'F-10 Markaz, Islamabad',
+      location: { lat: 33.6943, lng: 73.0188 }
+    };
+
+    const restaurants = [kfcF11, mcdonaldsF10];
     
     // Calculate actual distance for each restaurant
     if (userLocation) {
@@ -338,12 +351,16 @@ export default function NearMeModal({ isOpen, onClose }: { isOpen: boolean; onCl
                                 </span>
                               </div>
                             </div>
-                            <button 
+                            <Link 
+                              to={`/restaurants/${restaurant.id}`}
                               className="rounded-lg bg-red-50 px-4 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-100"
-                              onClick={() => window.location.href = `/restaurants/${restaurant.id}`}
+                              onClick={(e) => {
+                                e.stopPropagation(); // Prevent triggering the parent div's onClick
+                                onClose(); // Close the modal when navigating to restaurant page
+                              }}
                             >
                               View Menu
-                            </button>
+                            </Link>
                           </motion.div>
                         ))}
                       </div>

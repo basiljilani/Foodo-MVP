@@ -1,0 +1,301 @@
+{
+  "id": "savour",
+  "name": "Savour Foods",
+  "logo": "https://savourfoods.com.pk/wp-content/uploads/2019/07/savour-logo-1.png",
+  "coverImage": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200",
+  "rating": 4.5,
+  "cuisine": "Pakistani, Pulao, BBQ",
+  "deliveryTime": "35-50 min",
+  "deliveryFee": 100,
+  "minimumOrder": 400,
+  "branding": {
+    "slogan": "Taste of Tradition",
+    "themeColor": "#8B4513",
+    "textColor": "text-white",
+    "since": 1988
+  },
+  "contact": {
+    "address": "F-7 Markaz, Jinnah Super, Islamabad",
+    "phone": "+92-51-2655777",
+    "email": "contact@savourfoods.pk",
+    "website": "https://savourfoods.com.pk"
+  },
+  "socialMedia": {
+    "facebook": "https://www.facebook.com/SavourFoodsOfficial",
+    "instagram": "https://www.instagram.com/savourfoodsofficial",
+    "twitter": "https://twitter.com/savourfoods",
+    "whatsapp": "+923001234567"
+  },
+  "location": {
+    "lat": 33.7156,
+    "lng": 73.0537
+  },
+  "hours": {
+    "monday": "11:00 AM - 12:00 AM",
+    "tuesday": "11:00 AM - 12:00 AM",
+    "wednesday": "11:00 AM - 12:00 AM",
+    "thursday": "11:00 AM - 12:00 AM",
+    "friday": "11:00 AM - 1:00 AM",
+    "saturday": "11:00 AM - 1:00 AM",
+    "sunday": "11:00 AM - 12:00 AM"
+  },
+  "menuCategories": [
+    {
+      "id": "popular",
+      "name": "Popular",
+      "description": "Most ordered items"
+    },
+    {
+      "id": "chicken-pulao",
+      "name": "CHICKEN PULAO",
+      "description": "Our signature rice dishes"
+    },
+    {
+      "id": "chicken",
+      "name": "CHICKEN",
+      "description": "Delicious chicken dishes"
+    },
+    {
+      "id": "sweet",
+      "name": "SWEET",
+      "description": "Delightful desserts and sweet treats"
+    },
+    {
+      "id": "drinks",
+      "name": "DRINKS",
+      "description": "Refreshing beverages"
+    },
+    {
+      "id": "savour-ice-creams",
+      "name": "SAVOUR ICE CREAMS",
+      "description": "Specialty ice creams"
+    },
+    {
+      "id": "side-orders",
+      "name": "SIDE ORDERS",
+      "description": "Complementary dishes"
+    },
+    {
+      "id": "daigh-orders",
+      "name": "DAIGH ORDERS",
+      "description": "Large catering portions"
+    }
+  ],
+  "menuItems": [
+    {
+      "id": "chicken-pulao",
+      "categoryId": ["popular", "pulao"],
+      "name": "Chicken Pulao",
+      "description": "Fragrant rice cooked with chicken and special spices",
+      "price": 450,
+      "image": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": true
+    },
+    {
+      "id": "beef-pulao",
+      "categoryId": ["pulao"],
+      "name": "Beef Pulao",
+      "description": "Tender beef pieces cooked with aromatic rice",
+      "price": 550,
+      "image": "https://images.unsplash.com/photo-1547928576-a4a33237cbc3?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": true
+    },
+    {
+      "id": "mutton-pulao",
+      "categoryId": ["popular", "pulao"],
+      "name": "Mutton Pulao",
+      "description": "Savour's signature dish with tender mutton",
+      "price": 650,
+      "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": true
+    },
+    {
+      "id": "seekh-kebab",
+      "categoryId": ["bbq", "popular"],
+      "name": "Seekh Kebab",
+      "description": "Minced meat kebabs with herbs and spices",
+      "price": 350,
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": true
+    },
+    {
+      "id": "chicken-tikka",
+      "categoryId": ["bbq"],
+      "name": "Chicken Tikka",
+      "description": "Marinated chicken pieces grilled to perfection",
+      "price": 400,
+      "image": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": true
+    },
+    {
+      "id": "beef-kebab",
+      "categoryId": ["bbq"],
+      "name": "Beef Kebab",
+      "description": "Tender beef kebabs with special spices",
+      "price": 450,
+      "image": "https://images.unsplash.com/photo-1529042410759-befb1204b468?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": true
+    },
+    {
+      "id": "chicken-karahi",
+      "categoryId": ["karahi"],
+      "name": "Chicken Karahi",
+      "description": "Spicy chicken curry cooked in a traditional wok",
+      "price": 850,
+      "image": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": true
+    },
+    {
+      "id": "mutton-karahi",
+      "categoryId": ["karahi"],
+      "name": "Mutton Karahi",
+      "description": "Rich and flavorful mutton curry",
+      "price": 950,
+      "image": "https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": true
+    },
+    {
+      "id": "raita",
+      "categoryId": ["sides"],
+      "name": "Raita",
+      "description": "Yogurt with cucumber and spices",
+      "price": 100,
+      "image": "https://images.unsplash.com/photo-1539136788836-5699e78bfc75?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": false,
+      "vegetarian": true,
+      "glutenFree": true
+    },
+    {
+      "id": "salad",
+      "categoryId": ["sides"],
+      "name": "Fresh Salad",
+      "description": "Mix of fresh vegetables with lemon dressing",
+      "price": 120,
+      "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": true,
+      "vegetarian": true,
+      "glutenFree": true
+    },
+    {
+      "id": "naan",
+      "categoryId": ["sides"],
+      "name": "Naan",
+      "description": "Traditional Pakistani bread",
+      "price": 50,
+      "image": "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": false,
+      "vegetarian": true,
+      "glutenFree": false
+    },
+    {
+      "id": "lassi",
+      "categoryId": ["beverages", "popular"],
+      "name": "Sweet Lassi",
+      "description": "Traditional yogurt drink",
+      "price": 150,
+      "image": "https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": true,
+      "glutenFree": true
+    },
+    {
+      "id": "tea",
+      "categoryId": ["beverages"],
+      "name": "Kashmiri Tea",
+      "description": "Pink tea with cardamom and nuts",
+      "price": 120,
+      "image": "https://images.unsplash.com/photo-1561336526-2914f13ceb36?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": false,
+      "vegetarian": true,
+      "glutenFree": true
+    },
+    {
+      "id": "soft-drinks",
+      "categoryId": ["beverages"],
+      "name": "Soft Drinks",
+      "description": "Various carbonated beverages",
+      "price": 100,
+      "image": "https://images.unsplash.com/photo-1527960471264-932f39eb5846?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": true,
+      "vegetarian": true,
+      "glutenFree": true
+    }
+  ],
+  "ads": [
+    {
+      "id": "1",
+      "title": "Family Deal",
+      "description": "Mutton Pulao for 4 with drinks at Rs. 2000",
+      "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-03-31",
+      "url": null
+    },
+    {
+      "id": "2",
+      "title": "Lunch Special",
+      "description": "20% off on all Pulao dishes from 12-3 PM",
+      "image": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-03-31",
+      "url": null
+    },
+    {
+      "id": "3",
+      "title": "BBQ Platter",
+      "description": "Mix of kebabs and tikkas at special price",
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-04-15",
+      "url": null
+    },
+    {
+      "id": "4",
+      "title": "Free Delivery",
+      "description": "On orders above Rs. 1000",
+      "image": "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-03-31",
+      "url": null
+    },
+    {
+      "id": "5",
+      "title": "Ramadan Special",
+      "description": "Iftar deals starting from Rs. 500",
+      "image": "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-04-01",
+      "url": null
+    }
+  ]
+}

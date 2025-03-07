@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import FilterSidebar from '../components/FilterSidebar';
 import OptimizedImage from '../components/OptimizedImage';
 import Layout from '../components/Layout';
+import { mockRestaurants } from '../data/mockData';
 
 interface Restaurant {
   id: string;
@@ -12,11 +13,14 @@ interface Restaurant {
   description: string;
   image: string;
   logo: string;
-  coverImage: string;
+  bannerImage?: string;
+  coverImage?: string;
+  themeColor?: string;
   rating: number;
   reviewsCount: number;
   contact: {
     city: string;
+    address?: string;
   };
   deliveryTime: string;
   features: {
@@ -24,25 +28,27 @@ interface Restaurant {
   };
 }
 
-const mockRestaurants: Restaurant[] = [
-  {
-    id: 'kfc',
-    name: 'KFC F-11 Islamabad',
-    description: 'Finger lickin good',
-    image: '/images/kfc-hero.jpg',
-    logo: '/images/kfc-logo-proper.png',
-    coverImage: 'https://images.unsplash.com/photo-1513639776629-7b61b0ac49cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1767&q=80',
-    rating: 4.5,
-    reviewsCount: 100,
-    contact: {
-      city: 'F-11, Islamabad',
-    },
-    deliveryTime: '30-45 min',
-    features: {
-      isOpen: true,
-    },
+// Map the imported restaurants to match the expected format
+const restaurants: Restaurant[] = mockRestaurants.map(restaurant => ({
+  id: restaurant.id,
+  name: restaurant.name,
+  description: restaurant.description,
+  image: restaurant.image || '',
+  logo: restaurant.logo,
+  bannerImage: restaurant.bannerImage,
+  coverImage: restaurant.coverImage,
+  themeColor: restaurant.themeColor,
+  rating: restaurant.rating,
+  reviewsCount: restaurant.reviewsCount || 100,
+  contact: {
+    city: restaurant.contact?.city || restaurant.contact?.address?.split(',').pop()?.trim() || 'Islamabad',
+    address: restaurant.contact?.address
   },
-];
+  deliveryTime: restaurant.deliveryTime,
+  features: {
+    isOpen: restaurant.features?.isOpen !== undefined ? restaurant.features.isOpen : true
+  }
+}));
 
 export default function Home() {
   const navigate = useNavigate();
@@ -60,7 +66,7 @@ export default function Home() {
     { id: 'chicken', name: 'Chicken', icon: '🍗' },
   ];
 
-  const filteredRestaurants = mockRestaurants.filter((restaurant) => {
+  const filteredRestaurants = restaurants.filter((restaurant) => {
     const matchesSearch =
       restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       restaurant.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -158,11 +164,11 @@ export default function Home() {
                     onClick={() => handleRestaurantClick(restaurant.id)}
                     whileHover={{ y: -5 }}
                   >
-                    <div className="relative h-48 bg-gray-50">
-                      {restaurant.id === 'kfc' ? (
-                        <div className="absolute inset-0" style={{ backgroundColor: '#E4002B' }}></div>
+                    <div className="relative h-48 bg-gray-50 rounded-lg">
+                      {restaurant.themeColor ? (
+                        <div className="absolute inset-0" style={{ backgroundColor: restaurant.themeColor }}></div>
                       ) : (
-                        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${restaurant.coverImage})` }}>
+                        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${restaurant.coverImage || restaurant.bannerImage})` }}>
                           <div className="absolute inset-0 bg-black bg-opacity-40"></div>
                         </div>
                       )}
@@ -170,21 +176,12 @@ export default function Home() {
                         <img
                           src={restaurant.logo}
                           alt={restaurant.name}
-                          className="w-32 h-32 object-contain"
+                          className="w-full h-full object-contain max-w-[140px] max-h-[140px] rounded-lg"
                         />
                       </div>
                       <div className="absolute top-4 right-4">
                         <Heart className="w-6 h-6 text-white hover:text-red-500 transition-colors" />
                       </div>
-                      {restaurant.features.isOpen && restaurant.id !== 'kfc' ? (
-                        <div className="absolute top-4 left-4 px-2 py-1 bg-green-500 text-white text-sm rounded-full">
-                          Open
-                        </div>
-                      ) : restaurant.id !== 'kfc' && !restaurant.features.isOpen ? (
-                        <div className="absolute top-4 left-4 px-2 py-1 bg-red-500 text-white text-sm rounded-full">
-                          Closed
-                        </div>
-                      ) : null}
                     </div>
 
                     <div className="p-4">

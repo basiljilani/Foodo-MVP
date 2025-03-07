@@ -1,0 +1,194 @@
+{
+  "id": "tandoori",
+  "name": "Tandoori - Blue Area",
+  "logo": "https://static.vecteezy.com/system/resources/thumbnails/007/693/779/small/vintage-restaurant-logo-design-tandoori-food-logo-vector.jpg",
+  "coverImage": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200",
+  "rating": 4.4,
+  "cuisine": "Pakistani, North Indian",
+  "deliveryTime": "35-50 min",
+  "deliveryFee": 80,
+  "minimumOrder": 400,
+  "branding": {
+    "slogan": "Authentic Flavors of the Subcontinent",
+    "themeColor": "#D32F2F",
+    "textColor": "text-white",
+    "since": 1995
+  },
+  "contact": {
+    "address": "Blue Area, Islamabad",
+    "phone": "+92-51-2278901",
+    "email": "info@tandoori.pk",
+    "website": "https://tandoori.pk"
+  },
+  "socialMedia": {
+    "facebook": "https://www.facebook.com/TandooriIsb",
+    "instagram": "https://www.instagram.com/tandooriisb",
+    "twitter": "https://twitter.com/tandooriisb",
+    "whatsapp": "+92-51-2278901"
+  },
+  "location": {
+    "lat": 33.7156,
+    "lng": 73.0537
+  },
+  "hours": {
+    "monday": "12:00 PM - 11:00 PM",
+    "tuesday": "12:00 PM - 11:00 PM",
+    "wednesday": "12:00 PM - 11:00 PM",
+    "thursday": "12:00 PM - 11:00 PM",
+    "friday": "12:00 PM - 12:00 AM",
+    "saturday": "12:00 PM - 12:00 AM",
+    "sunday": "12:00 PM - 11:00 PM"
+  },
+  "menuCategories": [
+    {
+      "id": "popular",
+      "name": "Popular",
+      "description": "Most ordered items"
+    },
+    {
+      "id": "tandoori-specialties",
+      "name": "Tandoori Specialties",
+      "description": "Dishes cooked in our clay oven"
+    },
+    {
+      "id": "curries",
+      "name": "Curries",
+      "description": "Rich and flavorful curry dishes"
+    },
+    {
+      "id": "breads",
+      "name": "Breads",
+      "description": "Freshly baked breads from our tandoor"
+    }
+  ],
+  "menuItems": [
+    {
+      "id": "tandoori-chicken",
+      "categoryId": ["popular", "tandoori-specialties"],
+      "name": "Tandoori Chicken",
+      "description": "Chicken marinated in yogurt and spices, cooked in a clay oven",
+      "price": 650,
+      "image": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": false,
+      "isSpicy": true,
+      "allergens": ["dairy"],
+      "nutritionalInfo": {
+        "calories": 450,
+        "protein": 40,
+        "carbs": 5,
+        "fat": 25
+      }
+    },
+    {
+      "id": "butter-naan",
+      "categoryId": ["popular", "breads"],
+      "name": "Butter Naan",
+      "description": "Soft bread cooked in tandoor and brushed with butter",
+      "price": 80,
+      "image": "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": true,
+      "isSpicy": false,
+      "allergens": ["gluten", "dairy"],
+      "nutritionalInfo": {
+        "calories": 180,
+        "protein": 5,
+        "carbs": 30,
+        "fat": 4
+      }
+    },
+    {
+      "id": "seekh-kebab",
+      "categoryId": ["tandoori-specialties"],
+      "name": "Seekh Kebab",
+      "description": "Minced meat kebabs with herbs and spices",
+      "price": 450,
+      "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": false,
+      "isSpicy": true,
+      "allergens": [],
+      "nutritionalInfo": {
+        "calories": 350,
+        "protein": 30,
+        "carbs": 5,
+        "fat": 22
+      }
+    },
+    {
+      "id": "butter-chicken",
+      "categoryId": ["curries"],
+      "name": "Butter Chicken",
+      "description": "Tandoori chicken cooked in a rich tomato and butter sauce",
+      "price": 750,
+      "image": "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": false,
+      "isSpicy": false,
+      "allergens": ["dairy"],
+      "nutritionalInfo": {
+        "calories": 550,
+        "protein": 35,
+        "carbs": 15,
+        "fat": 38
+      }
+    },
+    {
+      "id": "palak-paneer",
+      "categoryId": ["curries"],
+      "name": "Palak Paneer",
+      "description": "Cottage cheese cubes in a spinach gravy",
+      "price": 550,
+      "image": "https://images.unsplash.com/photo-1618449840665-9ed506d73a34?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": true,
+      "isSpicy": false,
+      "allergens": ["dairy"],
+      "nutritionalInfo": {
+        "calories": 380,
+        "protein": 20,
+        "carbs": 15,
+        "fat": 25
+      }
+    },
+    {
+      "id": "garlic-naan",
+      "categoryId": ["breads"],
+      "name": "Garlic Naan",
+      "description": "Naan bread topped with garlic and butter",
+      "price": 100,
+      "image": "https://images.unsplash.com/photo-1610057099431-d73a1c9d2f2f?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": true,
+      "isSpicy": false,
+      "allergens": ["gluten", "dairy"],
+      "nutritionalInfo": {
+        "calories": 200,
+        "protein": 5,
+        "carbs": 32,
+        "fat": 6
+      }
+    }
+  ],
+  "ads": [
+    {
+      "id": "1",
+      "title": "Tandoori Platter",
+      "description": "A mix of our best tandoori items perfect for sharing, serves 3-4 people",
+      "image": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=1200&auto=format&fit=crop",
+      "link": "/promotions/tandoori-platter",
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31"
+    },
+    {
+      "id": "2",
+      "title": "Lunch Special",
+      "description": "Get 15% off on all main courses between 12-3 PM, Monday to Thursday",
+      "image": "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=1200&auto=format&fit=crop",
+      "link": "/promotions/lunch-special",
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31"
+    }
+  ]
+}

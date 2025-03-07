@@ -1,0 +1,214 @@
+{
+  "id": "kfc",
+  "name": "KFC",
+  "logo": "https://logos-world.net/wp-content/uploads/2020/04/KFC-Logo.png",
+  "coverImage": "https://images.unsplash.com/photo-1513639776629-7b61b0ac49cb?auto=format&fit=crop&w=1200",
+  "rating": 4.3,
+  "cuisine": "Fast Food, Chicken",
+  "deliveryTime": "30-45 min",
+  "deliveryFee": 150,
+  "minimumOrder": 500,
+  "branding": {
+    "slogan": "It's Finger Lickin' Good!",
+    "themeColor": "#E4002B",
+    "textColor": "text-white",
+    "since": 1997
+  },
+  "contact": {
+    "address": "F-11 Markaz, Islamabad",
+    "phone": "+92-51-2222333",
+    "email": "contact@kfc.pk",
+    "website": "https://www.kfcpakistan.com"
+  },
+  "socialMedia": {
+    "facebook": "https://www.facebook.com/KFCPakistan",
+    "instagram": "https://www.instagram.com/kfcpakistan",
+    "twitter": "https://twitter.com/kfcpakistan",
+    "whatsapp": "+923001234567"
+  },
+  "location": {
+    "lat": 33.6845,
+    "lng": 72.9913
+  },
+  "hours": {
+    "monday": "11:00 AM - 11:00 PM",
+    "tuesday": "11:00 AM - 11:00 PM",
+    "wednesday": "11:00 AM - 11:00 PM",
+    "thursday": "11:00 AM - 11:00 PM",
+    "friday": "11:00 AM - 1:00 AM",
+    "saturday": "11:00 AM - 1:00 AM",
+    "sunday": "12:00 PM - 11:00 PM"
+  },
+  "menuCategories": [
+    {
+      "id": "popular",
+      "name": "Popular",
+      "description": "Most ordered items"
+    },
+    {
+      "id": "burgers",
+      "name": "Burgers",
+      "description": "Delicious burger options"
+    },
+    {
+      "id": "chicken",
+      "name": "Chicken",
+      "description": "Our famous fried chicken"
+    },
+    {
+      "id": "sides",
+      "name": "Sides",
+      "description": "Perfect companions to your meal"
+    },
+    {
+      "id": "beverages",
+      "name": "Beverages",
+      "description": "Refreshing drinks"
+    }
+  ],
+  "menuItems": [
+    {
+      "id": "zinger-burger",
+      "categoryId": ["popular", "burgers"],
+      "name": "Zinger Burger",
+      "description": "Spicy chicken fillet with lettuce and mayo",
+      "price": 650,
+      "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": false
+    },
+    {
+      "id": "mighty-zinger",
+      "categoryId": ["burgers"],
+      "name": "Mighty Zinger",
+      "description": "Double chicken fillet with cheese and special sauce",
+      "price": 850,
+      "image": "https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": false
+    },
+    {
+      "id": "3pc-chicken",
+      "categoryId": ["popular", "chicken"],
+      "name": "3pc Chicken",
+      "description": "Three pieces of our signature fried chicken",
+      "price": 750,
+      "image": "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": true
+    },
+    {
+      "id": "hot-wings",
+      "categoryId": ["chicken"],
+      "name": "Hot Wings",
+      "description": "Spicy chicken wings, 6pcs",
+      "price": 450,
+      "image": "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": true
+    },
+    {
+      "id": "fries",
+      "categoryId": ["sides"],
+      "name": "Fries",
+      "description": "Crispy golden fries",
+      "price": 250,
+      "image": "https://images.unsplash.com/photo-1576107232684-1279f390859f?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": true,
+      "vegetarian": true,
+      "glutenFree": false
+    },
+    {
+      "id": "coleslaw",
+      "categoryId": ["sides"],
+      "name": "Coleslaw",
+      "description": "Fresh cabbage and carrots in creamy dressing",
+      "price": 150,
+      "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": false,
+      "vegetarian": true,
+      "glutenFree": true
+    },
+    {
+      "id": "pepsi",
+      "categoryId": ["beverages"],
+      "name": "Pepsi",
+      "description": "Refreshing cola drink",
+      "price": 120,
+      "image": "https://images.unsplash.com/photo-1629203432180-71e9b18d33e3?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": true,
+      "vegetarian": true,
+      "glutenFree": true
+    },
+    {
+      "id": "krush-shake",
+      "categoryId": ["beverages"],
+      "name": "Krush Shake",
+      "description": "Creamy milkshake with your choice of flavor",
+      "price": 300,
+      "image": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": true,
+      "glutenFree": true
+    }
+  ],
+  "ads": [
+    {
+      "id": "1",
+      "title": "Buy 1 Get 1 Free",
+      "description": "On all Zinger Burgers",
+      "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-03-15",
+      "url": null
+    },
+    {
+      "id": "2",
+      "title": "Family Deal",
+      "description": "30% off on Buckets",
+      "image": "https://images.unsplash.com/photo-1513639776629-7b61b0ac49cb?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-04-01",
+      "url": null
+    },
+    {
+      "id": "3",
+      "title": "Student Special",
+      "description": "20% off with Student ID",
+      "image": "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-03-31",
+      "url": null
+    },
+    {
+      "id": "4",
+      "title": "Happy Hours",
+      "description": "50% off on Krush Drinks",
+      "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-03-31",
+      "url": null
+    },
+    {
+      "id": "5",
+      "title": "Free Delivery",
+      "description": "On orders above Rs. 1000",
+      "image": "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-03-31",
+      "url": null
+    }
+  ]
+}

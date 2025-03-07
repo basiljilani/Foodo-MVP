@@ -1,0 +1,194 @@
+{
+  "id": "howdy",
+  "name": "Howdy - F8",
+  "logo": "https://howdy.pk/wp-content/uploads/2022/09/howdy-logo.png",
+  "coverImage": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200",
+  "rating": 4.7,
+  "cuisine": "Fast Food, Burgers",
+  "deliveryTime": "25-40 min",
+  "deliveryFee": 60,
+  "minimumOrder": 300,
+  "branding": {
+    "slogan": "Smashed to Perfection",
+    "themeColor": "#FF5722",
+    "textColor": "text-white",
+    "since": 2018
+  },
+  "contact": {
+    "address": "F8 Markaz, Islamabad",
+    "phone": "+92-51-111-469-39",
+    "email": "info@howdy.pk",
+    "website": "https://howdy.pk"
+  },
+  "socialMedia": {
+    "facebook": "https://www.facebook.com/HowdyPakistan",
+    "instagram": "https://www.instagram.com/howdypakistan",
+    "twitter": "https://twitter.com/howdypakistan",
+    "whatsapp": "+92-51-111-469-39"
+  },
+  "location": {
+    "lat": 33.7156,
+    "lng": 73.0537
+  },
+  "hours": {
+    "monday": "11:00 AM - 11:00 PM",
+    "tuesday": "11:00 AM - 11:00 PM",
+    "wednesday": "11:00 AM - 11:00 PM",
+    "thursday": "11:00 AM - 11:00 PM",
+    "friday": "11:00 AM - 12:00 AM",
+    "saturday": "11:00 AM - 12:00 AM",
+    "sunday": "11:00 AM - 11:00 PM"
+  },
+  "menuCategories": [
+    {
+      "id": "popular",
+      "name": "Popular",
+      "description": "Most ordered items"
+    },
+    {
+      "id": "burgers",
+      "name": "Burgers",
+      "description": "Premium smashed burgers"
+    },
+    {
+      "id": "sides",
+      "name": "Sides",
+      "description": "Perfect companions to your meal"
+    },
+    {
+      "id": "beverages",
+      "name": "Beverages",
+      "description": "Refreshing drinks"
+    }
+  ],
+  "menuItems": [
+    {
+      "id": "classic-smashed",
+      "categoryId": ["popular", "burgers"],
+      "name": "Classic Smashed Burger",
+      "description": "Signature smashed patty with cheese, lettuce, tomato and special sauce",
+      "price": 550,
+      "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": false,
+      "isSpicy": false,
+      "allergens": ["dairy", "gluten"],
+      "nutritionalInfo": {
+        "calories": 650,
+        "protein": 35,
+        "carbs": 45,
+        "fat": 38
+      }
+    },
+    {
+      "id": "double-trouble",
+      "categoryId": ["burgers"],
+      "name": "Double Trouble",
+      "description": "Double smashed patties with double cheese and all the fixings",
+      "price": 750,
+      "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": false,
+      "isSpicy": false,
+      "allergens": ["dairy", "gluten"],
+      "nutritionalInfo": {
+        "calories": 950,
+        "protein": 55,
+        "carbs": 45,
+        "fat": 65
+      }
+    },
+    {
+      "id": "loaded-fries",
+      "categoryId": ["popular", "sides"],
+      "name": "Loaded Fries",
+      "description": "Crispy fries topped with cheese sauce, jalapeños and special seasoning",
+      "price": 350,
+      "image": "https://images.unsplash.com/photo-1585109649139-366815a0d713?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": true,
+      "isSpicy": true,
+      "allergens": ["dairy"],
+      "nutritionalInfo": {
+        "calories": 480,
+        "protein": 10,
+        "carbs": 58,
+        "fat": 25
+      }
+    },
+    {
+      "id": "onion-rings",
+      "categoryId": ["sides"],
+      "name": "Onion Rings",
+      "description": "Crispy battered onion rings with special dipping sauce",
+      "price": 300,
+      "image": "https://images.unsplash.com/photo-1581746303826-a0538b0e5f8f?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": true,
+      "isSpicy": false,
+      "allergens": ["gluten"],
+      "nutritionalInfo": {
+        "calories": 420,
+        "protein": 8,
+        "carbs": 52,
+        "fat": 22
+      }
+    },
+    {
+      "id": "signature-milkshake",
+      "categoryId": ["beverages"],
+      "name": "Signature Milkshake",
+      "description": "Thick and creamy milkshake in various flavors",
+      "price": 400,
+      "image": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": true,
+      "isSpicy": false,
+      "allergens": ["dairy"],
+      "nutritionalInfo": {
+        "calories": 550,
+        "protein": 12,
+        "carbs": 75,
+        "fat": 22
+      }
+    },
+    {
+      "id": "fresh-lemonade",
+      "categoryId": ["beverages"],
+      "name": "Fresh Lemonade",
+      "description": "Refreshing homemade lemonade",
+      "price": 200,
+      "image": "https://images.unsplash.com/photo-1556881286-fc6915169721?w=300&h=200&fit=crop",
+      "isAvailable": true,
+      "isVegetarian": true,
+      "isSpicy": false,
+      "allergens": [],
+      "nutritionalInfo": {
+        "calories": 120,
+        "protein": 0,
+        "carbs": 30,
+        "fat": 0
+      }
+    }
+  ],
+  "ads": [
+    {
+      "id": "1",
+      "title": "Burger Combo Deal",
+      "description": "Get a Classic Smashed Burger, Loaded Fries and a drink for just Rs. 850",
+      "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?w=1200&auto=format&fit=crop",
+      "link": "/promotions/burger-combo",
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31"
+    },
+    {
+      "id": "2",
+      "title": "Happy Hour: 20% Off",
+      "description": "Get 20% off on all menu items from 3-5 PM, Monday to Thursday",
+      "image": "https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=1200&auto=format&fit=crop",
+      "link": "/promotions/happy-hour",
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31"
+    }
+  ]
+}

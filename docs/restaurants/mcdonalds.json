@@ -1,0 +1,243 @@
+{
+  "id": "mcdonalds",
+  "name": "McDonald's",
+  "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/McDonald%27s_Golden_Arches.svg/1200px-McDonald%27s_Golden_Arches.svg.png",
+  "coverImage": "https://images.unsplash.com/photo-1619881590738-a111d176d906?auto=format&fit=crop&w=1200",
+  "rating": 4.2,
+  "cuisine": "Fast Food, Burgers",
+  "deliveryTime": "25-40 min",
+  "deliveryFee": 120,
+  "minimumOrder": 400,
+  "branding": {
+    "slogan": "I'm Lovin' It",
+    "themeColor": "#FFC72C",
+    "textColor": "text-gray-900",
+    "since": 1998
+  },
+  "contact": {
+    "address": "F-10 Markaz, Islamabad",
+    "phone": "+92-51-2111222",
+    "email": "contact@mcdonalds.pk",
+    "website": "https://www.mcdonalds.com.pk"
+  },
+  "socialMedia": {
+    "facebook": "https://www.facebook.com/McDonaldsPK",
+    "instagram": "https://www.instagram.com/mcdonaldspk",
+    "twitter": "https://twitter.com/mcdonaldspk",
+    "whatsapp": "+923001234567"
+  },
+  "location": {
+    "lat": 33.6943,
+    "lng": 73.0188
+  },
+  "hours": {
+    "monday": "11:00 AM - 11:00 PM",
+    "tuesday": "11:00 AM - 11:00 PM",
+    "wednesday": "11:00 AM - 11:00 PM",
+    "thursday": "11:00 AM - 11:00 PM",
+    "friday": "11:00 AM - 1:00 AM",
+    "saturday": "11:00 AM - 1:00 AM",
+    "sunday": "12:00 PM - 11:00 PM"
+  },
+  "menuCategories": [
+    {
+      "id": "popular",
+      "name": "Popular",
+      "description": "Most ordered items"
+    },
+    {
+      "id": "burgers",
+      "name": "Burgers",
+      "description": "Signature burger options"
+    },
+    {
+      "id": "meals",
+      "name": "Meals",
+      "description": "Complete meal options"
+    },
+    {
+      "id": "sides",
+      "name": "Sides",
+      "description": "Perfect companions to your meal"
+    },
+    {
+      "id": "desserts",
+      "name": "Desserts",
+      "description": "Sweet treats"
+    },
+    {
+      "id": "beverages",
+      "name": "Beverages",
+      "description": "Refreshing drinks"
+    }
+  ],
+  "menuItems": [
+    {
+      "id": "big-mac",
+      "categoryId": ["popular", "burgers"],
+      "name": "Big Mac",
+      "description": "Double beef patty with special sauce and cheese",
+      "price": 600,
+      "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": false
+    },
+    {
+      "id": "mcchicken",
+      "categoryId": ["popular", "burgers"],
+      "name": "McChicken",
+      "description": "Crispy chicken patty with lettuce and mayo",
+      "price": 550,
+      "image": "https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": false
+    },
+    {
+      "id": "quarter-pounder",
+      "categoryId": ["burgers"],
+      "name": "Quarter Pounder",
+      "description": "Quarter pound beef patty with cheese",
+      "price": 700,
+      "image": "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": false
+    },
+    {
+      "id": "happy-meal",
+      "categoryId": ["meals"],
+      "name": "Happy Meal",
+      "description": "Kids meal with toy, small burger, fries and drink",
+      "price": 550,
+      "image": "https://images.unsplash.com/photo-1619881590738-a111d176d906?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": false
+    },
+    {
+      "id": "mcvalue-meal",
+      "categoryId": ["meals"],
+      "name": "McValue Meal",
+      "description": "Burger, medium fries and drink",
+      "price": 750,
+      "image": "https://images.unsplash.com/photo-1561758033-7e924f619b47?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": false
+    },
+    {
+      "id": "fries",
+      "categoryId": ["sides", "popular"],
+      "name": "World Famous Fries",
+      "description": "Golden crispy fries",
+      "price": 220,
+      "image": "https://images.unsplash.com/photo-1576107232684-1279f390859f?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": true,
+      "vegetarian": true,
+      "glutenFree": false
+    },
+    {
+      "id": "mcnuggets",
+      "categoryId": ["sides"],
+      "name": "McNuggets",
+      "description": "Crispy chicken nuggets, 6pcs",
+      "price": 350,
+      "image": "https://images.unsplash.com/photo-1585325701956-60dd9c8553bc?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": false,
+      "vegetarian": false,
+      "glutenFree": false
+    },
+    {
+      "id": "mcflurry",
+      "categoryId": ["desserts", "popular"],
+      "name": "McFlurry",
+      "description": "Soft serve with mix-ins",
+      "price": 300,
+      "image": "https://images.unsplash.com/photo-1591636621483-1a5a0d38d59a?w=300&h=200&fit=crop",
+      "popular": true,
+      "vegan": false,
+      "vegetarian": true,
+      "glutenFree": false
+    },
+    {
+      "id": "apple-pie",
+      "categoryId": ["desserts"],
+      "name": "Apple Pie",
+      "description": "Warm apple pie in crispy crust",
+      "price": 200,
+      "image": "https://images.unsplash.com/photo-1535920527002-b35e96722eb9?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": false,
+      "vegetarian": true,
+      "glutenFree": false
+    },
+    {
+      "id": "coke",
+      "categoryId": ["beverages"],
+      "name": "Coca-Cola",
+      "description": "Refreshing cola drink",
+      "price": 120,
+      "image": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=300&h=200&fit=crop",
+      "popular": false,
+      "vegan": true,
+      "vegetarian": true,
+      "glutenFree": true
+    }
+  ],
+  "ads": [
+    {
+      "id": "1",
+      "title": "Happy Meal Deal",
+      "description": "Free toy with every Happy Meal",
+      "image": "https://images.unsplash.com/photo-1619881590738-a111d176d906?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-03-31",
+      "url": null
+    },
+    {
+      "id": "2",
+      "title": "McSaver Menu",
+      "description": "Meals starting at Rs. 250",
+      "image": "https://images.unsplash.com/photo-1561758033-7e924f619b47?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-03-31",
+      "url": null
+    },
+    {
+      "id": "3",
+      "title": "Breakfast Special",
+      "description": "Buy 1 Get 1 on McMuffins",
+      "image": "https://images.unsplash.com/photo-1552895638-f7fe08d2f7d5?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-03-15",
+      "url": null
+    },
+    {
+      "id": "4",
+      "title": "McDelivery Offer",
+      "description": "Free McFlurry on orders above Rs. 800",
+      "image": "https://images.unsplash.com/photo-1586816001966-79b736744398?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-03-31",
+      "url": null
+    },
+    {
+      "id": "5",
+      "title": "Weekend Family Bundle",
+      "description": "20% off on family bundles",
+      "image": "https://images.unsplash.com/photo-1552526881-5517a57b6d4a?w=500&h=300&fit=crop",
+      "startDate": "2025-03-01",
+      "endDate": "2025-03-31",
+      "url": null
+    }
+  ]
+}

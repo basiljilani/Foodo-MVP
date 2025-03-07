@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100">
+  <style>
+    .text { font-family: Arial, sans-serif; font-weight: bold; font-size: 40px; }
+    .tandoori { fill: #D32F2F; }
+  </style>
+  <text x="40" y="60" class="text tandoori">TANDOORI</text>
+</svg>
