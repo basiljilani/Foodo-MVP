@@ -50,41 +50,49 @@ export const mockRestaurants = [
         },
         {
           id: "pop2",
-          name: "Pepsi Kombo",
-          description: "Krunch burger with hot & crispy chicken piece & soft drink - 345 ml",
-          price: 620,
+          name: "Zinger Burger",
+          description: "Our signature spicy Zinger fillet with lettuce and mayo",
+          price: 550,
           isAvailable: true,
           category: "Popular"
         },
         {
           id: "pop3",
-          name: "Krunch Combo",
-          description: "Enjoy a crispy crunchy chicken fillet on a bed of lettuce with a soft bun",
-          price: 590,
+          name: "Twister",
+          description: "Tender chicken strips with fresh veggies and signature sauce in a wrap",
+          price: 520,
           isAvailable: true,
           category: "Popular"
         },
         {
           id: "pop4",
-          name: "Midnight Deal 2",
-          description: "2 Krunch burgers with 2 regular soft drinks",
-          price: 610,
+          name: "Mighty Zinger",
+          description: "Double the zinger fillet with cheese and special sauce",
+          price: 780,
           isAvailable: true,
           category: "Popular"
         },
         {
           id: "pop5",
-          name: "Xtreme Duo Box",
-          description: "2 Zinger burgers, 2 chicken pieces, large fries and 2 regular soft drinks",
-          price: 1560,
+          name: "Family Bucket",
+          description: "9 pieces of chicken, 4 regular fries, and 4 drinks",
+          price: 2250,
           isAvailable: true,
           category: "Popular"
         },
         {
           id: "pop6",
-          name: "Mighty Zinger Burger",
-          description: "2 whole muscle zingers with cheese and fresh lettuce, all bundled in a soft bun",
-          price: 770,
+          name: "Krunch Combo",
+          description: "Krunch burger with regular fries and drink",
+          price: 550,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "pop7",
+          name: "Zingeratha",
+          description: "Zinger fillets wrapped in a paratha with special sauce",
+          price: 620,
           isAvailable: true,
           category: "Popular"
         }
@@ -475,7 +483,7 @@ export const mockRestaurants = [
         {
           id: "mcd-pop1",
           name: "Big Mac",
-          description: "The iconic burger featuring two 100% beef patties, special sauce, lettuce, cheese, pickles, and onions on a sesame seed bun",
+          description: "Two 100% beef patties with special sauce, lettuce, cheese, pickles, onions on a sesame seed bun",
           price: 650,
           isAvailable: true,
           category: "Popular"
@@ -483,40 +491,48 @@ export const mockRestaurants = [
         {
           id: "mcd-pop2",
           name: "McChicken",
-          description: "A crispy chicken patty topped with mayonnaise and shredded lettuce, served on a perfectly toasted bun",
-          price: 550,
+          description: "Crispy chicken patty topped with mayo and shredded lettuce",
+          price: 500,
           isAvailable: true,
           category: "Popular"
         },
         {
           id: "mcd-pop3",
           name: "Quarter Pounder with Cheese",
-          description: "A quarter pound of 100% fresh beef topped with onions, pickles, and two slices of melty cheese",
+          description: "100% fresh beef patty with cheese, onions, pickles, and condiments",
           price: 700,
           isAvailable: true,
           category: "Popular"
         },
         {
           id: "mcd-pop4",
-          name: "Filet-O-Fish",
-          description: "Wild-caught fish from our sustainable fisheries, topped with melty American cheese and creamy tartar sauce",
-          price: 600,
+          name: "Happy Meal",
+          description: "Kid's meal with toy, small fries, small drink, and choice of burger or nuggets",
+          price: 550,
           isAvailable: true,
           category: "Popular"
         },
         {
           id: "mcd-pop5",
-          name: "McNuggets (6 pcs)",
-          description: "Tender, juicy chicken nuggets made with white meat, wrapped in a crisp tempura batter",
-          price: 450,
+          name: "McFlurry Oreo",
+          description: "Creamy vanilla soft serve with Oreo cookie pieces",
+          price: 350,
           isAvailable: true,
           category: "Popular"
         },
         {
           id: "mcd-pop6",
-          name: "World Famous Fries",
-          description: "Golden, crispy fries made from quality potatoes and served hot and fresh",
-          price: 250,
+          name: "Spicy McCrispy",
+          description: "Extra crispy chicken fillet with spicy coating and special sauce",
+          price: 620,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "mcd-pop7",
+          name: "Chicken McNuggets (9pc)",
+          description: "Nine pieces of tender, juicy chicken nuggets with your choice of sauce",
+          price: 580,
           isAvailable: true,
           category: "Popular"
         }
@@ -764,18 +780,56 @@ export const mockRestaurants = [
         {
           id: "savour-pop1",
           name: "Chicken Pulao",
-          description: "Fragrant basmati rice cooked with tender chicken pieces and aromatic spices",
+          description: "Signature rice dish with tender chicken pieces and aromatic spices",
           price: 350,
-          image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Popular"
         },
         {
           id: "savour-pop2",
-          name: "Beef Pulao",
-          description: "Slow-cooked beef with basmati rice and special spice blend",
-          price: 400,
-          image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&h=200&fit=crop",
+          name: "Chicken Karahi",
+          description: "Traditional Pakistani dish cooked with tomatoes, green chilies and ginger",
+          price: 1200,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "savour-pop3",
+          name: "Seekh Kabab",
+          description: "Minced meat mixed with herbs and spices, grilled to perfection",
+          price: 300,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "savour-pop4",
+          name: "Kheer",
+          description: "Traditional rice pudding with milk, sugar, and cardamom",
+          price: 150,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "savour-pop5",
+          name: "Special Pulao",
+          description: "Premium rice dish with extra meat and special spice blend",
+          price: 450,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "savour-pop6",
+          name: "Mutton Pulao",
+          description: "Aromatic rice cooked with tender mutton pieces and traditional spices",
+          price: 550,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "savour-pop7",
+          name: "Chicken Tikka (4 pcs)",
+          description: "Marinated chicken pieces grilled in a tandoor with special spice blend",
+          price: 480,
           isAvailable: true,
           category: "Popular"
         }
@@ -786,7 +840,6 @@ export const mockRestaurants = [
           name: "Chicken Pulao (Regular)",
           description: "Fragrant basmati rice cooked with tender chicken pieces and aromatic spices",
           price: 350,
-          image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "CHICKEN PULAO"
         },
@@ -795,7 +848,6 @@ export const mockRestaurants = [
           name: "Chicken Pulao (Large)",
           description: "Family-sized portion of our signature chicken pulao",
           price: 650,
-          image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "CHICKEN PULAO"
         }
@@ -806,7 +858,6 @@ export const mockRestaurants = [
           name: "Chicken Karahi",
           description: "Spicy chicken curry cooked in a traditional wok with tomatoes and green chilies",
           price: 550,
-          image: "https://images.unsplash.com/photo-1603496987351-f84a3ba5ec85?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "CHICKEN"
         },
@@ -815,7 +866,6 @@ export const mockRestaurants = [
           name: "Chicken Tikka",
           description: "Marinated chicken pieces grilled to perfection",
           price: 450,
-          image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "CHICKEN"
         }
@@ -826,7 +876,6 @@ export const mockRestaurants = [
           name: "Kheer",
           description: "Traditional rice pudding with cardamom and nuts",
           price: 200,
-          image: "https://images.unsplash.com/photo-1605197161470-5d2a9af8a767?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "SWEET"
         },
@@ -835,7 +884,6 @@ export const mockRestaurants = [
           name: "Gulab Jamun",
           description: "Sweet milk dumplings soaked in sugar syrup",
           price: 150,
-          image: "https://images.unsplash.com/photo-1601303516477-c52cd2c21c87?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "SWEET"
         }
@@ -846,7 +894,6 @@ export const mockRestaurants = [
           name: "Lassi",
           description: "Traditional yogurt-based drink, sweet or salty",
           price: 120,
-          image: "https://images.unsplash.com/photo-1626201850121-5a16e8ba6faa?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "DRINKS"
         },
@@ -855,7 +902,6 @@ export const mockRestaurants = [
           name: "Kashmiri Chai",
           description: "Pink tea with cardamom, cinnamon and nuts",
           price: 150,
-          image: "https://images.unsplash.com/photo-1561501878-aabd62634533?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "DRINKS"
         }
@@ -866,7 +912,6 @@ export const mockRestaurants = [
           name: "Kulfi",
           description: "Traditional Pakistani ice cream with pistachios",
           price: 200,
-          image: "https://images.unsplash.com/photo-1582994254571-52c62d96ebab?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "SAVOUR ICE CREAMS"
         },
@@ -875,7 +920,6 @@ export const mockRestaurants = [
           name: "Mango Ice Cream",
           description: "Creamy ice cream with fresh mango flavor",
           price: 180,
-          image: "https://images.unsplash.com/photo-1501443762994-d11ec9c172f0?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "SAVOUR ICE CREAMS"
         }
@@ -886,7 +930,6 @@ export const mockRestaurants = [
           name: "Raita",
           description: "Yogurt with cucumber and spices",
           price: 80,
-          image: "https://images.unsplash.com/photo-1589516761346-19ac0cb1db6a?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "SIDE ORDERS"
         },
@@ -895,7 +938,6 @@ export const mockRestaurants = [
           name: "Salad",
           description: "Fresh vegetable salad with lemon dressing",
           price: 100,
-          image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "SIDE ORDERS"
         }
@@ -906,7 +948,6 @@ export const mockRestaurants = [
           name: "Chicken Pulao Daigh",
           description: "Large catering size chicken pulao (serves 10-12)",
           price: 3500,
-          image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "DAIGH ORDERS"
         },
@@ -915,7 +956,6 @@ export const mockRestaurants = [
           name: "Beef Pulao Daigh",
           description: "Large catering size beef pulao (serves 10-12)",
           price: 4000,
-          image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "DAIGH ORDERS"
         }
@@ -975,19 +1015,57 @@ export const mockRestaurants = [
       "Popular": [
         {
           id: "howdy-pop1",
-          name: "Classic Smashed Burger",
-          description: "Signature smashed patty with cheese, lettuce, tomato and special sauce",
-          price: 550,
-          image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=200&fit=crop",
+          name: "Classic Beef Burger",
+          description: "Premium beef patty with lettuce, tomato, cheese and special sauce",
+          price: 650,
           isAvailable: true,
           category: "Popular"
         },
         {
           id: "howdy-pop2",
+          name: "Chicken Fillet Burger",
+          description: "Crispy chicken fillet with lettuce, mayo and signature sauce",
+          price: 550,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "howdy-pop3",
           name: "Loaded Fries",
-          description: "Crispy fries topped with cheese sauce, jalapeños and special seasoning",
+          description: "Crispy fries topped with cheese sauce, jalapenos and special seasoning",
           price: 350,
-          image: "https://images.unsplash.com/photo-1585109649139-366815a0d713?w=300&h=200&fit=crop",
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "howdy-pop4",
+          name: "Milkshake",
+          description: "Thick and creamy milkshake available in chocolate, vanilla, or strawberry",
+          price: 300,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "howdy-pop5",
+          name: "Double Trouble Burger",
+          description: "Double beef patty with double cheese, bacon and special sauce",
+          price: 850,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "howdy-pop6",
+          name: "Jalapeño Smokehouse",
+          description: "Beef patty with smoked cheddar, jalapeños, and BBQ sauce",
+          price: 720,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "howdy-pop7",
+          name: "Crispy Chicken Strips (5 pcs)",
+          description: "Premium chicken strips with your choice of dipping sauce",
+          price: 480,
           isAvailable: true,
           category: "Popular"
         }
@@ -995,19 +1073,17 @@ export const mockRestaurants = [
       "Burgers": [
         {
           id: "howdy-b1",
-          name: "Classic Smashed Burger",
-          description: "Signature smashed patty with cheese, lettuce, tomato and special sauce",
-          price: 550,
-          image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300&h=200&fit=crop",
+          name: "Classic Beef Burger",
+          description: "Premium beef patty with lettuce, tomato, cheese and special sauce",
+          price: 650,
           isAvailable: true,
           category: "Burgers"
         },
         {
           id: "howdy-b2",
           name: "Double Trouble",
-          description: "Double smashed patties with double cheese and all the fixings",
+          description: "Double beef patty with double cheese and all the fixings",
           price: 750,
-          image: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Burgers"
         }
@@ -1018,7 +1094,6 @@ export const mockRestaurants = [
           name: "Loaded Fries",
           description: "Crispy fries topped with cheese sauce, jalapeños and special seasoning",
           price: 350,
-          image: "https://images.unsplash.com/photo-1585109649139-366815a0d713?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Sides"
         },
@@ -1027,7 +1102,6 @@ export const mockRestaurants = [
           name: "Onion Rings",
           description: "Crispy battered onion rings with special dipping sauce",
           price: 300,
-          image: "https://images.unsplash.com/photo-1581746303826-a0538b0e5f8f?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Sides"
         }
@@ -1038,7 +1112,6 @@ export const mockRestaurants = [
           name: "Signature Milkshake",
           description: "Thick and creamy milkshake in various flavors",
           price: 400,
-          image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Beverages"
         },
@@ -1047,7 +1120,6 @@ export const mockRestaurants = [
           name: "Fresh Lemonade",
           description: "Refreshing homemade lemonade",
           price: 200,
-          image: "https://images.unsplash.com/photo-1556881286-fc6915169721?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Beverages"
         }
@@ -1103,19 +1175,57 @@ export const mockRestaurants = [
       "Popular": [
         {
           id: "ck-pop1",
-          name: "Doodh Patti Chai",
-          description: "Traditional Pakistani milk tea brewed to perfection",
-          price: 180,
-          image: "https://images.unsplash.com/photo-1561336526-2914f13ceb36?w=300&h=200&fit=crop",
+          name: "Doodh Patti",
+          description: "Traditional Pakistani milk tea with cardamom",
+          price: 150,
           isAvailable: true,
           category: "Popular"
         },
         {
           id: "ck-pop2",
           name: "Paratha Roll",
-          description: "Flaky paratha filled with chicken or beef and special sauces",
+          description: "Flaky paratha filled with chicken or beef and special sauce",
+          price: 300,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "ck-pop3",
+          name: "Club Sandwich",
+          description: "Triple-decker sandwich with chicken, egg, lettuce and mayo",
           price: 350,
-          image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=300&h=200&fit=crop",
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "ck-pop4",
+          name: "Kashmiri Chai",
+          description: "Pink tea with cardamom, pistachios and almonds",
+          price: 200,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "ck-pop5",
+          name: "Chicken Biryani",
+          description: "Aromatic rice dish with chicken, spices and raita",
+          price: 400,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "ck-pop6",
+          name: "Aloo Paratha Breakfast",
+          description: "Potato-stuffed paratha served with yogurt and pickle",
+          price: 280,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "ck-pop7",
+          name: "Chocolate Fudge Cake",
+          description: "Rich chocolate cake with warm fudge center and vanilla ice cream",
+          price: 350,
           isAvailable: true,
           category: "Popular"
         }
@@ -1126,7 +1236,6 @@ export const mockRestaurants = [
           name: "Halwa Puri",
           description: "Traditional Pakistani breakfast with semolina halwa, chickpea curry and fried bread",
           price: 400,
-          image: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Breakfast"
         },
@@ -1135,7 +1244,6 @@ export const mockRestaurants = [
           name: "Omelette Paratha",
           description: "Flaky paratha served with fluffy omelette and chutney",
           price: 350,
-          image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Breakfast"
         }
@@ -1143,19 +1251,17 @@ export const mockRestaurants = [
       "Tea & Coffee": [
         {
           id: "ck-tc1",
-          name: "Doodh Patti Chai",
-          description: "Traditional Pakistani milk tea brewed to perfection",
-          price: 180,
-          image: "https://images.unsplash.com/photo-1561336526-2914f13ceb36?w=300&h=200&fit=crop",
+          name: "Doodh Patti",
+          description: "Traditional Pakistani milk tea with cardamom",
+          price: 150,
           isAvailable: true,
           category: "Tea & Coffee"
         },
         {
           id: "ck-tc2",
           name: "Kashmiri Pink Tea",
-          description: "Traditional pink tea with cardamom, cinnamon and nuts",
+          description: "Pink tea with cardamom, cinnamon and nuts",
           price: 250,
-          image: "https://images.unsplash.com/photo-1593443320739-77f74939d0da?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Tea & Coffee"
         }
@@ -1166,7 +1272,6 @@ export const mockRestaurants = [
           name: "Chicken Karahi",
           description: "Spicy chicken curry cooked in a traditional wok",
           price: 850,
-          image: "https://images.unsplash.com/photo-1603496987351-f84a3ba5ec85?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Main Course"
         },
@@ -1175,7 +1280,6 @@ export const mockRestaurants = [
           name: "Biryani",
           description: "Aromatic rice dish with tender chicken and special spices",
           price: 550,
-          image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Main Course"
         }
@@ -1231,19 +1335,57 @@ export const mockRestaurants = [
       "Popular": [
         {
           id: "tandoori-pop1",
-          name: "Tandoori Chicken",
-          description: "Chicken marinated in yogurt and spices, cooked in a clay oven",
-          price: 650,
-          image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=300&h=200&fit=crop",
+          name: "Chicken Tikka",
+          description: "Marinated chicken pieces grilled in a tandoor",
+          price: 450,
           isAvailable: true,
           category: "Popular"
         },
         {
           id: "tandoori-pop2",
-          name: "Butter Naan",
-          description: "Soft bread cooked in tandoor and brushed with butter",
+          name: "Seekh Kabab",
+          description: "Minced meat mixed with herbs and spices, grilled to perfection",
+          price: 350,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "tandoori-pop3",
+          name: "Butter Chicken",
+          description: "Tandoori chicken in a rich, creamy tomato sauce",
+          price: 650,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "tandoori-pop4",
+          name: "Garlic Naan",
+          description: "Tandoor-baked flatbread with garlic and butter",
           price: 80,
-          image: "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=300&h=200&fit=crop",
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "tandoori-pop5",
+          name: "Chicken Biryani",
+          description: "Aromatic rice dish with chicken, spices and raita",
+          price: 450,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "tandoori-pop6",
+          name: "Mutton Karahi",
+          description: "Traditional Pakistani dish with tender mutton pieces cooked in a wok",
+          price: 1200,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "tandoori-pop7",
+          name: "Mixed Grill Platter",
+          description: "Assortment of tandoori chicken, seekh kabab, and tikka with naan",
+          price: 1500,
           isAvailable: true,
           category: "Popular"
         }
@@ -1251,10 +1393,9 @@ export const mockRestaurants = [
       "Tandoori Specialties": [
         {
           id: "tandoori-ts1",
-          name: "Tandoori Chicken",
-          description: "Chicken marinated in yogurt and spices, cooked in a clay oven",
-          price: 650,
-          image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=300&h=200&fit=crop",
+          name: "Chicken Tikka",
+          description: "Marinated chicken pieces grilled in a tandoor",
+          price: 450,
           isAvailable: true,
           category: "Tandoori Specialties"
         },
@@ -1263,7 +1404,6 @@ export const mockRestaurants = [
           name: "Seekh Kebab",
           description: "Minced meat kebabs with herbs and spices",
           price: 450,
-          image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Tandoori Specialties"
         }
@@ -1274,7 +1414,6 @@ export const mockRestaurants = [
           name: "Butter Chicken",
           description: "Tandoori chicken cooked in a rich tomato and butter sauce",
           price: 750,
-          image: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Curries"
         },
@@ -1283,7 +1422,6 @@ export const mockRestaurants = [
           name: "Palak Paneer",
           description: "Cottage cheese cubes in a spinach gravy",
           price: 550,
-          image: "https://images.unsplash.com/photo-1618449840665-9ed506d73a34?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Curries"
         }
@@ -1294,7 +1432,6 @@ export const mockRestaurants = [
           name: "Butter Naan",
           description: "Soft bread cooked in tandoor and brushed with butter",
           price: 80,
-          image: "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Breads"
         },
@@ -1303,7 +1440,6 @@ export const mockRestaurants = [
           name: "Garlic Naan",
           description: "Naan bread topped with garlic and butter",
           price: 100,
-          image: "https://images.unsplash.com/photo-1610057099431-d73a1c9d2f2f?w=300&h=200&fit=crop",
           isAvailable: true,
           category: "Breads"
         }
@@ -1314,6 +1450,474 @@ export const mockRestaurants = [
       "Tandoori Specialties",
       "Curries",
       "Breads"
+    ]
+  },
+  {
+    id: "burning-brownies",
+    name: "Burning Brownies",
+    description: "Indulge in Chocolate Heaven - Premium desserts and coffee",
+    image: "/images/coming-soon.svg",
+    logo: "/images/coming-soon.svg",
+    bannerImage: "/images/coming-soon.svg",
+    themeColor: "#4A2C2A",
+    rating: 4.7,
+    reviewsCount: 320,
+    cuisine: "Desserts, Bakery, Coffee",
+    priceRange: "$$",
+    deliveryTime: "20-35 min",
+    minimumOrder: 300,
+    deliveryFee: 100,
+    isTopRestaurant: true,
+    isFeatured: true,
+    contact: {
+      phone: "+92-51-8765432",
+      email: "info@burningbrownies.pk",
+      website: "www.burningbrownies.pk",
+      address: "F-7 Markaz, Jinnah Super",
+      city: "Islamabad",
+      social: {
+        instagram: "burningbrownies",
+        facebook: "burningbrownies",
+        whatsapp: "+923009876543"
+      }
+    },
+    features: {
+      isOpen: true,
+      acceptsOnlinePayment: true,
+      hasHappyHours: true,
+      autoAcceptOrders: true,
+      atmosphere: "Cozy",
+      dressCode: "Casual",
+      parking: "Available",
+      alcohol: "No"
+    },
+    menuItems: {
+      "Popular": [
+        {
+          id: "bb-pop1",
+          name: "Classic Chocolate Brownie",
+          description: "Rich, fudgy brownie with chocolate chunks",
+          price: 250,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "bb-pop2",
+          name: "Nutella Brownie",
+          description: "Chocolate brownie with Nutella swirl",
+          price: 280,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "bb-pop3",
+          name: "Brownie Sundae",
+          description: "Warm brownie topped with ice cream, chocolate sauce and nuts",
+          price: 350,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "bb-pop4",
+          name: "Cappuccino",
+          description: "Espresso with steamed milk and foam",
+          price: 200,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "bb-pop5",
+          name: "Brownie Box",
+          description: "Assorted box of 6 different brownie flavors",
+          price: 1200,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "bb-pop6",
+          name: "Red Velvet Brownie",
+          description: "Red velvet brownie with cream cheese swirl",
+          price: 300,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "bb-pop7",
+          name: "Salted Caramel Brownie",
+          description: "Chocolate brownie with salted caramel drizzle and sea salt",
+          price: 320,
+          isAvailable: true,
+          category: "Popular"
+        }
+      ],
+      "Brownies": [
+        {
+          id: "bb-br1",
+          name: "Classic Chocolate Brownie",
+          description: "Rich, fudgy brownie with chocolate chunks",
+          price: 250,
+          isAvailable: true,
+          category: "Brownies"
+        },
+        {
+          id: "bb-br2",
+          name: "Walnut Brownie",
+          description: "Classic brownie loaded with crunchy walnuts",
+          price: 300,
+          isAvailable: true,
+          category: "Brownies"
+        },
+        {
+          id: "bb-br3",
+          name: "Nutella Brownie",
+          description: "Chocolate brownie with Nutella swirl",
+          price: 280,
+          isAvailable: true,
+          category: "Brownies"
+        }
+      ],
+      "Cakes": [
+        {
+          id: "bb-ck1",
+          name: "Red Velvet Cake",
+          description: "Classic red velvet with cream cheese frosting",
+          price: 450,
+          isAvailable: true,
+          category: "Cakes"
+        },
+        {
+          id: "bb-ck2",
+          name: "Chocolate Cake",
+          description: "Moist chocolate cake with ganache frosting",
+          price: 500,
+          isAvailable: true,
+          category: "Cakes"
+        }
+      ],
+      "Coffee": [
+        {
+          id: "bb-cf1",
+          name: "Cappuccino",
+          description: "Espresso with steamed milk and foam",
+          price: 300,
+          isAvailable: true,
+          category: "Coffee"
+        },
+        {
+          id: "bb-cf2",
+          name: "Latte",
+          description: "Smooth espresso with steamed milk",
+          price: 320,
+          isAvailable: true,
+          category: "Coffee"
+        }
+      ],
+      "Shakes": [
+        {
+          id: "bb-sh1",
+          name: "Chocolate Shake",
+          description: "Creamy chocolate milkshake",
+          price: 350,
+          isAvailable: true,
+          category: "Shakes"
+        },
+        {
+          id: "bb-sh2",
+          name: "Vanilla Shake",
+          description: "Smooth and creamy vanilla milkshake",
+          price: 320,
+          isAvailable: true,
+          category: "Shakes"
+        }
+      ]
+    },
+    menuCategories: [
+      "Popular",
+      "Brownies",
+      "Cakes",
+      "Coffee",
+      "Shakes"
+    ]
+  },
+  {
+    id: "subway",
+    name: "Subway - F9",
+    description: "Fresh and healthy sandwiches, wraps, and salads customized to your taste",
+    image: "/images/coming-soon.svg",
+    logo: "/images/coming-soon.svg",
+    bannerImage: "/images/coming-soon.svg",
+    themeColor: "#008C15",
+    textColor: "#FFFFFF",
+    rating: 4.2,
+    reviewsCount: 800,
+    cuisine: "Sandwiches, Healthy, Fast Food",
+    priceRange: "$$",
+    deliveryTime: "15-30 min",
+    minimumOrder: 350,
+    deliveryFee: 80,
+    isTopRestaurant: true,
+    isFeatured: false,
+    contact: {
+      phone: "+92-51-2222333",
+      email: "info@subwaypakistan.com",
+      website: "www.subway.com.pk",
+      address: "F-9 Markaz, Islamabad"
+    },
+    social: {
+      facebook: "SubwayPakistan",
+      instagram: "subwaypakistan",
+      twitter: "SubwayPK"
+    },
+    location: {
+      lat: 33.7008,
+      lng: 73.0501
+    },
+    openingHours: {
+      monday: "10:00 AM - 11:00 PM",
+      tuesday: "10:00 AM - 11:00 PM",
+      wednesday: "10:00 AM - 11:00 PM",
+      thursday: "10:00 AM - 11:00 PM",
+      friday: "10:00 AM - 11:30 PM",
+      saturday: "10:00 AM - 11:30 PM",
+      sunday: "10:00 AM - 11:00 PM"
+    },
+    menuItems: {
+      "Popular": [
+        {
+          id: "sub-pop1",
+          name: "Italian B.M.T.",
+          description: "Pepperoni, salami and ham with your choice of fresh vegetables and condiments",
+          price: 650,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "sub-pop2",
+          name: "Chicken Teriyaki",
+          description: "Tender chicken strips glazed with teriyaki sauce",
+          price: 600,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "sub-pop3",
+          name: "Veggie Delite",
+          description: "Fresh vegetables of your choice with your favorite sauce",
+          price: 450,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "sub-pop4",
+          name: "Steak & Cheese",
+          description: "Shaved steak with melted cheese and your choice of vegetables",
+          price: 700,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "sub-pop5",
+          name: "Tuna",
+          description: "Flaked tuna mixed with mayo and your choice of vegetables",
+          price: 550,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "sub-pop6",
+          name: "Chicken & Bacon Ranch",
+          description: "Tender chicken strips with crispy bacon and creamy ranch dressing",
+          price: 680,
+          isAvailable: true,
+          category: "Popular"
+        },
+        {
+          id: "sub-pop7",
+          name: "Spicy Italian",
+          description: "Pepperoni and salami with your choice of vegetables and condiments",
+          price: 620,
+          isAvailable: true,
+          category: "Popular"
+        }
+      ],
+      "Footlong Subs": [
+        {
+          id: "sub-fl1",
+          name: "Italian B.M.T. Footlong",
+          description: "Pepperoni, salami and ham with your choice of fresh vegetables and condiments",
+          price: 950,
+          isAvailable: true,
+          category: "Footlong Subs"
+        },
+        {
+          id: "sub-fl2",
+          name: "Chicken Teriyaki Footlong",
+          description: "Tender chicken strips glazed with teriyaki sauce",
+          price: 900,
+          isAvailable: true,
+          category: "Footlong Subs"
+        },
+        {
+          id: "sub-fl3",
+          name: "Tuna Footlong",
+          description: "Flaked tuna mixed with mayo and your choice of vegetables",
+          price: 850,
+          isAvailable: true,
+          category: "Footlong Subs"
+        },
+        {
+          id: "sub-fl4",
+          name: "Veggie Delite Footlong",
+          description: "Fresh vegetables of your choice with your favorite sauce",
+          price: 750,
+          isAvailable: true,
+          category: "Footlong Subs"
+        }
+      ],
+      "6-Inch Subs": [
+        {
+          id: "sub-si1",
+          name: "Italian B.M.T. 6-Inch",
+          description: "Pepperoni, salami and ham with your choice of fresh vegetables and condiments",
+          price: 650,
+          isAvailable: true,
+          category: "6-Inch Subs"
+        },
+        {
+          id: "sub-si2",
+          name: "Chicken Teriyaki 6-Inch",
+          description: "Tender chicken strips glazed with teriyaki sauce",
+          price: 600,
+          isAvailable: true,
+          category: "6-Inch Subs"
+        },
+        {
+          id: "sub-si3",
+          name: "Tuna 6-Inch",
+          description: "Flaked tuna mixed with mayo and your choice of vegetables",
+          price: 550,
+          isAvailable: true,
+          category: "6-Inch Subs"
+        },
+        {
+          id: "sub-si4",
+          name: "Veggie Delite 6-Inch",
+          description: "Fresh vegetables of your choice with your favorite sauce",
+          price: 450,
+          isAvailable: true,
+          category: "6-Inch Subs"
+        }
+      ],
+      "Wraps": [
+        {
+          id: "sub-wr1",
+          name: "Chicken & Bacon Ranch Wrap",
+          description: "Tender chicken, crispy bacon, and ranch dressing wrapped in a soft tortilla",
+          price: 700,
+          isAvailable: true,
+          category: "Wraps"
+        },
+        {
+          id: "sub-wr2",
+          name: "Italian B.M.T. Wrap",
+          description: "Pepperoni, salami and ham wrapped in a soft tortilla",
+          price: 650,
+          isAvailable: true,
+          category: "Wraps"
+        },
+        {
+          id: "sub-wr3",
+          name: "Veggie Delite Wrap",
+          description: "Fresh vegetables wrapped in a soft tortilla",
+          price: 500,
+          isAvailable: true,
+          category: "Wraps"
+        }
+      ],
+      "Salads": [
+        {
+          id: "sub-sa1",
+          name: "Chicken Teriyaki Salad",
+          description: "Tender chicken strips glazed with teriyaki sauce on a bed of fresh veggies",
+          price: 700,
+          isAvailable: true,
+          category: "Salads"
+        },
+        {
+          id: "sub-sa2",
+          name: "Italian B.M.T. Salad",
+          description: "Pepperoni, salami and ham on a bed of fresh veggies",
+          price: 650,
+          isAvailable: true,
+          category: "Salads"
+        },
+        {
+          id: "sub-sa3",
+          name: "Veggie Delite Salad",
+          description: "A fresh mix of lettuce, tomatoes, green peppers, cucumbers, and onions",
+          price: 500,
+          isAvailable: true,
+          category: "Salads"
+        }
+      ],
+      "Sides & Drinks": [
+        {
+          id: "sub-sd1",
+          name: "Chocolate Chip Cookie",
+          description: "Freshly baked chocolate chip cookie",
+          price: 100,
+          isAvailable: true,
+          category: "Sides & Drinks"
+        },
+        {
+          id: "sub-sd2",
+          name: "Lays Classic Chips",
+          description: "Crispy potato chips",
+          price: 80,
+          isAvailable: true,
+          category: "Sides & Drinks"
+        },
+        {
+          id: "sub-sd3",
+          name: "Soft Drink (Regular)",
+          description: "Your choice of soft drink",
+          price: 120,
+          isAvailable: true,
+          category: "Sides & Drinks"
+        },
+        {
+          id: "sub-sd4",
+          name: "Bottled Water",
+          description: "Pure mineral water",
+          price: 70,
+          isAvailable: true,
+          category: "Sides & Drinks"
+        }
+      ]
+    },
+    menuCategories: [
+      "Popular",
+      "Footlong Subs",
+      "6-Inch Subs",
+      "Wraps",
+      "Salads",
+      "Sides & Drinks"
+    ],
+    ads: [
+      {
+        id: "subway-ad1",
+        title: "Sub of the Day",
+        description: "Different 6-inch sub on special each day of the week!",
+        image: "/images/coming-soon.svg",
+        link: "/promotions/sub-of-the-day"
+      },
+      {
+        id: "subway-ad2",
+        title: "Meal Deal",
+        description: "Any 6-inch sub, drink and cookie for just PKR 750",
+        image: "/images/coming-soon.svg",
+        link: "/promotions/meal-deal"
+      }
     ]
   }
 ];
