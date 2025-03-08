@@ -54,8 +54,7 @@ export default function Home() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState({
-    categories: [],
-    priceRange: [],
+    cuisine: null,
     rating: null,
     deliveryTime: null,
   });
@@ -67,17 +66,20 @@ export default function Home() {
   ];
 
   const filteredRestaurants = restaurants.filter((restaurant) => {
-    const matchesSearch =
+    // Log each restaurant to see what's available
+    console.log('Restaurant in filter:', restaurant);
+    
+    // Simplified filtering logic
+    const matchesSearch = searchQuery === '' || 
       restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       restaurant.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      filters.categories.length === 0 ||
-      filters.categories.includes(restaurant.name.toLowerCase());
-    const matchesPriceRange = filters.priceRange.length === 0;
-    const matchesRating = !filters.rating || restaurant.rating >= filters.rating;
-
-    return matchesSearch && matchesCategory && matchesPriceRange && matchesRating;
+    
+    // Always return true for now to see all restaurants
+    return matchesSearch;
   });
+
+  // Log the final filtered restaurants
+  console.log('Filtered restaurants:', filteredRestaurants);
 
   const handleRestaurantClick = (restaurantId: string) => {
     console.log('Navigating to restaurant:', restaurantId);

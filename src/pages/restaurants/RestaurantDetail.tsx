@@ -157,12 +157,114 @@ export default function RestaurantDetail() {
                 <span>·</span>
                 <span>Broast</span>
               </div>
-              <h1 className="text-4xl font-bold text-gray-900">
+              <h1 className="text-4xl font-bold text-gray-900 mb-6">
                 {restaurant.name}
               </h1>
+              {/* Promotional Elements - Unique per restaurant */}
+              <div className="mb-6">
+                {id === 'kfc' && (
+                  <div className="flex items-center gap-4">
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-red-500">
+                      Tuesday Krunch Deal
+                    </div>
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-amber-500">
+                      Ramadan Family Bucket
+                    </div>
+                  </div>
+                )}
+                
+                {id === 'mcdonalds' && (
+                  <div className="flex items-center gap-4">
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-yellow-500">
+                      Minecraft Happy Meal
+                    </div>
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-green-500">
+                      Midnight McFlurry Deal
+                    </div>
+                  </div>
+                )}
+                
+                {id === 'savour' && (
+                  <div className="flex items-center gap-4">
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-purple-500">
+                      Double Chicken Pulao
+                    </div>
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-blue-500">
+                      Weekend Family Special
+                    </div>
+                  </div>
+                )}
+                
+                {id === 'howdy' && (
+                  <div className="flex items-center gap-4">
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-orange-500">
+                      Jalapeño Smokehouse
+                    </div>
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-red-500">
+                      Student Meal Deal
+                    </div>
+                  </div>
+                )}
+                
+                {id === 'chaaye-khana' && (
+                  <div className="flex items-center gap-4">
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-emerald-500">
+                      Doodh Patti Combo
+                    </div>
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-teal-500">
+                      Book Corner Discount
+                    </div>
+                  </div>
+                )}
+                
+                {id === 'tandoori' && (
+                  <div className="flex items-center gap-4">
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-rose-500">
+                      Unlimited Naan
+                    </div>
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-amber-500">
+                      Sizzling Tikka Platter
+                    </div>
+                  </div>
+                )}
+                
+                {id === 'burning-brownies' && (
+                  <div className="flex items-center gap-4">
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-amber-500">
+                      6-Flavor Brownie Box
+                    </div>
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-indigo-500">
+                      Coffee & Dessert Pairing
+                    </div>
+                  </div>
+                )}
+                
+                {id === 'subway' && (
+                  <div className="flex items-center gap-4">
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-green-500">
+                      Footlong Italian BMT
+                    </div>
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-yellow-500">
+                      Free Cookie Weekdays
+                    </div>
+                  </div>
+                )}
+                
+                {/* Default promotional element for any other restaurant */}
+                {!['kfc', 'mcdonalds', 'savour', 'howdy', 'chaaye-khana', 'tandoori', 'burning-brownies', 'subway'].includes(id || '') && (
+                  <div className="flex items-center gap-4">
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-blue-500">
+                      First Order Discount
+                    </div>
+                    <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-gray-700 border-l-2 border-gray-500">
+                      Free Delivery
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
             
-            <div className="flex items-center justify-between pb-1">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <button 
                   className="text-gray-500 hover:text-gray-700 flex items-center gap-2 p-2"
@@ -183,8 +285,12 @@ export default function RestaurantDetail() {
                   <span className="font-medium">Call Now</span>
                 </a>
               </div>
-              <button className="text-gray-400 hover:text-red-500 transition-colors p-2">
-                <Heart className="w-4 h-4" />
+              <button 
+                className="rounded-full px-4 py-2.5 transition-all hover:bg-gray-100 border border-gray-100 text-gray-400 hover:text-red-500 hover:border-red-100 flex items-center gap-2"
+                aria-label="Add to favorites"
+              >
+                <Heart className="w-5 h-5" />
+                <span className="text-sm font-medium">Add to favourites</span>
               </button>
             </div>
           </div>
