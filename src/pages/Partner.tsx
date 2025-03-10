@@ -1,6 +1,5 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { Check, ChefHat, TrendingUp, Users, Clock, Percent } from 'lucide-react';
+import { Check, TrendingUp, Users, Clock, Percent, Award, Rocket, BarChart, Star, Briefcase } from 'lucide-react';
 import Layout from '../components/Layout';
 
 export default function Partner() {
@@ -27,51 +26,21 @@ export default function Partner() {
     }
   ];
 
-  const pricingPlans = [
-    {
-      name: "Basic",
-      price: "6,000",
-      description: "Perfect for small restaurants just getting started",
-      features: [
-        "Basic restaurant profile",
-        "Menu management",
-        "Order management",
-        "Customer reviews",
-        "Basic analytics"
-      ],
-      recommended: false
-    },
-    {
-      name: "Pro",
-      price: "14,000",
-      description: "Ideal for growing restaurants with regular orders",
-      features: [
-        "Everything in Basic",
-        "Priority customer support",
-        "Advanced analytics",
-        "Marketing tools",
-        "Inventory management"
-      ],
-      recommended: true
-    },
-    {
-      name: "Enterprise",
-      price: "28,000",
-      description: "For established restaurants with high order volume",
-      features: [
-        "Everything in Pro",
-        "Dedicated account manager",
-        "Custom integrations",
-        "Advanced marketing tools",
-        "Multi-location support"
-      ],
-      recommended: false
-    }
+  const premiumFeatures = [
+    "Complete restaurant profile with custom branding",
+    "Full menu management system with real-time updates",
+    "Order processing & tracking with customer notifications",
+    "Customer reviews & ratings integration",
+    "Advanced analytics dashboard",
+    "Marketing toolkit with promotional tools",
+    "Inventory management system",
+    "24/7 Priority technical support",
+    "Dedicated account manager"
   ];
 
   return (
     <Layout>
-      <div className="pt-16 min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[#0A192F] -mb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Hero Section */}
           <div className="relative bg-[#0A192F] text-white py-24">
@@ -97,13 +66,13 @@ export default function Partner() {
           </div>
 
           {/* Features Section */}
-          <div className="py-20 bg-white">
+          <div className="py-20 bg-[#0A192F] text-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                <h2 className="text-3xl font-bold text-white mb-4">
                   Why Partner with Foodo?
                 </h2>
-                <p className="text-xl text-gray-600">
+                <p className="text-xl text-gray-300">
                   We're revolutionizing the food delivery industry with a fair, transparent model
                 </p>
               </div>
@@ -114,11 +83,11 @@ export default function Partner() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
+                    className="bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-700"
                   >
                     <feature.icon className="w-12 h-12 text-[#FF3838] mb-4" />
-                    <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                    <p className="text-gray-600">{feature.description}</p>
+                    <h3 className="text-xl font-semibold mb-2 text-white">{feature.title}</h3>
+                    <p className="text-gray-300">{feature.description}</p>
                   </motion.div>
                 ))}
               </div>
@@ -126,67 +95,126 @@ export default function Partner() {
           </div>
 
           {/* Pricing Plans */}
-          <div className="py-12 bg-gray-50">
+          <div className="py-24 bg-[#0A192F] text-white border-t border-gray-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center">
-                <h2 className="text-3xl font-bold text-gray-900">Simple, Transparent Pricing</h2>
-                <p className="mt-4 text-lg text-gray-600">Choose the plan that best fits your business needs</p>
+              <div className="text-center mb-16">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-[#FF3838] text-white mb-6">
+                    <Award className="w-4 h-4 mr-1.5" /> Corporate Social Responsibility Initiative
+                  </span>
+                  <h2 className="text-5xl font-extrabold mb-4 text-white">Premium Partnership Platform</h2>
+                  <div className="h-1 w-24 bg-[#FF3838] mx-auto my-6 rounded-full"></div>
+                  <p className="mt-6 text-xl text-gray-300 max-w-3xl mx-auto">
+                    Enterprise-grade restaurant technology now available at <span className="text-[#FF3838] font-bold">zero cost</span> through our commitment to community growth.
+                  </p>
+                </motion.div>
               </div>
 
-              <div className="mt-12 space-y-4 sm:mt-16 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0 xl:grid-cols-3">
-                {pricingPlans.map((plan) => (
-                  <div 
-                    key={plan.name} 
-                    className={`relative bg-white border ${
-                      plan.recommended 
-                        ? 'border-red-200 ring-2 ring-red-500' 
-                        : 'border-gray-200'
-                    } rounded-3xl shadow-sm divide-y divide-gray-200 transition-all duration-300 hover:shadow-xl hover:scale-[1.02]`}
-                  >
-                    {plan.recommended && (
-                      <div className="absolute -top-5 inset-x-0 flex justify-center">
-                        <span className="inline-flex rounded-full bg-red-100 px-4 py-1 text-sm font-semibold text-red-600">
-                          Recommended
-                        </span>
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                className="max-w-4xl mx-auto bg-gray-800 rounded-2xl overflow-hidden shadow-2xl border border-[#FF3838]/30"
+              >
+                <div className="relative">
+                  {/* Premium badge */}
+                  <div className="absolute -right-12 top-7 transform rotate-45 bg-[#FF3838] text-white py-1 px-14 text-xs font-bold shadow-lg">
+                    CSR INITIATIVE
+                  </div>
+                  
+                  <div className="p-10 border-b border-gray-700">
+                    <div className="flex flex-col md:flex-row justify-between items-center">
+                      <div>
+                        <h3 className="text-3xl font-bold text-white">Enterprise Partnership</h3>
+                        <p className="mt-2 text-gray-400">Complete platform for restaurants of all sizes</p>
                       </div>
-                    )}
-                    <div className="p-8">
-                      <h3 className="text-xl font-semibold text-gray-900">{plan.name}</h3>
-                      <p className="mt-4 text-sm text-gray-500 min-h-[40px]">{plan.description}</p>
-                      <div className="mt-8 flex items-baseline">
-                        <span className="text-2xl font-medium text-gray-900">Rs.</span>
-                        <span className="text-5xl font-bold tracking-tight text-gray-900 ml-1">{plan.price}</span>
-                        <span className="text-base font-medium text-gray-500 ml-2">/month</span>
+                      <div className="mt-6 md:mt-0 text-right">
+                        <div className="flex flex-col items-end">
+                          <div className="flex items-baseline">
+                            <span className="text-5xl font-extrabold text-[#FF3838]">FREE</span>
+                            <span className="ml-2 text-lg text-gray-400">forever</span>
+                          </div>
+                          <div className="mt-1 text-sm text-[#FF3838] font-medium">Part of our CSR Program</div>
+                        </div>
                       </div>
-                      <button
-                        className={`mt-8 block w-full border border-transparent rounded-2xl py-3 text-sm font-semibold text-center transition-colors duration-300 ${
-                          plan.recommended
-                            ? 'bg-red-600 text-white hover:bg-red-700'
-                            : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                        }`}
-                      >
-                        Get started with {plan.name}
+                    </div>
+                    
+                    <div className="mt-8">
+                      <button className="w-full bg-[#FF3838] hover:bg-[#FF4D4D] text-white py-4 px-6 rounded-xl text-lg font-bold transition-all duration-300 transform hover:scale-[1.02] shadow-lg">
+                        Apply for Partnership
                       </button>
                     </div>
-                    <div className="px-8 pt-6 pb-8">
-                      <h4 className="text-sm font-medium text-gray-900">What's included</h4>
-                      <ul className="mt-6 space-y-4">
-                        {plan.features.map((feature) => (
-                          <li key={feature} className="flex space-x-3">
-                            <Check className={`flex-shrink-0 h-5 w-5 ${plan.recommended ? 'text-red-500' : 'text-green-500'}`} aria-hidden="true" />
-                            <span className="text-sm text-gray-500">{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
+                  </div>
+                  
+                  <div className="p-10">
+                    <h4 className="text-lg font-semibold text-white mb-6">Everything you need to succeed</h4>
+                    
+                    <div className="grid md:grid-cols-2 gap-4">
+                      {premiumFeatures.map((feature, index) => (
+                        <div key={index} className="flex items-start">
+                          <div className="flex-shrink-0 h-6 w-6 rounded-full bg-[#FF3838] flex items-center justify-center">
+                            <Check className="h-4 w-4 text-white" aria-hidden="true" />
+                          </div>
+                          <span className="ml-3 text-gray-300">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <div className="mt-10 bg-gray-900 p-6 rounded-xl border border-gray-700">
+                      <div className="flex items-center mb-4">
+                        <div className="h-10 w-10 rounded-full bg-[#FF3838]/20 flex items-center justify-center mr-4">
+                          <Briefcase className="h-5 w-5 text-[#FF3838]" />
+                        </div>
+                        <h5 className="text-xl font-bold text-white">Why We're Making This Free</h5>
+                      </div>
+                      <p className="text-gray-400">
+                        As part of our corporate social responsibility, we're committed to empowering local restaurants with enterprise-grade technology. By removing financial barriers, we aim to create economic opportunities, strengthen communities, and build a sustainable food ecosystem that benefits everyone.
+                      </p>
                     </div>
                   </div>
-                ))}
+                </div>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Success Stories */}
+          <div className="py-24 bg-[#0A192F] text-white border-t border-gray-800">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-16">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <h3 className="text-3xl font-bold text-white mb-6">Join Hundreds of Successful Restaurant Partners</h3>
+                  <div className="flex flex-wrap justify-center gap-8 mt-8">
+                    <div className="bg-gray-800 bg-opacity-50 p-6 rounded-xl border border-gray-700 w-64 flex flex-col items-center">
+                      <Rocket className="h-10 w-10 text-[#FF3838] mb-2" />
+                      <div className="text-2xl font-bold text-[#FF3838]">300+</div>
+                      <div className="text-gray-400">Partner Restaurants</div>
+                    </div>
+                    <div className="bg-gray-800 bg-opacity-50 p-6 rounded-xl border border-gray-700 w-64 flex flex-col items-center">
+                      <BarChart className="h-10 w-10 text-[#FF3838] mb-2" />
+                      <div className="text-2xl font-bold text-[#FF3838]">40%</div>
+                      <div className="text-gray-400">Average Revenue Growth</div>
+                    </div>
+                    <div className="bg-gray-800 bg-opacity-50 p-6 rounded-xl border border-gray-700 w-64 flex flex-col items-center">
+                      <Star className="h-10 w-10 text-[#FF3838] mb-2" />
+                      <div className="text-2xl font-bold text-[#FF3838]">4.8/5</div>
+                      <div className="text-gray-400">Partner Satisfaction</div>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
             </div>
           </div>
 
           {/* CTA Section */}
-          <div className="bg-[#0A192F] text-white py-20">
+          <div className="bg-[#0A192F] text-white py-20 border-t border-gray-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
