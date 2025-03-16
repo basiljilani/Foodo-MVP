@@ -1,0 +1,10 @@
+/* Add this to your existing CSS */
+
+/* Placeholder logo handling */
+.show-placeholder img {
+  display: none !important;
+}
+
+.show-placeholder .placeholder-logo {
+  display: block !important;
+} 

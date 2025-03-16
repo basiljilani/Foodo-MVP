@@ -1,8 +1,12 @@
 import React from 'react';
 import { ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../contexts/CartContext';
 
 export default function CartButton() {
+  const { getItemCount } = useCart();
+  const itemCount = getItemCount();
+
   return (
     <Link to="/cart" className="block mb-6">
       <div className="bg-red-600 rounded-xl hover:bg-red-700 transition-colors">
@@ -12,7 +16,7 @@ export default function CartButton() {
             <span className="text-sm font-medium text-white">Your Cart</span>
           </div>
           <div className="h-6 w-6 flex items-center justify-center rounded-full bg-white text-red-600 text-sm font-semibold">
-            0
+            {itemCount}
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, Fragment, useCallback } from 'react';
+import { useState, useRef, useEffect, Fragment, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
   Star, 
@@ -11,7 +11,6 @@ import {
   Plus, 
   MapPin, 
   X, 
-  ChevronDown, 
   MapPinIcon, 
   Instagram, 
   Facebook, 
@@ -21,15 +20,19 @@ import {
   Banknote,
   Zap,
   CheckCircle,
-  Phone 
+  Phone,
+  ShoppingBag
 } from 'lucide-react';
 import { Dialog, Transition } from '@headlessui/react';
-import { motion } from 'framer-motion';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import Layout from '../../components/Layout';
 import RestaurantAds from '../../components/RestaurantAds';
 import { useRestaurantData } from '../../hooks/useRestaurantData';
 import { GOOGLE_MAPS_API_KEY, googleMapsLibraries, GOOGLE_MAPS_SCRIPT_ID } from '../../utils/googleMapsConfig';
+import { useCart } from '../../contexts/CartContext';
+import toast from 'react-hot-toast';
+import PlaceholderLogo from '../../components/PlaceholderLogo';
+import { getRestaurantLogoUrl } from '../../services/supabaseService';
 
 export default function RestaurantDetail() {
   const { id } = useParams();
@@ -40,6 +43,11 @@ export default function RestaurantDetail() {
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const categoriesRef = useRef<HTMLDivElement>(null);
+  const { addItem, getItemCount } = useCart();
+  const cartItemCount = getItemCount();
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [logoLoading, setLogoLoading] = useState(false);
+  const [logoError, setLogoError] = useState(false);
   
   const { 
     restaurant, 
@@ -61,6 +69,68 @@ export default function RestaurantDetail() {
     return () => window.removeEventListener('resize', checkScroll);
   }, []);
 
+  useEffect(() => {
+    // Log the restaurant data when it's loaded
+    if (restaurant) {
+      console.log('Restaurant data loaded:', restaurant);
+      console.log('Restaurant ID:', id);
+      
+      // Fetch the logo from Supabase storage
+      const fetchLogo = async () => {
+        if (!id) return;
+        
+        setLogoLoading(true);
+        setLogoError(false);
+        
+        try {
+          // For restaurant ID 14, directly try to fetch from Supabase first
+          if (id === '14') {
+            console.log('Fetching logo from Supabase for restaurant ID 14');
+            const url = await getRestaurantLogoUrl(id);
+            
+            if (url) {
+              console.log('Logo fetched from Supabase:', url);
+              setLogoUrl(url);
+            } else {
+              // Fall back to mock data if Supabase fetch fails
+              console.log('No logo found in Supabase, falling back to mock data');
+              if (restaurant.logo) {
+                setLogoUrl(restaurant.logo);
+              } else {
+                setLogoError(true);
+              }
+            }
+          } else {
+            // For other restaurants, first try to use the logo from the restaurant data (mock data)
+            if (restaurant.logo) {
+              console.log('Using logo from restaurant data:', restaurant.logo);
+              setLogoUrl(restaurant.logo);
+            } else {
+              // If no logo in the restaurant data, try to fetch from Supabase
+              console.log('Fetching logo from Supabase for restaurant ID:', id);
+              const url = await getRestaurantLogoUrl(id);
+              
+              if (url) {
+                console.log('Logo fetched from Supabase:', url);
+                setLogoUrl(url);
+              } else {
+                console.log('No logo found in Supabase for restaurant ID:', id);
+                setLogoError(true);
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching logo:', error);
+          setLogoError(true);
+        } finally {
+          setLogoLoading(false);
+        }
+      };
+      
+      fetchLogo();
+    }
+  }, [restaurant, id]);
+
   const checkScroll = () => {
     if (categoriesRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = categoriesRef.current;
@@ -79,16 +149,18 @@ export default function RestaurantDetail() {
     }
   };
 
-  // Theme colors based on restaurant ID
+  // Theme colors based on restaurant ID - used for styling various elements
   const getThemeColor = () => {
     if (id === 'kfc') return '#E4002B';
     if (id === 'mcdonalds') return '#FFC72C';
     if (id === 'savour') return '#9C27B0';
+    if (id === '14') return '#22C55E'; // Green for restaurant ID 14
     return '#E4002B'; // Default to KFC red
   };
   
+  // These variables are used throughout the component for styling
   const themeColor = getThemeColor();
-  const textColor = id === 'mcdonalds' ? 'text-gray-900' : 'text-white';
+  const textColorClass = id === 'mcdonalds' ? 'text-gray-900' : 'text-white';
 
   if (isLoading) {
     return (
@@ -118,6 +190,31 @@ export default function RestaurantDetail() {
     );
   }
 
+  // Handle adding an item to the cart
+  const handleAddToCart = (item: any) => {
+    if (!restaurant) return;
+    
+    // Parse price if it's a string format
+    const itemPrice = typeof item.price === 'string' && item.price.startsWith('from') 
+      ? parseFloat(item.price.replace('from Rs. ', '')) 
+      : item.price;
+    
+    addItem({
+      id: item.id,
+      restaurantId: restaurant.id,
+      restaurantName: restaurant.name,
+      name: item.name,
+      price: itemPrice,
+      image: item.image,
+    });
+    
+    toast.success(`Added ${item.name} to cart!`, {
+      duration: 2000,
+      position: 'bottom-center',
+      icon: '🛒',
+    });
+  };
+
   return (
     <Layout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
@@ -134,17 +231,31 @@ export default function RestaurantDetail() {
 
         {/* Restaurant Header */}
         <div className="flex gap-6">
-          <div className={`w-[200px] h-[200px] rounded-2xl flex items-center justify-center overflow-hidden ${
-            id === 'kfc' || id === 'mcdonalds' ? 'bg-[#E4002B]' : id === 'savour' ? 'bg-[#9C27B0]' : 'bg-transparent'
+          <div className={`relative w-[200px] h-[200px] rounded-2xl flex items-center justify-center overflow-hidden ${
+            id === '14' ? 'bg-[#22C55E]' : 
+            id === 'kfc' || id === 'mcdonalds' ? 'bg-[#E4002B]' : 
+            id === 'savour' ? 'bg-[#9C27B0]' : 'bg-gray-100'
           }`}>
-            <img
-              src={restaurant.logo}
-              alt={restaurant.name}
-              className={`object-contain ${
-                id === 'kfc' ? 'w-[90%] h-[90%]' : 'w-full h-full'
-              }`}
-              loading="eager"
-            />
+            {logoLoading ? (
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+            ) : logoUrl ? (
+              <img
+                src={logoUrl}
+                alt={restaurant.name}
+                className="w-full h-full object-contain p-4"
+                onLoad={() => console.log("Logo loaded successfully:", logoUrl)}
+                onError={(e) => {
+                  console.error('Logo failed to load:', logoUrl);
+                  setLogoError(true);
+                  // Hide this element
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            ) : (
+              <PlaceholderLogo name={restaurant.name} />
+            )}
+            
+            {logoError && <PlaceholderLogo name={restaurant.name} />}
           </div>
           <div className="flex-1 flex flex-col justify-between">
             <div>
@@ -466,7 +577,11 @@ export default function RestaurantDetail() {
                       </p>
                       <button
                         className={`rounded-full p-2 ${id === 'mcdonalds' ? 'text-[#FFC72C] hover:bg-[#FFC72C]/5' : 'text-[#E4002B] hover:bg-[#E4002B]/5'} transition-colors`}
-                        onClick={() => {/* Add to cart logic */}}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAddToCart(item);
+                        }}
+                        aria-label="Add to cart"
                       >
                         <Plus className="w-4 h-4" />
                       </button>
@@ -545,16 +660,16 @@ export default function RestaurantDetail() {
                         </Dialog.Title>
                         
                         <div className={`relative mb-8 py-6 px-8 rounded-xl ${
-                          id === 'kfc' ? 'bg-gray-50' : id === 'mcdonalds' ? 'bg-[#FFC72C]/10' : id === 'savour' ? 'bg-[#9C27B0]/10' : 'bg-gray-50'
+                          id === 'kfc' ? 'bg-gray-50' : id === 'mcdonalds' ? 'bg-[#FFC72C]/10' : id === 'savour' ? 'bg-[#9C27B0]/10' : id === '14' ? 'bg-[#22C55E]/10' : 'bg-gray-50'
                         }`}>
                           <Quote className={`absolute -left-3 -top-3 w-8 h-8 rotate-6 ${
-                            id === 'kfc' ? 'text-red-500' : id === 'mcdonalds' ? 'text-[#FFC72C]' : id === 'savour' ? 'text-[#9C27B0]' : 'text-gray-400'
+                            id === 'kfc' ? 'text-red-500' : id === 'mcdonalds' ? 'text-[#FFC72C]' : id === 'savour' ? 'text-[#9C27B0]' : id === '14' ? 'text-[#22C55E]' : 'text-gray-400'
                           }`} />
                           <p className="text-xl text-gray-700 font-medium text-center">
-                            {id === 'kfc' ? "It's Finger Lickin' Good!" : id === 'mcdonalds' ? "I'm Lovin' It" : id === 'savour' ? 'Savour the taste' : "Delicious food delivered!"}
+                            {id === 'kfc' ? "It's Finger Lickin' Good!" : id === 'mcdonalds' ? "I'm Lovin' It" : id === 'savour' ? 'Savour the taste' : id === '14' ? 'Green and Fresh' : "Delicious food delivered!"}
                           </p>
                           <Quote className={`absolute -right-3 -bottom-3 w-8 h-8 -rotate-6 ${
-                            id === 'kfc' ? 'text-red-500' : id === 'mcdonalds' ? 'text-[#FFC72C]' : id === 'savour' ? 'text-[#9C27B0]' : 'text-gray-400'
+                            id === 'kfc' ? 'text-red-500' : id === 'mcdonalds' ? 'text-[#FFC72C]' : id === 'savour' ? 'text-[#9C27B0]' : id === '14' ? 'text-[#22C55E]' : 'text-gray-400'
                           }`} />
                         </div>
 
@@ -657,18 +772,32 @@ export default function RestaurantDetail() {
                       </h4>
                       <div className="bg-white rounded-xl p-4 shadow-sm">
                         <div className="space-y-3">
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-600">Monday - Thursday</span>
-                            <span className="text-gray-900 font-medium">11:00 AM - 11:00 PM</span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-600">Friday - Saturday</span>
-                            <span className="text-gray-900 font-medium">11:00 AM - 1:00 AM</span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-600">Sunday</span>
-                            <span className="text-gray-900 font-medium">12:00 PM - 11:00 PM</span>
-                          </div>
+                          {restaurant.openingHours && restaurant.openingHours.map((hour, index) => (
+                            <div key={index} className="flex justify-between items-center">
+                              <span className="text-gray-600">{hour.day}{hour.start_day && hour.end_day ? ` - ${hour.end_day}` : ''}</span>
+                              {hour.is_closed ? (
+                                <span className="text-red-500 font-medium">Closed</span>
+                              ) : (
+                                <span className="text-gray-900 font-medium">{hour.start_time} - {hour.end_time}</span>
+                              )}
+                            </div>
+                          ))}
+                          {(!restaurant.openingHours || restaurant.openingHours.length === 0) && (
+                            <>
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-600">Monday - Thursday</span>
+                                <span className="text-gray-900 font-medium">11:00 AM - 11:00 PM</span>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-600">Friday - Saturday</span>
+                                <span className="text-gray-900 font-medium">11:00 AM - 1:00 AM</span>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-600">Sunday</span>
+                                <span className="text-gray-900 font-medium">12:00 PM - 11:00 PM</span>
+                              </div>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -727,33 +856,53 @@ export default function RestaurantDetail() {
           </div>
         </Dialog>
       </Transition>
+      {cartItemCount > 0 && (
+        <div className="fixed bottom-6 right-6 md:hidden z-50">
+          <Link
+            to="/cart"
+            className="flex items-center justify-center space-x-2 bg-red-600 text-white p-4 rounded-full shadow-lg hover:bg-red-700 transition-colors"
+          >
+            <ShoppingBag className="h-6 w-6" />
+            <span className="absolute -top-2 -right-2 bg-white text-red-600 text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center border-2 border-red-600">
+              {cartItemCount}
+            </span>
+          </Link>
+        </div>
+      )}
     </Layout>
   );
 }
 
-function GoogleMapComponent({ address, apiKey }) {
+interface GoogleMapComponentProps {
+  address: string;
+  apiKey: string;
+}
+
+function GoogleMapComponent({ address, apiKey }: GoogleMapComponentProps) {
   // Restaurant locations in Islamabad
-  const restaurantLocations = {
+  const restaurantLocations: Record<string, { lat: number; lng: number }> = {
     kfc: { lat: 33.6845, lng: 72.9913 }, // KFC F-11 branch coordinates
     mcdonalds: { lat: 33.6943, lng: 73.0188 } // McDonald's F-10 branch coordinates
   };
   
   // Get the restaurant ID from the URL
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   
   // Default to KFC location if ID not found in our locations
   const defaultLocation = restaurantLocations.kfc;
-  const location = id && restaurantLocations[id] ? restaurantLocations[id] : defaultLocation;
+  const location = id && restaurantLocations[id as keyof typeof restaurantLocations] 
+    ? restaurantLocations[id as keyof typeof restaurantLocations] 
+    : defaultLocation;
   
   const { isLoaded } = useJsApiLoader({
     id: GOOGLE_MAPS_SCRIPT_ID,
     googleMapsApiKey: apiKey,
-    libraries: googleMapsLibraries
+    libraries: googleMapsLibraries as any
   });
 
-  const mapRef = useRef(null);
+  const mapRef = useRef<google.maps.Map | null>(null);
   
-  const onLoad = useCallback(map => {
+  const onLoad = useCallback((map: google.maps.Map) => {
     mapRef.current = map;
   }, []);
 

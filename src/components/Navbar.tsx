@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Map, ShoppingBag, User } from 'lucide-react';
 import NearMeModal from './NearMeModal';
+import { useCart } from '../contexts/CartContext';
 
 export default function Navbar() {
   const [isNearMeModalOpen, setIsNearMeModalOpen] = useState(false);
+  const { getItemCount } = useCart();
+  const itemCount = getItemCount();
 
   return (
     <>
@@ -36,7 +39,7 @@ export default function Navbar() {
               >
                 <ShoppingBag className="h-6 w-6" />
                 <span className="rounded-full bg-red-500 px-2 py-1 text-xs font-medium text-white">
-                  0
+                  {itemCount}
                 </span>
               </Link>
 

@@ -1,212 +1,116 @@
-import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-interface Ad {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-}
-
-// KFC ads
-const kfcAds: Ad[] = [
-  {
-    id: '1',
-    title: 'Buy 1 Get 1 Free',
-    description: 'On all Zinger Burgers',
-    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=300&fit=crop'
-  },
-  {
-    id: '2',
-    title: 'Family Deal',
-    description: '30% off on Buckets',
-    image: 'https://images.unsplash.com/photo-1513639776629-7b61b0ac49cb?w=500&h=300&fit=crop'
-  },
-  {
-    id: '3',
-    title: 'Student Special',
-    description: '20% off with Student ID',
-    image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500&h=300&fit=crop'
-  },
-  {
-    id: '4',
-    title: 'Happy Hours',
-    description: '50% off on Krush Drinks',
-    image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&h=300&fit=crop'
-  },
-  {
-    id: '5',
-    title: 'Free Delivery',
-    description: 'On orders above Rs. 1000',
-    image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=500&h=300&fit=crop'
-  }
-];
-
-// McDonald's ads
-const mcdonaldsAds: Ad[] = [
-  {
-    id: '1',
-    title: 'Happy Meal Deal',
-    description: 'Free toy with every Happy Meal',
-    image: 'https://images.unsplash.com/photo-1619881590738-a111d176d906?w=500&h=300&fit=crop'
-  },
-  {
-    id: '2',
-    title: 'McSaver Menu',
-    description: 'Meals starting at Rs. 250',
-    image: 'https://images.unsplash.com/photo-1561758033-7e924f619b47?w=500&h=300&fit=crop'
-  },
-  {
-    id: '3',
-    title: 'Breakfast Special',
-    description: 'Buy 1 Get 1 on McMuffins',
-    image: 'https://images.unsplash.com/photo-1552895638-f7fe08d2f7d5?w=500&h=300&fit=crop'
-  },
-  {
-    id: '4',
-    title: 'McDelivery Offer',
-    description: 'Free McFlurry on orders above Rs. 800',
-    image: 'https://images.unsplash.com/photo-1586816001966-79b736744398?w=500&h=300&fit=crop'
-  },
-  {
-    id: '5',
-    title: 'Weekend Family Bundle',
-    description: '20% off on family bundles',
-    image: 'https://images.unsplash.com/photo-1552526881-5517a57b6d4a?w=500&h=300&fit=crop'
-  }
-];
-
-// Savour Foods ads
-const savourAds: Ad[] = [
-  {
-    id: '1',
-    title: 'Family Deal',
-    description: 'Mutton Pulao for 4 with drinks at Rs. 2000',
-    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&h=300&fit=crop'
-  },
-  {
-    id: '2',
-    title: 'Lunch Special',
-    description: '20% off on all Pulao dishes from 12-3 PM',
-    image: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=500&h=300&fit=crop'
-  },
-  {
-    id: '3',
-    title: 'BBQ Platter',
-    description: 'Mix of kebabs and tikkas at special price',
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&h=300&fit=crop'
-  },
-  {
-    id: '4',
-    title: 'Free Delivery',
-    description: 'On orders above Rs. 1000',
-    image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=500&h=300&fit=crop'
-  },
-  {
-    id: '5',
-    title: 'Ramadan Special',
-    description: 'Iftar deals starting from Rs. 500',
-    image: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500&h=300&fit=crop'
-  }
-];
+import React, { useState, useEffect } from 'react';
+import { fetchRestaurantAds, RestaurantAd } from '../services/supabaseService';
 
 interface RestaurantAdsProps {
   id?: string;
 }
 
 export default function RestaurantAds({ id }: RestaurantAdsProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
-  
-  // Select appropriate ads based on restaurant ID
-  let ads = kfcAds;
-  if (id === 'mcdonalds') {
-    ads = mcdonaldsAds;
-  } else if (id === 'savour') {
-    ads = savourAds;
-  }
+  const [ads, setAds] = useState<RestaurantAd[]>([]);
+  const [currentAdIndex, setCurrentAdIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        const nextIndex = prevIndex + direction;
-        if (nextIndex >= ads.length - 1) {
-          setDirection(-1);
-          return ads.length - 1;
-        }
-        if (nextIndex <= 0) {
-          setDirection(1);
-          return 0;
-        }
-        return nextIndex;
-      });
-    }, 3000);
+    const loadAds = async () => {
+      if (!id) {
+        setIsLoading(false);
+        return;
+      }
 
-    return () => clearInterval(timer);
-  }, [direction, ads.length]);
+      try {
+        setIsLoading(true);
+        const adsData = await fetchRestaurantAds(id);
+        console.log('Loaded ads:', adsData); // Add logging to debug
+        setAds(adsData);
+      } catch (err: any) {
+        console.error('Error loading ads:', err);
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-      opacity: 1
-    },
-    exit: (direction: number) => ({
-      zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
-      opacity: 0
-    })
-  };
+    loadAds();
+  }, [id]);
+
+  useEffect(() => {
+    if (ads.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentAdIndex((prevIndex) => (prevIndex + 1) % ads.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [ads.length]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+        <p className="text-red-500">Failed to load ads: {error}</p>
+      </div>
+    );
+  }
+
+  if (ads.length === 0) {
+    // Default ad if no ads are available
+    return (
+      <div className="w-full h-full bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center text-white p-6">
+        <div className="text-center">
+          <h3 className="text-xl font-bold mb-2">Special Offer!</h3>
+          <p className="mb-4">Free delivery on your first order with code: WELCOME</p>
+          <button className="px-4 py-2 bg-white text-red-600 rounded-full font-medium hover:bg-gray-100 transition-colors">
+            Order Now
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const currentAd = ads[currentAdIndex];
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-lg bg-gray-100">
-      <AnimatePresence initial={false} custom={direction}>
-        <motion.div
-          key={currentIndex}
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{
-            x: { type: "spring", stiffness: 300, damping: 30 },
-            opacity: { duration: 0.2 }
-          }}
-          className="absolute inset-0"
-        >
-          <div className="relative h-full">
-            <img
-              src={ads[currentIndex].image}
-              alt={ads[currentIndex].title}
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent p-4 flex flex-col justify-end">
-              <h3 className="text-white text-xl font-semibold">
-                {ads[currentIndex].title}
-              </h3>
-              <p className="text-white/90 text-sm mt-0.5">
-                {ads[currentIndex].description}
-              </p>
-            </div>
-          </div>
-        </motion.div>
-      </AnimatePresence>
-      
-      {/* Progress dots */}
-      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1">
-        {ads.map((_, index) => (
-          <div
-            key={index}
-            className={`w-1.5 h-1.5 rounded-full transition-all ${
-              index === currentIndex ? 'bg-white w-3' : 'bg-white/60'
-            }`}
-          />
-        ))}
+    <a 
+      href={currentAd.link || '#'} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className="block w-full h-full relative overflow-hidden"
+    >
+      <img 
+        src={currentAd.image_url} 
+        alt={currentAd.title || 'Advertisement'} 
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-4">
+        {currentAd.title && (
+          <h3 className="text-white text-lg font-bold">{currentAd.title}</h3>
+        )}
+        {currentAd.description && (
+          <p className="text-white text-sm">{currentAd.description}</p>
+        )}
       </div>
-    </div>
+      
+      {/* Pagination dots for multiple ads */}
+      {ads.length > 1 && (
+        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+          {ads.map((_, index) => (
+            <span 
+              key={index} 
+              className={`block h-1.5 rounded-full ${
+                index === currentAdIndex ? 'w-4 bg-white' : 'w-1.5 bg-white/50'
+              } transition-all duration-300`}
+            />
+          ))}
+        </div>
+      )}
+    </a>
   );
 }

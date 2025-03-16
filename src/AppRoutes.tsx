@@ -26,6 +26,8 @@ import Settings from './pages/Settings';
 import Preferences from './pages/Preferences';
 import Partner from './pages/Partner';
 import GreenFuture from './pages/GreenFuture';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 
 // Protected Route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -90,12 +92,14 @@ export default function AppRoutes() {
       <Route path="/about" element={<About />} />
       <Route path="/partner" element={<Partner />} />
       <Route path="/green-future" element={<GreenFuture />} />
-      
-      {/* Semi-protected routes - accessible to both logged in and non-logged in users */}
       <Route path="/restaurant/:id" element={<RestaurantDetail />} />
       <Route path="/offers" element={<Offers />} />
       <Route path="/foodo-ai" element={<FoodoAI />} />
       <Route path="/help" element={<Help />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/checkout" element={<Checkout />} />
+      
+      {/* Semi-protected routes - accessible to both logged in and non-logged in users */}
       
       {/* Protected routes - only accessible when logged in */}
       {protectedRoutes.map((route, index) => (
